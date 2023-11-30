@@ -21,5 +21,5 @@ test:
   script:
     - pip install -r requirements/prod.txt
     - pip install -r requirements/test.txt
-    - cd lyceum
+    - cd task_pulse
     - python manage.py test
