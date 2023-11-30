@@ -12,7 +12,9 @@ ROLE_CHOICES = [
 
 class Company(models.Model):
     name = models.CharField(
-        _("name"), max_length=150, help_text=_("Name for company"),
+        _("name"),
+        max_length=150,
+        help_text=_("Name for company"),
     )
     description = models.TextField(
         _("description"),
