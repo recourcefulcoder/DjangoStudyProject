@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-28 19:42+0300\n"
+"POT-Creation-Date: 2023-12-03 17:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,75 +16,181 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: .\task_pulse\settings.py:99
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\task_pulse\settings.py:105
 msgid "English"
 msgstr ""
 
-#: .\task_pulse\settings.py:100
+#: .\task_pulse\settings.py:106
 msgid "Russian"
 msgstr ""
 
-#: .\users\models.py:18
+#: .\templates\includes\header.html:7
+msgid "Homepage"
+msgstr ""
+
+#: .\templates\includes\header.html:8
+msgid "Service"
+msgstr ""
+
+#: .\templates\includes\header.html:9
+msgid "About"
+msgstr ""
+
+#: .\templates\includes\header.html:10
+msgid "Contact"
+msgstr ""
+
+#: .\templates\includes\header.html:13
+msgid "Sing Up"
+msgstr ""
+
+#: .\templates\includes\header.html:14 .\templates\users\login.html:9
+msgid "Log In"
+msgstr ""
+
+#: .\templates\users\login.html:5
+msgid "Login"
+msgstr ""
+
+#: .\templates\users\signup.html:5
+msgid "Signup"
+msgstr ""
+
+#: .\templates\users\signup.html:9
+msgid "Sign Up"
+msgstr ""
+
+#: .\templates\workplace\base_workplace.html:24
+msgid "Home"
+msgstr ""
+
+#: .\templates\workplace\base_workplace.html:30
+#: .\templates\workplace\tasks.html:6
+msgid "Tasks"
+msgstr ""
+
+#: .\templates\workplace\base_workplace.html:36
+msgid "Calendar"
+msgstr ""
+
+#: .\templates\workplace\tasks.html:10
+msgid "Current"
+msgstr ""
+
+#: .\templates\workplace\tasks.html:11
+msgid "On checking"
+msgstr ""
+
+#: .\templates\workplace\tasks.html:35
+msgid "Ended tasks"
+msgstr ""
+
+#: .\users\forms.py:15
+msgid "User with this email is already exists"
+msgstr ""
+
+#: .\users\models.py:25
 msgid "The email must be set"
 msgstr ""
 
-#: .\users\models.py:35
+#: .\users\models.py:67
 msgid "Superuser must have is_staff=True."
 msgstr ""
 
-#: .\users\models.py:37
+#: .\users\models.py:69
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: .\users\models.py:44
-msgid "email address"
-msgstr ""
-
-#: .\users\models.py:45
-msgid "Enter your valid email address."
-msgstr ""
-
-#: .\users\models.py:48
-msgid "first name"
-msgstr ""
-
-#: .\users\models.py:49
-msgid "last name"
-msgstr ""
-
-#: .\users\models.py:51
-msgid "profile image"
-msgstr ""
-
-#: .\users\models.py:55
+#: .\users\models.py:82
 msgid "staff status"
 msgstr ""
 
-#: .\users\models.py:57
+#: .\users\models.py:85
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: .\users\models.py:60
+#: .\users\models.py:89
 msgid "active"
 msgstr ""
 
-#: .\users\models.py:63
+#: .\users\models.py:92
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: .\users\models.py:67
+#: .\users\models.py:97
+msgid "email address"
+msgstr "E-mail"
+
+#: .\users\models.py:98
+msgid "Enter your valid email address."
+msgstr ""
+
+#: .\users\models.py:101
+msgid "first name"
+msgstr ""
+
+#: .\users\models.py:102
+msgid "last name"
+msgstr ""
+
+#: .\users\models.py:104
+msgid "profile image"
+msgstr ""
+
+#: .\users\models.py:107
 msgid "date joined"
 msgstr ""
 
-#: .\users\models.py:89
+#: .\users\models.py:129 .\workplace\models.py:31
 msgid "user"
 msgstr ""
 
-#: .\users\models.py:90
+#: .\users\models.py:130
 msgid "users"
+msgstr ""
+
+#: .\workplace\mixins.py:9
+msgid "You are not a participant in this company"
+msgstr ""
+
+#: .\workplace\models.py:16
+msgid "name"
+msgstr ""
+
+#: .\workplace\models.py:18
+msgid "Name for company"
+msgstr ""
+
+#: .\workplace\models.py:21
+msgid "description"
+msgstr ""
+
+#: .\workplace\models.py:22
+msgid "Description for company"
+msgstr ""
+
+#: .\workplace\models.py:36
+msgid "company"
+msgstr ""
+
+#: .\workplace\models.py:39
+msgid "role"
+msgstr ""
+
+#: .\workplace\models.py:42
+msgid "Role for company user"
+msgstr ""
+
+#: .\workplace\models.py:45
+msgid "score"
+msgstr ""
+
+#: .\workplace\models.py:46
+msgid "User score count"
 msgstr ""
