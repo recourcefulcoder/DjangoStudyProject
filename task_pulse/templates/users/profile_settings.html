@@ -1,0 +1,28 @@
+{% extends "users/profile_base.html" %}
+{% load static %}
+{% load i18n %}
+{% block main_section %}
+    <section class="task-section">
+        <h1>Настройки пользователя</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="User Avatar">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Имя Пользователя</h5>
+                        <p class="card-text">Дополнительная информация о пользователе.</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Email: user@example.com</li>
+                        <li class="list-group-item">Город: Город</li>
+                        <!-- Добавьте другие характеристики пользователя по вашему выбору -->
+                    </ul>
+                    <div class="card-body text-center">
+                        <a href="#" class="btn btn-primary">Сменить пароль</a>
+                        <a href="#" class="btn btn-success">Редактировать профиль</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock main_section %}
