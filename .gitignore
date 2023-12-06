@@ -1,3 +1,7 @@
+# unique for project
+media/
+send_mail/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
