@@ -1,10 +1,20 @@
-body {
-    font-family: 'Arial', sans-serif;
+
+* {
+    list-style: none;
+    text-decoration: none !important;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
-
+html {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 header {
     background-color: #333;
     color: #fff;
@@ -14,26 +24,58 @@ header {
     justify-content: space-between;
     align-items: center;
 }
+    
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
 
-nav {
-    display: flex;
+footer p{
+    margin: 15px 0px;
+}
+
+.logo {
+    color: white;
+}
+
+.logo:hover {
+    color: white;
 }
 
 nav a {
+    position: relative;
     color: #fff;
-    text-decoration: none;
     padding: 10px 20px;
     margin: 0 10px;
-    border: 1px solid #fff;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
 }
 
 nav a:hover {
     background-color: #fff;
-    color: #333;
+    color: #333;    
+}
+nav a::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -10px;
+    height: 100%;
+    width: 1px; /* Ширина разделителя */
+    background-color: #ffffff52;
 }
 
+nav a:last-child::after {
+    display: none; /* Скрыть разделитель для последнего элемента */
+}
+.profile-image img{
+    border-radius: 50%;
+    margin-left: 20px;
+}
 .btn-container {
     text-align: center;
 }
@@ -41,7 +83,6 @@ nav a:hover {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    text-decoration: none;
     color: #fff;
     background-color: #333;
     border-radius: 5px;
@@ -70,3 +111,309 @@ nav a:hover {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+/* -------- Workplace styles -------- */
+
+ul {
+    padding-left: 0px;
+}
+.sidebar {
+    width: 200px;
+    min-width: 200px;
+    height: 100%;
+    padding: 20px 0;
+    outline: 1px solid #999;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: fixed;
+    z-index: 1000;
+}
+
+.sidebar ul li a {
+    display: flex;
+    padding: 13px 4px 13px 13px;
+    border-bottom: 1px solid #dee4ec;
+    color: #0c7db1;
+    font-size: 16px;
+    margin: 3px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar ul li a .icon {
+    color: #10558d;
+    width: 30px;
+}
+
+.btn-section {
+    display: flex;
+}
+
+.collapse-btn {
+    margin-left: auto;
+    margin-right: 13px;
+    margin-bottom: 5px;
+    font-size: 28px;
+    color: #006DDF;
+}
+
+.collapse-btn:hover {
+    color: #3C94EF;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    color: #fff;
+    background: #10558d;
+}
+
+.item {
+    margin-right: auto;
+    transition: font-size 0.3s;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.icon {
+    margin-left: auto;
+}
+.sidebar.active .sidebar {
+  width: 30px;
+}
+.sidebar ul li a:hover .icon,
+.sidebar ul li a.active .icon {
+    color: #fff;
+}
+
+.main-frame {
+    flex: 1;
+    display: flex;
+    margin: 10px;
+    margin-left: 50px;
+}
+.main-frame section {
+    flex: 1;
+    min-width: 250px;
+    padding: 20px;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.main-frame section h1{
+    opacity: 0.6;
+    font-size: 28px;
+}
+.sidebar.collapsed {
+    width: 50px;
+    min-width: 50px;
+}
+.sidebar.collapsed .item{
+    font-size: 0px;
+}
+.task-item {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+.task-item h4{
+    opacity: 0.9;
+    font-size: 16px;
+}
+.task-section {
+    margin-bottom: 20px;
+}
+
+.task-section h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.task-item {
+    background-color: #fff; 
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s;
+}
+
+.task-item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.completed-task-item {
+    background-color: #e0f7fa; 
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s;
+}
+
+.completed-task-item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.task-item h4,
+.completed-task-item h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+.task-tab-widget {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: -1px;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-radius: 5px 5px 0 0;
+    color: #333;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.tab-content {
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: none;
+}
+
+.task-tab-widget h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.task-tab-widget .task-item {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s;
+}
+
+.task-tab-widget .task-item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.task-tab-widget .task-item h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.signup-modal,
+.login-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 5px;
+}
+/* Добавьте эти стили в секцию <style> вашего HTML-документа или внешний CSS-файл */
+
+
+.login-container {
+    min-width: 450px;
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.2);
+}
+
+.login-form {
+    width: 100%;
+}
+
+.login-form ul li {
+    font-size: 14px;
+    margin-left: 25px;
+    list-style: disc;
+}
+
+.login-form span {
+    font-size: 14px;
+}
+
+.login-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; /* Добавлен отступ снизу для красивого разделения заголовка и формы */
+}
+
+.login-form label {
+    display: block; 
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.login-form input {
+    width: 100%;
+    display: block;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.login-form button {
+    background-color: #333;
+    color: #fff; /* Белый цвет текста на черном фоне */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.login-form button:hover {
+    background-color: #444; /* Темный оттенок при наведении */
+}
+
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 32px;
+    cursor: pointer;
+    color: rgb(255, 0, 0);
+}
+
+.close-button:hover {
+    color: #d9534f;
+}
+
+

@@ -2,8 +2,9 @@ from django.contrib.auth import hashers
 from django.contrib.auth import models as auth_models
 from django.core import mail
 from django.db import models
-from django.utils import timezone
+from django.utils import html, timezone
 from django.utils.translation import gettext_lazy as _
+from sorl import thumbnail
 
 
 def get_user_media_path(instance, filename):
@@ -34,32 +35,14 @@ class UserManager(auth_models.BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(
-        self,
-        email,
-        first_name,
-        last_name,
-        password=None,
-        **extra_fields,
-    ):
+    def create_user(self, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(
-            email,
-            first_name,
-            last_name,
-            password,
             **extra_fields,
         )
 
-    def create_superuser(
-        self,
-        first_name,
-        last_name,
-        email=None,
-        password=None,
-        **extra_fields,
-    ):
+    def create_superuser(self, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 
@@ -68,13 +51,7 @@ class UserManager(auth_models.BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
 
-        return self._create_user(
-            email,
-            first_name,
-            last_name,
-            password,
-            **extra_fields,
-        )
+        return self._create_user(**extra_fields)
 
 
 class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
@@ -95,7 +72,6 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     )
     email = models.EmailField(
         _("email address"),
-        help_text=_("Enter your valid email address."),
         unique=True,
     )
     first_name = models.CharField(_("first name"), max_length=150)
@@ -103,6 +79,7 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     image = models.ImageField(
         _("profile image"),
         upload_to=get_user_media_path,
+        default="users/default_profile_image.png",
     )
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
@@ -124,6 +101,21 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         mail.send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def get_image_400x400(self):
+        return thumbnail.get_thumbnail(
+            self.image,
+            "400x400",
+            crop="center",
+            quality=60,
+        )
+
+    def image_tmb(self):
+        return html.mark_safe(
+            f"<img src='{self.get_image_400x400().url}' width=50>",
+        )
+
+    image_tmb.allow_tags = True
 
     class Meta:
         verbose_name = _("user")
