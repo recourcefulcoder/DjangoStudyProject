@@ -19,17 +19,40 @@ class SignupView(generic.FormView):
 class UserCompaniesView(mixins.LoginRequiredMixin, generic.ListView):
     template_name = "users/profile_companies.html"
     context_object_name = "companies"
-    queryset = wp_models.Company.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["companies"] = wp_models.Company.objects.filter(
-            companyuser__user__pk=self.kwargs["pk"],
+    def get_queryset(self):
+        return wp_models.Company.objects.filter(
+            companyuser__user__pk=self.request.user.pk,
         )
-        return context
 
 
-class UserSettingsView(mixins.LoginRequiredMixin, generic.DetailView):
+class UserChangeView(mixins.LoginRequiredMixin, generic.UpdateView):
     template_name = "users/profile_settings.html"
+    form_class = forms.ProfileForm
     model = get_user_model()
-    context_object_name = "current_user"
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "users:profile",
+            kwargs={"pk": self.request.user.pk},
+        )
+
+
+class CreateCompanyView(mixins.LoginRequiredMixin, generic.FormView):
+    template_name = "users/create_company.html"
+    model = wp_models.Company
+    form_class = forms.CreateCompanyForm
+    success_url = reverse_lazy("users:companies")
+
+    def form_valid(self, form):
+        company = wp_models.Company.objects.create(
+            **form.cleaned_data,
+        )
+        company_user = wp_models.CompanyUser.objects.create(
+            user=self.request.user,
+            company=company,
+            role=wp_models.ROLE_CHOICES[0],
+        )
+        company.save()
+        company_user.save()
+        return super().form_valid(form)

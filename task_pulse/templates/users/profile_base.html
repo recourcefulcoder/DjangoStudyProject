@@ -20,13 +20,13 @@
         {% with request.resolver_match.view_name as view_name %}
             <ul>
                 <li>
-                    <a href="{% url "users:profile_settings" user.pk %}" class="{% if view_name == 'users:profile_settings' %}active{% endif %}">
+                    <a href="{% url "users:profile" request.user.pk  %}" class="{% if view_name == 'users:profile' %}active{% endif %}">
                         <span class="item">Настройки</span>
                         {% comment %} <span class="icon"><i class="fas fa-tasks"></i></span> {% endcomment %}
                     </a>
                 </li>
                 <li>
-                    <a href="{% url "users:profile" user.pk %}" class="{% if view_name == 'users:profile' %}active{% endif %}">
+                    <a href="{% url "users:companies" %}" class="{% if view_name == 'users:companies' %}active{% endif %}">
                         <span class="item">Компании</span>
                         {% comment %} TODO <span class="icon"><i class="fas fa-home"></i></span> {% endcomment %}
                     </a>

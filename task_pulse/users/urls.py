@@ -14,10 +14,15 @@ urlpatterns = [
         name="login",
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path("user/<int:pk>", views.UserCompaniesView.as_view(), name="profile"),
+    path("my_companies/", views.UserCompaniesView.as_view(), name="companies"),
     path(
-        "settings/<int:pk>",
-        views.UserSettingsView.as_view(),
-        name="profile_settings",
+        "settings/<int:pk>/",
+        views.UserChangeView.as_view(),
+        name="profile",
+    ),
+    path(
+        "new_company/",
+        views.CreateCompanyView.as_view(),
+        name="create_company",
     ),
 ]

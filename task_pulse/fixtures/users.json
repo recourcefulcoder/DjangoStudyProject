@@ -1,0 +1,20 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$4SCJJiYOkqUs3xMtGNkiDm$aR/qD5FnySXMZHc+RdL8qks4nERVp+MzYwkffIt9eY4=",
+        "last_login": "2023-12-06T19:55:26.243Z",
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "email": "test@test.com",
+        "first_name": "regiri_1",
+        "last_name": "йцуйцуйцу",
+        "image": "users/default_profile_image.png",
+        "date_joined": "2023-12-06T18:26:47.331Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

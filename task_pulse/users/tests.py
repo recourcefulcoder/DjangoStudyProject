@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.test import Client, TestCase
 from django.urls import reverse_lazy
 from parameterized import parameterized
@@ -65,3 +67,65 @@ class TestCreateUser(TestCase):
         Client().post(reverse_lazy("users:signup"), data=data)
 
         self.assertEqual(objects_count, models.User.objects.count())
+
+
+class TestUsersProfileUnloggedViews(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    @parameterized.expand(
+        [
+            ("users:companies",),
+            ("users:create_company",),
+        ],
+    )
+    def test_profile_endpoints_unlogged(self, url_name):
+        response = self.client.get(reverse_lazy(url_name))
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    @parameterized.expand(
+        [
+            ("users:companies",),
+            ("users:create_company",),
+        ],
+    )
+    def test_profile_endpoints_unlogged_redirects(self, url_name):
+        response = self.client.get(reverse_lazy(url_name), follow=True)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_profile_settings_endpoint_unlogged(self):
+        response = self.client.get(reverse_lazy("users:profile", args=[1]))
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)
+
+    def test_profile_settings_endpoint_unlogged_redirects(self):
+        response = self.client.get(
+            reverse_lazy("users:profile", args=[1]), follow=True,
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+
+class TestUsersProfileView(TestCase):
+    fixtures = ["fixtures/users.json"]
+
+    def setUp(self):
+        self.client = Client()
+        logged = self.client.login(email="test@test.com", password="admin")
+        self.assertTrue(
+            logged, "user is not logged in, check password and email",
+        )
+
+    def tearDown(self):
+        self.client.logout()
+
+    def test_user_update_form_in_context(self):
+        response = self.client.get(
+            reverse_lazy(
+                "users:profile",
+                kwargs={"pk": 1},
+            ),
+        )
+        self.assertIn("form", response.context)
+
+    def test_create_company_form_in_context(self):
+        response = self.client.get(reverse_lazy("users:create_company"))
+        self.assertIn("form", response.context)

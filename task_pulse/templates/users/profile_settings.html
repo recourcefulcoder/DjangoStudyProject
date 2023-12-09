@@ -5,24 +5,50 @@
     <section class="task-section">
         <h1>Настройки пользователя</h1>
         <div class="row justify-content-center">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="User Avatar">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Имя Пользователя</h5>
-                        <p class="card-text">Дополнительная информация о пользователе.</p>
+            <form class="change-user-form" method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col col-5">
+                        <img src="{{ request.user.image.url }}"><br>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Email: user@example.com</li>
-                        <li class="list-group-item">Город: Город</li>
-                        <!-- Добавьте другие характеристики пользователя по вашему выбору -->
-                    </ul>
-                    <div class="card-body text-center">
-                        <a href="#" class="btn btn-primary">Сменить пароль</a>
-                        <a href="#" class="btn btn-success">Редактировать профиль</a>
+                    <div class="col col-7">
+                        <div>
+                            <p>
+                                {{ form.first_name.errors }}
+                                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}:</label>
+                                {{ form.first_name }}
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                {{ form.last_name.errors }}
+                                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}:</label>
+                                {{ form.last_name }}
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                {{ form.email.errors }}
+                                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+                                {{ form.email }}
+                            </p>
+                        </div>
+                        <p>
+                        {{ form.image.errors }}
+                        {{ form.image }}
+                        </p>
+                        <p>
+                            <button class="btn" type="submit">Сохранить изменения</button>
+                        </p>
                     </div>
                 </div>
-            </div>
+                
+            </form>
         </div>
     </section>
 {% endblock main_section %}

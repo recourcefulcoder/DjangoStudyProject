@@ -4,6 +4,7 @@
 {% block main_section %}
     <section class="task-section">
         <h1>Компании</h1>
+        {% comment %} {{ companies }} {% endcomment %}
         <div class="row">
             <!-- Карточка компании 1 -->
             <div class="col-12 mb-3">
@@ -36,6 +37,8 @@
             </div>
             <!-- Добавьте дополнительные карточки по необходимости -->
           </div>
-        
+          <div>
+            <a class="btn" href="{% url "users:create_company" %}">Добавить компанию</a>
+          </div>
     </section>
 {% endblock main_section %}
