@@ -22,7 +22,7 @@ class UserCompaniesView(mixins.LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return wp_models.Company.objects.filter(
-            companyuser__user__pk=self.request.user.pk,
+            companyuser__user=self.request.user,
         )
 
 
@@ -30,12 +30,10 @@ class UserChangeView(mixins.LoginRequiredMixin, generic.UpdateView):
     template_name = "users/profile_settings.html"
     form_class = forms.ProfileForm
     model = get_user_model()
+    success_url = reverse_lazy("users:profile")
 
-    def get_success_url(self):
-        return reverse_lazy(
-            "users:profile",
-            kwargs={"pk": self.request.user.pk},
-        )
+    def get_object(self):
+        return self.request.user
 
 
 class CreateCompanyView(mixins.LoginRequiredMixin, generic.FormView):

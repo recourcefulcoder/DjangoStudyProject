@@ -5,7 +5,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Play', sans-serif;
 }
 html {
     height: 100%;
@@ -16,18 +16,19 @@ body {
     height: 100%;
 }
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 15px;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px 45px;
     text-align: center;
     display: flex;
+    font-size: 18px;
     justify-content: space-between;
     align-items: center;
-}
+}   
     
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #bdbdbd;
+    color: #000000;
     text-align: center;
     justify-content: space-between;
     align-items: center;
@@ -39,16 +40,16 @@ footer p{
 }
 
 .logo {
-    color: white;
+    color: #000000;
 }
 
 .logo:hover {
-    color: white;
+    color: #000000;
 }
 
 nav a {
     position: relative;
-    color: #fff;
+    color: #000000;
     padding: 10px 20px;
     margin: 0 10px;
     border-radius: 5px;
@@ -56,8 +57,8 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #fff;
-    color: #333;    
+    background-color: #006DDF;
+    color: #ffffff;    
 }
 nav a::after {
     content: "";
@@ -66,7 +67,7 @@ nav a::after {
     right: -10px;
     height: 100%;
     width: 1px; /* Ширина разделителя */
-    background-color: #ffffff52;
+    background-color: #61616152;
 }
 
 nav a:last-child::after {
@@ -83,15 +84,16 @@ nav a:last-child::after {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    color: #fff;
-    background-color: #333;
+    color: #000000;
+    font-size: 18px;
+    background-color: #ffffff;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .btn:hover {
-    background-color: #fff;
-    color: #333;
+    background-color: #006DDF;
+    color: #ffffff;
 }
 
 .hero-section {
@@ -111,7 +113,6 @@ nav a:last-child::after {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 /* -------- Workplace styles -------- */
 
 ul {
@@ -130,6 +131,11 @@ ul {
     z-index: 1000;
 }
 
+.sidebar ul li {
+    width: 200px;
+    transition: all 0.3s ease;
+}
+
 .sidebar ul li a {
     display: flex;
     padding: 13px 4px 13px 13px;
@@ -144,6 +150,11 @@ ul {
 .sidebar ul li a .icon {
     color: #10558d;
     width: 30px;
+}
+
+.sidebar-down {
+    position: fixed;
+    bottom: 0;
 }
 
 .btn-section {
@@ -208,6 +219,9 @@ ul {
 }
 .sidebar.collapsed .item{
     font-size: 0px;
+}
+.sidebar.collapsed ul li {
+    width: 50px;
 }
 .task-item {
     border: 1px solid rgba(0, 0, 0, 0.3);
@@ -416,4 +430,72 @@ ul {
     color: #d9534f;
 }
 
+/* ----------- Profile style ----------- */
 
+.side-menu {
+    color: #000000;
+    width: 200px;
+    float: left;
+    margin: 50px;
+}
+
+.side-menu h2{
+    margin-bottom: 20px;
+}
+
+.side-menu ul {
+    list-style: none;
+}
+
+.side-menu li {
+    margin-bottom: 10px;
+}
+
+.side-menu a {
+    text-decoration: none;
+    color: #000000;
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 8px;
+}
+
+.side-menu a:hover {
+    background-color: #006DDF;
+    color: white;
+}
+
+.side-menu a.active {
+    background-color: #006DDF;
+    color: white;
+}
+
+.main-frame-profile {
+    margin-left: 220px;
+    padding: 20px;
+}
+.companies-section .btn{
+    width: 100%;
+}
+.profile-data {
+    min-width: 280px;
+    max-width: 400px;
+}
+.profile-settings-image {
+    min-width: 280px;
+}
+
+.profile-data div{
+    margin: 10px 0px;
+}
+/* Add some responsive design */
+@media (max-width: 768px) {
+    .side-menu {
+        width: 100%;
+        float: none;
+    }
+
+    .main-frame-profile {
+        margin-left: 0;
+    }
+}

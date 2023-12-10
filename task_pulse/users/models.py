@@ -102,17 +102,17 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         mail.send_mail(subject, message, from_email, [self.email], **kwargs)
 
-    def get_image_400x400(self):
+    def get_image_250x250(self):
         return thumbnail.get_thumbnail(
             self.image,
-            "400x400",
+            "250x250",
             crop="center",
             quality=60,
         )
 
     def image_tmb(self):
         return html.mark_safe(
-            f"<img src='{self.get_image_400x400().url}' width=50>",
+            f"<img src='{self.get_image_250x250().url}' width=50>",
         )
 
     image_tmb.allow_tags = True

@@ -3,20 +3,23 @@
 {% load i18n %}
 {% block main_section %}
     <section class="task-section">
-        <h1>Настройки пользователя</h1>
-        <div class="row justify-content-center">
-            <form class="change-user-form" method="post">
-                {% csrf_token %}
+        <h2>{% trans "Profile" %}</h1>
+        <div class="justify-content-center">
+            <form class="change-user-form" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    {% csrf_token %}
                 {% if form.non_field_errors %}
                 <div class="alert alert-danger">
                     {{ form.non_field_errors }}
                 </div>
                 {% endif %}
-                <div class="row">
-                    <div class="col col-5">
-                        <img src="{{ request.user.image.url }}"><br>
+                <div class="col-md-3 profile-settings-image">
+                    <div>
+                        <img src="{{ request.user.get_image_250x250.url }}" alt="User Image">
                     </div>
-                    <div class="col col-7">
+                </div>
+                <div class="col-md-9">
+                    <div class="profile-data">
                         <div>
                             <p>
                                 {{ form.first_name.errors }}
@@ -39,15 +42,15 @@
                             </p>
                         </div>
                         <p>
-                        {{ form.image.errors }}
-                        {{ form.image }}
+                            {{ form.image.errors }}
+                            {{ form.image }}
                         </p>
                         <p>
                             <button class="btn" type="submit">Сохранить изменения</button>
                         </p>
                     </div>
                 </div>
-                
+                </div>
             </form>
         </div>
     </section>

@@ -14,9 +14,9 @@ urlpatterns = [
         name="login",
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path("my_companies/", views.UserCompaniesView.as_view(), name="companies"),
+    path("companies/", views.UserCompaniesView.as_view(), name="companies"),
     path(
-        "settings/<int:pk>/",
+        "profile/",
         views.UserChangeView.as_view(),
         name="profile",
     ),

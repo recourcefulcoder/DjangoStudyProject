@@ -27,6 +27,8 @@ class SignupForm(forms.UserCreationForm):
 
 
 class ProfileForm(forms.UserChangeForm):
+    image = pure_forms.ImageField(widget=pure_forms.FileInput)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():

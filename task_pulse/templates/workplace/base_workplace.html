@@ -18,10 +18,10 @@
             </a>
         </div>
         {% with request.resolver_match.view_name as view_name %}
-            <ul>
+            <ul>    
                 <li>
                     <a href="{% url 'workplace:home' company.id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
-                        <span class="item">{% trans "Home" %}</span>
+                        <span class="item">{% trans "Company home" %}</span>
                         <span class="icon"><i class="fas fa-home"></i></span>
                     </a>
                 </li>
@@ -35,6 +35,20 @@
                     <a href="{% url 'workplace:calendar' company.id %}" class="{% if view_name == 'workplace:calendar' %}active{% endif %}">
                         <span class="item">{% trans "Calendar" %}</span>
                         <span class="icon"><i class="fas fa-calendar"></i></span>
+                    </a>
+                </li>            
+            </ul>
+            <ul class="sidebar-down">
+                <li>
+                    <a href="">
+                        <span class="item">{% trans "Settings" %}</span>
+                        <span class="icon"><i class="fa fa-cog"></i></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'users:companies' %}">
+                        <span class="item">{% trans "Exit" %}</span>
+                        <span class="icon"><i class="fas fa-door-open"></i></span>
                     </a>
                 </li>
             </ul>
