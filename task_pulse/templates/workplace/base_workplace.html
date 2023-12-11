@@ -20,23 +20,31 @@
         {% with request.resolver_match.view_name as view_name %}
             <ul>
                 <li>
-                    <a href="{% url 'workplace:home' company.id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
+                    <a href="{% url 'workplace:home' company_id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
                         <span class="item">{% trans "Home" %}</span>
                         <span class="icon"><i class="fas fa-home"></i></span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'workplace:tasks' company.id %}" class="{% if view_name == 'workplace:tasks' %}active{% endif %}">
+                    <a href="{% url 'workplace:tasks' company_id %}" class="{% if view_name == 'workplace:tasks' %}active{% endif %}">
                         <span class="item">{% trans "Tasks" %}</span>
                         <span class="icon"><i class="fas fa-tasks"></i></span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'workplace:calendar' company.id %}" class="{% if view_name == 'workplace:calendar' %}active{% endif %}">
+                    <a href="{% url 'workplace:calendar' company_id %}" class="{% if view_name == 'workplace:calendar' %}active{% endif %}">
                         <span class="item">{% trans "Calendar" %}</span>
                         <span class="icon"><i class="fas fa-calendar"></i></span>
                     </a>
                 </li>
+                {% if user.role == 'manager' %}
+                    <li>
+                        <a href="{% url 'workplace:create_task' company_id %}" class="{% if view_name == 'workplace:create_task' %}active{% endif %}">
+                            <span class="item">{% trans "Create Task" %}</span>
+                            <span class="icon"><i class="fas fa-check-square"></i></span>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         {% endwith %}
     </div>

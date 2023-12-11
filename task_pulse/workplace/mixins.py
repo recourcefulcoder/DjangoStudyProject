@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import mixins
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +13,7 @@ class CompanyUserRequiredMixin(mixins.AccessMixin):
         company_user = self.get_company_user(company)
 
         if not company_user:
+            messages.add_message(request, messages.ERROR, type(self).permission_denied_message)
             return redirect("homepage:homepage")
 
         return super().dispatch(request, *args, **kwargs)
@@ -26,4 +28,21 @@ class CompanyUserRequiredMixin(mixins.AccessMixin):
         return models.CompanyUser.objects.filter(
             company=company,
             user=self.request.user.id,
-        ).exists()
+        ).first()
+
+
+class CompanyManagerRequiredMixin(CompanyUserRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        company = self.get_company()
+        company_user = self.get_company_user(company)
+
+        if not company_user:
+            messages.add_message(request, messages.ERROR, type(self).permission_denied_message)
+            return redirect("homepage:homepage")
+
+        if company_user.role != "manager":
+            messages.add_message(request, messages.ERROR, _("You are not a manager in this company"))
+            return redirect("workplace:tasks")
+
+        return super().dispatch(request, *args, **kwargs)
+
