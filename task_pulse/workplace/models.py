@@ -1,5 +1,5 @@
-from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -72,7 +72,7 @@ class Task(models.Model):
         related_name="tasks",
     )
 
-    manager = models.ForeignKey(
+    author = models.ForeignKey(
         CompanyUser,
         verbose_name=_("created by manager"),
         on_delete=models.DO_NOTHING,
@@ -81,5 +81,7 @@ class Task(models.Model):
 
     def clean(self):
         # checks whether "manager" field points on a manager or not
-        if self.manager.role != "manager":
-            raise ValidationError("Invalid 'manager' choice - user must be manager!")
+        if self.author.role != "manager":
+            raise ValidationError(
+                "Invalid 'manager' choice - user must be manager!",
+            )
