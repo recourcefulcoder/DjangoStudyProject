@@ -45,6 +45,7 @@ class TaskCreationForm(
             form.save()
             messages.success(request, _("Task created successfully!"))
         else:
+            print(form.cleaned_data)
             messages.error(request, _("Invalid data"))
 
         return redirect(

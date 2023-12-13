@@ -47,6 +47,9 @@ class CompanyUser(models.Model):
         default=0,
     )
 
+    def __str__(self):
+        return f"{self.user.last_name} {self.user.first_name}"
+
 
 class Task(models.Model):
     title = models.CharField(
@@ -81,7 +84,7 @@ class Task(models.Model):
 
     def clean(self):
         # checks whether "manager" field points on a manager or not
-        if self.author.role != "manager":
+        if self.author.role != "manager" and self.author.role != "owner":
             raise ValidationError(
                 "Invalid 'manager' choice - user must be manager!",
             )

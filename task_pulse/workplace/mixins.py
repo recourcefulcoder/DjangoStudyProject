@@ -49,7 +49,7 @@ class CompanyManagerRequiredMixin(CompanyUserRequiredMixin):
             )
             return redirect("homepage:homepage")
 
-        if company_user.role != "manager":
+        if company_user.role != "manager" and company_user.role != "owner":
             messages.add_message(
                 request,
                 messages.ERROR,
