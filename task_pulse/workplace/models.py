@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -45,3 +46,45 @@ class CompanyUser(models.Model):
         help_text=_("User score count"),
         default=0,
     )
+
+    def __str__(self):
+        return f"{self.user.last_name} {self.user.first_name}"
+
+
+class Task(models.Model):
+    title = models.CharField(
+        _("name"),
+        max_length=300,
+        help_text=_("Task name"),
+    )
+
+    description = models.TextField(
+        _("task description"),
+        blank=True,
+        help_text=_("concrete task description"),
+    )
+
+    deadline = models.DateTimeField(
+        help_text=_("task deadline"),
+    )
+
+    responsible = models.ForeignKey(
+        CompanyUser,
+        verbose_name=_("responsible"),
+        on_delete=models.DO_NOTHING,
+        related_name="tasks",
+    )
+
+    author = models.ForeignKey(
+        CompanyUser,
+        verbose_name=_("created by manager"),
+        on_delete=models.DO_NOTHING,
+        related_name="tasks_given",
+    )
+
+    def clean(self):
+        # checks whether "manager" field points on a manager or not
+        if self.author.role != "manager" and self.author.role != "owner":
+            raise ValidationError(
+                "Invalid 'manager' choice - user must be manager!",
+            )

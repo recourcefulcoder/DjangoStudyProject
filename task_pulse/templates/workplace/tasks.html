@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% block main_section %}
-    <section class="task-section">
+    {% comment %} <section class="task-section">
         <h1>{% trans "Tasks" %}</h1>
         <div class="task-tab-widget">
             <nav>
@@ -36,5 +36,28 @@
         <div class="completed-task-item">
             <h4>Название задачи</h4>
         </div>
+    </section> {% endcomment %}
+
+    {% comment %} Эту красивую заглушку пока оставил, она ещё наверняка пригодится. {% endcomment %}
+    <section class="task-section">
+        <h1>{% trans "Tasks" %}</h1>
+        <div class="task-tab-widget">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">{% trans "Current" %}</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "On checking" %}</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                    {% for task in tasks %}
+                        <a href="#">{% include "includes/task.html" %}</a>
+                    {% endfor %}
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                </div>
+            </div>
+        </div>
     </section>
+    
 {% endblock main_section %}

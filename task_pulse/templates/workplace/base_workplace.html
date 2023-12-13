@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load workplace_extras %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,13 +27,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'workplace:tasks' company.id %}" class="{% if view_name == 'workplace:tasks' %}active{% endif %}">
+                    <a href="{% url 'workplace:tasks' request.resolver_match.kwargs.company_id %}" 
+                       class="{% if view_name == 'workplace:tasks' %}active{% endif %}">
                         <span class="item">{% trans "Tasks" %}</span>
                         <span class="icon"><i class="fas fa-tasks"></i></span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'workplace:calendar' company.id %}" class="{% if view_name == 'workplace:calendar' %}active{% endif %}">
+                    <a href="{% url 'workplace:calendar' request.resolver_match.kwargs.company_id %}" 
+                       class="{% if view_name == 'workplace:calendar' %}active{% endif %}">
                         <span class="item">{% trans "Calendar" %}</span>
                         <span class="icon"><i class="fas fa-calendar"></i></span>
                     </a>
@@ -51,6 +54,30 @@
                         <span class="icon"><i class="fas fa-door-open"></i></span>
                     </a>
                 </li>
+            </ul>
+            <ul class="sidebar-down">
+                <li>
+                    <a href="">
+                        <span class="item">{% trans "Settings" %}</span>
+                        <span class="icon"><i class="fa fa-cog"></i></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'users:companies' %}">
+                        <span class="item">{% trans "Exit" %}</span>
+                        <span class="icon"><i class="fas fa-door-open"></i></span>
+                    </a>
+                </li>
+                {% get_company_user user request.resolver_match.kwargs.company_id as company_user %}
+                {% if company_user.role == "manager" %}
+                    <li>
+                        <a href="{% url 'workplace:create_task' request.resolver_match.kwargs.company_id %}" 
+                        class="{% if view_name == 'workplace:create_task' %}active{% endif %}">
+                            <span class="item">{% trans "Create Task" %}</span>
+                            <span class="icon"><i class="fas fa-check-square"></i></span>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         {% endwith %}
     </div>
