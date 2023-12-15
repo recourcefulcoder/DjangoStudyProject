@@ -3,7 +3,8 @@ from django.shortcuts import redirect
 from django.utils.translation import gettext as _
 from django.views import generic
 
-from workplace import forms, mixins, models
+from workplace import forms, models
+from core import mixins
 
 
 class HomeCompanyView(
@@ -45,7 +46,6 @@ class TaskCreationForm(
             form.save()
             messages.success(request, _("Task created successfully!"))
         else:
-            print(form.cleaned_data)
             messages.error(request, _("Invalid data"))
 
         return redirect(

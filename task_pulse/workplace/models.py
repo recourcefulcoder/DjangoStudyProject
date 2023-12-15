@@ -82,6 +82,12 @@ class Task(models.Model):
         related_name="tasks_given",
     )
 
+    created_at = models.DateTimeField(
+        _("create date"),
+        help_text=_("date of creation task"),
+        auto_now_add=True,
+    )
+
     def clean(self):
         # checks whether "manager" field points on a manager or not
         if self.author.role != "manager" and self.author.role != "owner":
