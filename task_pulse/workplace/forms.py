@@ -16,7 +16,7 @@ class TaskCreationForm(ModelForm):
         ].queryset = models.CompanyUser.objects.filter(
             company_id=author.company.id,
         ).exclude(
-            user=author.user
+            user=author.user,
         )
 
         self.fields[models.Task.responsible.field.name].empty_label = None
@@ -27,3 +27,9 @@ class TaskCreationForm(ModelForm):
         widgets = {
             models.Task.deadline.field.name: DateInput(attrs={"type": "date"}),
         }
+
+
+class CompanyUpdateForm(ModelForm):
+    class Meta:
+        model = models.Company
+        fields = "__all__"

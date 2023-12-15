@@ -1,27 +1,24 @@
-from django.contrib import messages
 from django.contrib.auth import mixins
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 
 from workplace import models
 
 
-class CompanyUserRequiredMixin(mixins.AccessMixin):
+class CompanyUserRequiredMixin(mixins.UserPassesTestMixin):
     permission_denied_message = _("You are not a participant in this company")
 
-    def dispatch(self, request, *args, **kwargs):
+    def test_func(self, roles=["employee", "owner", "manager"]):
         company = self.get_company()
         company_user = self.get_company_user(company.id)
 
         if not company_user:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                type(self).permission_denied_message,
-            )
-            return redirect("homepage:homepage")
+            return False
 
-        return super().dispatch(request, *args, **kwargs)
+        if company_user.role not in roles:
+            return False
+
+        return True
 
     def get_company(self):
         return get_object_or_404(
@@ -37,27 +34,16 @@ class CompanyUserRequiredMixin(mixins.AccessMixin):
 
 
 class CompanyManagerRequiredMixin(CompanyUserRequiredMixin):
-    def dispatch(self, request, *args, **kwargs):
-        company = self.get_company()
-        company_user = self.get_company_user(company)
+    def get_test_func(self):
+        def new_func():
+            return self.test_func(roles=["manager", "owner"])
 
-        if not company_user:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                type(self).permission_denied_message,
-            )
-            return redirect("homepage:homepage")
+        return new_func
 
-        if company_user.role != "manager" and company_user.role != "owner":
-            messages.add_message(
-                request,
-                messages.ERROR,
-                _("You are not a manager in this company"),
-            )
-            return redirect(
-                "workplace:tasks",
-                company_id=self.kwargs.get("company_id"),
-            )
 
-        return super().dispatch(request, *args, **kwargs)
+class CompanyOwnerRequiredMixin(CompanyUserRequiredMixin):
+    def get_test_func(self):
+        def new_func():
+            return self.test_func(roles=["owner"])
+
+        return new_func

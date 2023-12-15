@@ -45,7 +45,6 @@ class TaskCreationForm(
             form.save()
             messages.success(request, _("Task created successfully!"))
         else:
-            print(form.cleaned_data)
             messages.error(request, _("Invalid data"))
 
         return redirect(
@@ -66,3 +65,13 @@ class TaskCreationForm(
             instance=task,
             author=company_user,
         )
+
+
+class CompanyProfile(
+    mixins.CompanyOwnerRequiredMixin,
+    generic.UpdateView,
+):
+    pk_url_kwarg = "company_id"
+    model = models.Company
+    form_class = forms.CompanyUpdateForm
+    template_name_suffix = "_settings"

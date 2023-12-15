@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model, mixins
 from django.urls import reverse_lazy
 from django.views import generic
-from workplace import models as wp_models
 
 from users import forms
+from workplace import models as wp_models
 
 
 class SignupView(generic.FormView):
@@ -49,7 +49,7 @@ class CreateCompanyView(mixins.LoginRequiredMixin, generic.FormView):
         company_user = wp_models.CompanyUser.objects.create(
             user=self.request.user,
             company=company,
-            role=wp_models.ROLE_CHOICES[0],
+            role=wp_models.ROLE_CHOICES[0][0],
         )
         company.save()
         company_user.save()

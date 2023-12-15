@@ -21,4 +21,5 @@ urlpatterns = [
         name="calendar",
     ),
     path("create_task/", views.TaskCreationForm.as_view(), name="create_task"),
+    path("settings/", views.CompanyProfile.as_view(), name="company_settings"),
 ]
