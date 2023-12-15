@@ -1,4 +1,3 @@
-
 * {
     list-style: none;
     text-decoration: none !important;
@@ -488,6 +487,28 @@ ul {
 .profile-data div{
     margin: 10px 0px;
 }
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
 /* Add some responsive design */
 @media (max-width: 768px) {
     .side-menu {
@@ -499,3 +520,4 @@ ul {
         margin-left: 0;
     }
 }
+
