@@ -21,7 +21,7 @@
         {% with request.resolver_match.view_name as view_name %}
             <ul>    
                 <li>
-                    <a href="{% url 'workplace:home' company.id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
+                    <a href="{% url 'workplace:home' request.resolver_match.kwargs.company_id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
                         <span class="item">{% trans "Company home" %}</span>
                         <span class="icon"><i class="fas fa-home"></i></span>
                     </a>

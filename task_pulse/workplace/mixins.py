@@ -10,6 +10,7 @@ class CompanyUserRequiredMixin(mixins.AccessMixin):
     permission_denied_message = _("You are not a participant in this company")
 
     def dispatch(self, request, *args, **kwargs):
+        list(messages.get_messages(request))
         company = self.get_company()
         company_user = self.get_company_user(company.id)
 
