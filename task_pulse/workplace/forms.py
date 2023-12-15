@@ -1,10 +1,10 @@
 from django.core.exceptions import ImproperlyConfigured
-from django.forms import DateInput, ModelForm
+from django import forms
 
 from workplace import models
 
 
-class TaskCreationForm(ModelForm):
+class TaskCreationForm(forms.ModelForm):
     def __init__(self, author=None, *args, **kwargs):
         super(TaskCreationForm, self).__init__(*args, **kwargs)
 
@@ -16,14 +16,14 @@ class TaskCreationForm(ModelForm):
         ].queryset = models.CompanyUser.objects.filter(
             company_id=author.company.id,
         ).exclude(
-            user=author.user
+            user=author.user,
         )
 
         self.fields[models.Task.responsible.field.name].empty_label = None
 
     class Meta:
         model = models.Task
-        exclude = ["author"]
+        exclude = [models.Task.author.field.name]
         widgets = {
-            models.Task.deadline.field.name: DateInput(attrs={"type": "date"}),
+            models.Task.deadline.field.name: forms.DateTimeInput(),
         }

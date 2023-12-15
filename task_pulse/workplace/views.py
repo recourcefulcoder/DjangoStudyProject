@@ -5,7 +5,8 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.views import generic
 
-from workplace import forms, mixins, models
+from workplace import forms, models
+from core import mixins
 
 
 class HomeCompanyView(
