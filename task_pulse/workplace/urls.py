@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views import generic
 
 from workplace import views
 
@@ -15,10 +14,22 @@ urlpatterns = [
     ),
     path(
         "calendar/",
-        generic.TemplateView.as_view(
+        views.HomeCompanyView.as_view(
             template_name="workplace/calendar.html",
         ),
         name="calendar",
     ),
+    path("invite_member/", views.InviteMember.as_view(), name="send_invite"),
     path("create_task/", views.TaskCreationForm.as_view(), name="create_task"),
+    path(
+        "settings/company/",
+        views.CompanyProfile.as_view(),
+        name="settings_company",
+    ),
+    path("settings/team/", views.TeamView.as_view(), name="settings_team"),
+    path(
+        "settings/schedule/",
+        views.ScheduleView.as_view(),
+        name="settings_schedule",
+    ),
 ]
