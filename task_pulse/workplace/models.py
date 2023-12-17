@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -21,6 +23,20 @@ class Company(models.Model):
         _("description"),
         help_text=_("Description for company"),
         blank=True,
+    )
+    start_time = models.TimeField(
+        help_text=_("time of beginning of working day"),
+        default=datetime.time(hour=9),
+    )
+    end_time = models.TimeField(
+        help_text=_("time of ending of working day"),
+        default=datetime.time(hour=18),
+    )
+    # string of 7 chars "1" or "0", implementing , whether
+    # corresponding day considered as working or not, respectively
+    working_days = models.CharField(
+        max_length=7,
+        default="1111100",
     )
 
 

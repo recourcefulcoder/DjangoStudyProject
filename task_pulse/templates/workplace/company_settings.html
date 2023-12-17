@@ -1,8 +1,0 @@
-{% extends "workplace/base_workplace.html" %}
-
-{% block main_section %}
-  <form method="post">
-  {% csrf_token %}
-    {{form.as_p}}
-  </form>
-{% endblock main_section %}

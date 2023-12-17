@@ -1,0 +1,25 @@
+{% extends "workplace/settings/base_settings.html" %}
+
+{% load i18n %}
+
+{% block page_content %}
+  <div class="form-container m-3">
+    <form method="post">
+    {% csrf_token %}
+    {% for field in form.visible_fields %}
+        <label for="{{field.auto_id}}">{{field.label}}</label>
+        <p>{{field}}</p>
+        
+        {% if field.errors %}
+          {% for error in field.errors %}
+            <div class="alert alert-danger mt-3">{{error}}</div> 
+          {% endfor %}
+        {% endif %}
+    {% endfor %}
+    <button type="submit">{% trans "Save" %}</button>
+    </form>
+    {% for message in messages %}
+      <div class="alert alert-success mt-3">{{message}}</div>
+    {% endfor %}
+  </div>
+{% endblock page_content %}

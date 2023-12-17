@@ -5,7 +5,21 @@ from django.utils.translation import gettext_lazy as _
 from workplace import models
 
 
-class CompanyUserRequiredMixin(mixins.UserPassesTestMixin):
+class GiveCompanyUserToContext:
+    # must (!!!) be put to the first place in inheritance list
+    # in order to let super() access proper get_context_data method
+    def get_context_data(self, **kwargs):
+        context = super(GiveCompanyUserToContext, self).get_context_data(
+            **kwargs,
+        )
+        context["company_user"] = models.CompanyUser.objects.filter(
+            company_id=self.request.resolver_match.kwargs["company_id"],
+            user=self.request.user,
+        ).first()
+        return context
+
+
+class BaseCompanyUserRequiredMixin(mixins.UserPassesTestMixin):
     permission_denied_message = _("You are not a participant in this company")
 
     def test_func(self, roles=["employee", "owner", "manager"]):
@@ -27,10 +41,17 @@ class CompanyUserRequiredMixin(mixins.UserPassesTestMixin):
         )
 
     def get_company_user(self, company_id):
-        return models.CompanyUser.objects.filter(
+        return models.CompanyUser.objects.get(
             company_id=company_id,
             user=self.request.user.id,
-        ).first()
+        )
+
+
+class CompanyUserRequiredMixin(
+    GiveCompanyUserToContext,
+    BaseCompanyUserRequiredMixin,
+):
+    pass
 
 
 class CompanyManagerRequiredMixin(CompanyUserRequiredMixin):
