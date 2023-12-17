@@ -39,17 +39,7 @@
                         <span class="item">{% trans "Calendar" %}</span>
                         <span class="icon"><i class="fas fa-calendar"></i></span>
                     </a>
-                </li> 
-                {% comment %} {% get_company_user user company_id as company_user %} {% endcomment %}
-                {% if company_user.role == "manager" or company_user.role == "owner"%}
-                    <li>
-                        <a href="{% url 'workplace:create_task' company_id %}" 
-                        class="{% if view_name == 'workplace:create_task' %}active{% endif %}">
-                            <span class="item">{% trans "Create Task" %}</span>
-                            <span class="icon"><i class="fas fa-check-square"></i></span>
-                        </a>
-                    </li>
-                {% endif %}           
+                </li>         
             </ul>
             <ul class="sidebar-down">
                 {% if company_user.role == "owner"%}
