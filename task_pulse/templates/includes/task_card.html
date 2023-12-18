@@ -5,7 +5,7 @@
     {{hidden}}
     <h5 class="card-title">{% if hidden == None %}{{ task.title }}{% endif %}</h5>
     <p class="card-text"><strong>{% trans "Description" %}:</strong> {{ task.description }}</p>
-    <p class="card-text"><strong>{% trans "Author" %}:</strong> {{ task.author.user }}</p>
+    <p class="card-text"><strong>{% trans "Author" %}:</strong> {{ task.author.user.last_name }} {{ task.author.user.first_name }}</p>
     <p class="card-text"><strong>{% trans "Author email" %}:</strong> {{ task.author.user.email }}</p>
     <p class="card-text"><strong>{% trans "Deadline" %}:</strong> {{ task.deadline }}</p>
   </div>

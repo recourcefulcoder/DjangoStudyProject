@@ -40,8 +40,18 @@
 
     {% comment %} Эту красивую заглушку пока оставил, она ещё наверняка пригодится. {% endcomment %}
   <section class="task-section">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-dismissible fade show alert-info alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}" 
+            role="alert">
+          {{message}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+      
+    {% endif %}
     <h1>{% trans "Tasks" %}</h1>
-    <div class="task-tab-widget">
+    <div class="task-tab-widget overflow-auto h-50">
       <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
               <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#stage_given" type="button" role="tab" aria-controls="stage_given" aria-selected="true">{% trans "Current" %}</button>
@@ -50,7 +60,7 @@
       </nav>
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="stage_given" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-          {% if company_user.role == "manager" or company.role == "owner" %}
+          {% if company_user.role == "manager" or company_user.role == "owner" %}
             <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
             <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -94,5 +104,6 @@
       </div>
     </div>
   </section>
+  
     
 {% endblock main_section %}

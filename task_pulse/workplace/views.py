@@ -11,9 +11,12 @@ from workplace import forms, mixins, models
 
 class HomeCompanyView(
     mixins.CompanyUserRequiredMixin,
+    generic.edit.FormMixin,
     generic.TemplateView,
 ):
     template_name = "workplace/home.html"
+    form_class = forms.TaskCreationForm
+    http_method_names = ["get", "post"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -21,22 +24,43 @@ class HomeCompanyView(
             responsible=context["company_user"],
             state="active",
         ).first()
-        context["team"] = (
-            models.CompanyUser.objects.select_related("user")
-            .filter(company_id=self.kwargs.get("company_id"))
-            .only(
-                "user__email",
-                "user__first_name",
-                "user__last_name",
-                "user__image",
-                "role",
-            )
-        )
+
         if context["company_user"].role in ["owner", "manager"]:
-            context["form"] = forms.TaskCreationForm(
-                author=context["company_user"],
+            context["team"] = (
+                models.CompanyUser.objects
+                .select_related("user")
+                .filter(company_id=self.kwargs.get("company_id"))
+                .only(
+                    "user__email",
+                    "user__first_name",
+                    "user__last_name",
+                    "user__image",
+                    "role",
+                )
             )
         return context
+
+    def post(self, *args, **kwargs):
+        self.get_form().save()
+        messages.success(self.request, "Task successfully added!")
+        return redirect(
+            "workplace:home",
+            **kwargs,
+        )
+
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+
+        company_id = self.kwargs.get("company_id")
+        company_user = self.get_company_user(company_id)
+        task = models.Task(author=company_user)
+
+        return form_class(
+            **self.get_form_kwargs(),
+            instance=task,
+            author=company_user,
+        )
 
 
 class TaskList(
@@ -45,7 +69,7 @@ class TaskList(
     generic.ListView,
 ):
     template_name = "workplace/tasks.html"
-    model = models.Task
+    # model = models.Task
     context_object_name = "tasks"
     form_class = forms.TaskCreationForm
 
@@ -60,7 +84,7 @@ class TaskList(
         if form_class is None:
             form_class = self.get_form_class()
 
-        company_id = self.request.resolver_match.kwargs["company_id"]
+        company_id = self.kwargs.get("company_id")
         company_user = self.get_company_user(company_id)
         task = models.Task(author=company_user)
 
@@ -69,6 +93,11 @@ class TaskList(
             instance=task,
             author=company_user,
         )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["menu_choices"] = list(set(self.object_list.values_list("state", flat=True)))
+        return context
 
 
 class TaskCreationForm(
@@ -90,11 +119,6 @@ class TaskCreationForm(
             )
         messages.error(request, _("Invalid data"))
         return self.render_to_response(self.get_context_data(form=form))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"] = self.get_form()
-        return context
 
     def get_form(self, form_class=None):
         if form_class is None:

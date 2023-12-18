@@ -113,7 +113,7 @@ class Task(models.Model):
         choices=TASK_STATES,
         max_length=20,
         help_text=_("Task current state"),
-        default=TASK_STATES[0][0],
+        default="given",
     )
 
     def clean(self):
