@@ -6,10 +6,20 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+# order is important! "owner" must be first element in the list
 ROLE_CHOICES = [
     ("owner", "Owner"),
     ("manager", "Manager"),
     ("employee", "Employee"),
+]
+
+TASK_STATES = [
+    ("given", "Given"),
+    ("active", "Active"),
+    ("postponed", "Postponed"),
+    ("review", "On review"),
+    ("rejected", "Rejected"),
+    ("completed", "Completed"),
 ]
 
 
@@ -96,6 +106,14 @@ class Task(models.Model):
         verbose_name=_("created by manager"),
         on_delete=models.DO_NOTHING,
         related_name="tasks_given",
+    )
+
+    state = models.CharField(
+        _("state"),
+        choices=TASK_STATES,
+        max_length=20,
+        help_text=_("Task current state"),
+        default=TASK_STATES[0][0],
     )
 
     def clean(self):

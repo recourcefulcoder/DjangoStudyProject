@@ -24,7 +24,7 @@ class TaskCreationForm(django.forms.ModelForm):
 
     class Meta:
         model = models.Task
-        exclude = ["author"]
+        exclude = ["author", "state"]
         widgets = {
             models.Task.deadline.field.name: django.forms.DateInput(
                 attrs={"type": "datetime-local"},

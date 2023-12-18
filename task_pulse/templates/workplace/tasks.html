@@ -39,41 +39,60 @@
     </section> {% endcomment %}
 
     {% comment %} Эту красивую заглушку пока оставил, она ещё наверняка пригодится. {% endcomment %}
-    <section class="task-section">
-        <h1>{% trans "Tasks" %}</h1>
-        <div class="task-tab-widget">
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">{% trans "Current" %}</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "On checking" %}</button>
+  <section class="task-section">
+    <h1>{% trans "Tasks" %}</h1>
+    <div class="task-tab-widget">
+      <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#stage_given" type="button" role="tab" aria-controls="stage_given" aria-selected="true">{% trans "Current" %}</button>
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "On checking" %}</button>
+          </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="stage_given" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+          {% if company_user.role == "manager" or company.role == "owner" %}
+            <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
+            <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="create-task-modal-label">{% trans "Create Task" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      <form method="post" 
+                            action="{% url 'workplace:create_task' request.resolver_match.kwargs.company_id %}">
+                          {% csrf_token %}
+                          {{ form.as_p }}
+                          <button type="submit" class="btn btn-primary">{% trans "Create Task" %}</button>
+                      </form>
+                  </div>
                 </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-                    <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
-                    <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="create-task-modal-label">{% trans "Create Task" %}</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post" action="{% url 'workplace:create_task' request.resolver_match.kwargs.company_id %}">
-                                    {% csrf_token %}
-                                    {{ form.as_p }}
-                                    <button type="submit" class="btn btn-primary">{% trans "Create Task" %}</button>
-                                </form>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                    {% for task in tasks %}
-                        <a href="#">{% include "includes/task.html" %}</a>
-                    {% endfor %}
-                </div>
+              </div>
             </div>
+          {% endif %}
+          {% for task in tasks %}
+              {% include "includes/task.html"%}
+              <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      {% include "includes/task_card.html" with hidden=true %}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          {% endfor %}
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
     
 {% endblock main_section %}
