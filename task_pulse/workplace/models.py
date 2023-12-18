@@ -12,6 +12,13 @@ ROLE_CHOICES = [
     ("employee", "Employee"),
 ]
 
+TASK_STATES = [
+    ("given", "Given"),
+    ("active", "Active"),
+    ("stopped", "Stopped"),
+    ("checking", "On checking"),
+]
+
 
 class Company(models.Model):
     name = models.CharField(
@@ -96,6 +103,14 @@ class Task(models.Model):
         verbose_name=_("created by manager"),
         on_delete=models.DO_NOTHING,
         related_name="tasks_given",
+    )
+
+    state = models.CharField(
+        _("state"),
+        choices=TASK_STATES,
+        max_length=20,
+        help_text=_("Task current state"),
+        default=TASK_STATES[0][0],
     )
 
     def clean(self):
