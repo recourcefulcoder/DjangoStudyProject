@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+# order is important! "owner" must be first element in the list
 ROLE_CHOICES = [
     ("owner", "Owner"),
     ("manager", "Manager"),
@@ -15,8 +16,10 @@ ROLE_CHOICES = [
 TASK_STATES = [
     ("given", "Given"),
     ("active", "Active"),
-    ("stopped", "Stopped"),
-    ("checking", "On checking"),
+    ("postponed", "Postponed"),
+    ("review", "On review"),
+    ("rejected", "Rejected"),
+    ("completed", "Completed"),
 ]
 
 

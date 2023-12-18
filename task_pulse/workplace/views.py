@@ -19,6 +19,7 @@ class HomeCompanyView(
         context = super().get_context_data(**kwargs)
         context["task"] = models.Task.objects.filter(
             responsible=context["company_user"],
+            state="active",
         ).first()
         context["team"] = (
             models.CompanyUser.objects.select_related("user")
