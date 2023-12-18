@@ -5,7 +5,11 @@
 {% block main_section %}
   <div class="container">
     <div class="row">
-      <div class="col">{% trans "Your current task" %}</div>
+      <div class="col">{% if company_user.role == "owner" %}
+      {% trans "Create new task here" %}
+      {% else %}
+      {% trans "Your current task" %}
+      {% endif %}</div>
       {% if company_user.role == "owner" or company_user.role == "manager" %}
         <div class="col">{% trans "Team" %}</div>
       {% endif %}
@@ -15,7 +19,9 @@
       {% if task != None %}
         {% include "includes/task_card.html" %}
       {% else %}
-        {% trans "You don't have tracking task now! Track new one on 'tasks' page" %}
+        {% if company_user.role != "owner" %}
+          {% trans "You don't have tracking task now! Track new one on 'tasks' page" %}
+        {% endif %}
       {% endif %}
       {% if company_user.role == "owner" or company_user.role == "manager" %}
           <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
