@@ -11,23 +11,42 @@ from workplace import forms, mixins, models
 
 class HomeCompanyView(
     mixins.CompanyUserRequiredMixin,
-    generic.DetailView,
+    generic.TemplateView,
 ):
     template_name = "workplace/home.html"
-    model = models.Company
-    context_object_name = "company"
-    pk_url_kwarg = "company_id"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["task"] = models.Task.objects.filter(
+            responsible=context["company_user"],
+        ).first()
+        context["team"] = (
+            models.CompanyUser.objects.select_related("user")
+            .filter(company_id=self.kwargs.get("company_id"))
+            .only(
+                "user__email",
+                "user__first_name",
+                "user__last_name",
+                "user__image",
+                "role",
+            )
+        )
+        if context["company_user"].role in ["owner", "manager"]:
+            context["form"] = forms.TaskCreationForm(
+                author=context["company_user"],
+            )
+        return context
 
 
 class TaskList(
     mixins.CompanyUserRequiredMixin,
-    generic.edit.FormMixin, 
+    generic.edit.FormMixin,
     generic.ListView,
 ):
     template_name = "workplace/tasks.html"
     model = models.Task
     context_object_name = "tasks"
-    form_class = forms.TaskCreationForm 
+    form_class = forms.TaskCreationForm
 
     def get_queryset(self):
         return models.Task.objects.filter(
@@ -35,7 +54,7 @@ class TaskList(
                 self.request.resolver_match.kwargs["company_id"],
             ),
         )
-    
+
     def get_form(self, form_class=None):
         if form_class is None:
             form_class = self.get_form_class()
@@ -62,13 +81,14 @@ class TaskCreationForm(
         if form.is_valid():
             form.save()
             messages.success(request, _("Task created successfully!"))
-            return HttpResponseRedirect(reverse_lazy(
-                "workplace:tasks",
-                args=(request.resolver_match.kwargs["company_id"],),
-            ))
-        else:
-            messages.error(request, _("Invalid data"))
-            return self.render_to_response(self.get_context_data(form=form))
+            return HttpResponseRedirect(
+                reverse_lazy(
+                    "workplace:tasks",
+                    args=(request.resolver_match.kwargs["company_id"],),
+                ),
+            )
+        messages.error(request, _("Invalid data"))
+        return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -3,5 +3,45 @@
 {% load i18n %}
 
 {% block main_section %}
-  {% trans "No content here yet:(" %}
+  <div class="container">
+    <div class="row">
+      <div class="col">{% trans "Your current task" %}</div>
+      {% if company_user.role == "owner" or company_user.role == "manager" %}
+        <div class="col">{% trans "Team" %}</div>
+      {% endif %}
+    </div>
+    <div class="row">
+      <div class="col">
+      {% if task != None %}
+        {% include "includes/task_card.html" %}
+      {% else %}
+        {% trans "You don't have tracking task now! Track new one on 'tasks' page" %}
+      {% endif %}
+      {% if company_user.role == "owner" or company_user.role == "manager" %}
+          <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
+          <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="create-task-modal-label">{% trans "Create Task" %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% include "includes/form.html" with submit_name="Create Task" %}
+                  </div>
+                </div>
+              </div>
+          </div>
+        {% endif %}
+      
+      </div>
+      {% if company_user.role == "owner" or company_user.role == "manager" %}
+        <div class="col">
+          {% for employee in team %}
+            {% include "includes/employee.html" %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
 {% endblock main_section %}
