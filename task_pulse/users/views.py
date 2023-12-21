@@ -62,10 +62,8 @@ class CreateCompanyView(mixins.LoginRequiredMixin, generic.FormView):
         return super().form_valid(form)
 
 
-class InviteToCompanyView(mixins.LoginRequiredMixin, generic.FormView):
-    template_name = "users/invite_to_company.html"
+class InviteToCompanyInterface(mixins.LoginRequiredMixin, generic.FormView):
     form_class = forms.InviteToCompanyForm
-    success_url = reverse_lazy("users:companies")
 
     def form_valid(self, form):
         messages.add_message(
@@ -75,13 +73,13 @@ class InviteToCompanyView(mixins.LoginRequiredMixin, generic.FormView):
         )
         # TODO проверка на приглашение себе
         company = wp_models.Company.objects.get(pk=self.kwargs["company_id"])
-        if form.cleaned_data["expire_date"] is None:
-            expire_date = None
-        else:
+        pure_expire_date = int(form.cleaned_data["expire_date"])
+        if pure_expire_date > 0:
             expire_date = datetime.date.today() + datetime.timedelta(
-                days=int(form.cleaned_data["expire_date"]),
+                days=int(pure_expire_date),
             )
-        print(expire_date)
+        else:
+            expire_date = None
         invite = models.Invite.objects.create(
             invited_user_email=form.cleaned_data["invited_user_email"],
             expire_date=expire_date,
@@ -90,6 +88,11 @@ class InviteToCompanyView(mixins.LoginRequiredMixin, generic.FormView):
         invite.clean()
         invite.save()
         return super().form_valid(form)
+
+
+class InviteToCompanyView(InviteToCompanyInterface):
+    template_name = "users/invite_to_company.html"
+    success_url = reverse_lazy("users:companies")
 
 
 class UserInvitesListView(mixins.LoginRequiredMixin, generic.ListView):

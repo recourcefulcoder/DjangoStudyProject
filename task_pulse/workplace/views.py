@@ -13,7 +13,9 @@ from django.utils.translation import gettext as _
 from django.views import generic
 from django.views.decorators.http import require_POST
 
+from users import forms as us_forms
 from users import models as us_models
+from users import views
 from workplace import forms, models
 
 
@@ -201,7 +203,7 @@ class TeamView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = forms.InviteMemberForm()
+        context["form"] = us_forms.InviteToCompanyForm()
         return context
 
 
@@ -262,10 +264,9 @@ class ScheduleView(
 
 class InviteMember(
     mixins.CompanyOwnerRequiredMixin,
-    generic.FormView,
+    views.InviteToCompanyInterface,
 ):
     http_method_names = ["post"]
-    form_class = forms.InviteMemberForm
 
     def get_success_url(self):
         return reverse_lazy(
@@ -273,8 +274,13 @@ class InviteMember(
             kwargs={"company_id": self.kwargs.get("company_id")},
         )
 
-    def form_valid(self, form):
-        return super().form_valid(form)
+    def form_invalid(self, form):
+        messages.add_message(
+            self.request,
+            messages.ERROR,
+            _("Invite did not send"),
+        )
+        return redirect(self.get_success_url())
 
 
 @require_POST

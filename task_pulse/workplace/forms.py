@@ -94,11 +94,3 @@ class CompanyScheduleForm(django.forms.Form):
 
     start_time = django.forms.TimeField(widget=django.forms.TimeInput)
     end_time = django.forms.TimeField(widget=django.forms.TimeInput)
-
-
-class TaskStageForm(django.forms.Form):
-    pass
-
-
-class InviteMemberForm(django.forms.Form):
-    email = django.forms.EmailField()
