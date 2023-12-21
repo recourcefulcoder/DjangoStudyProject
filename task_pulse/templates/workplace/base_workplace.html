@@ -45,13 +45,15 @@
                         <span class="icon"><i class="fas fa-calendar"></i></span>
                     </a>
                 </li>   
+                {% if company_user.role == "owner" or ompany_user.role == "manager"%}
                 <li>
                     <a href="{% url 'workplace:statistics' request.resolver_match.kwargs.company_id %}" 
                        class="{% if view_name == 'workplace:statistics' %}active{% endif %}">
                         <span class="item">{% trans "Statistics" %}</span>
                         <span class="icon"><i class="fas fa-chart-pie"></i></span>
                     </a>
-                </li>            
+                </li>  
+                {% endif %}          
             </ul>
             <ul class="sidebar-down">
                 {% if company_user.role == "owner"%}

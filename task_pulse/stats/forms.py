@@ -7,6 +7,9 @@ from workplace import models as wp_models
 class CreateUserStatisticsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
         self.fields["user"].queryset = wp_models.CompanyUser.objects.filter(
             role="employee",
         )
@@ -20,6 +23,11 @@ class CreateUserStatisticsForm(forms.ModelForm):
 
 
 class CreateCompanyStatisticsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
     class Meta:
         model = models.CompanyStatistics
         exclude = [

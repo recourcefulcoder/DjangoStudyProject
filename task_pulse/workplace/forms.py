@@ -9,6 +9,9 @@ class TaskCreationForm(django.forms.ModelForm):
     def __init__(self, author=None, *args, **kwargs):
         super(TaskCreationForm, self).__init__(*args, **kwargs)
 
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
         if author is None:
             raise ImproperlyConfigured("no task author specified")
 
@@ -33,6 +36,11 @@ class TaskCreationForm(django.forms.ModelForm):
 
 
 class CompanyUpdateForm(django.forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
     class Meta:
         model = models.Company
         exclude = ["working_days", "start_time", "end_time"]
@@ -69,9 +77,18 @@ class WeekDaysField(django.forms.MultiValueField):
 
 
 class CompanyScheduleForm(django.forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            if field.name != "week_choices":
+                field.field.widget.attrs["class"] = "form-control"
+
     week_choices = WeekDaysField(
         widget=WeekDaysWidget(
-            widgets=[django.forms.CheckboxInput for _ in range(7)],
+            widgets=[
+                django.forms.CheckboxInput(attrs={"class": "form-check-input"})
+                for _ in range(7)
+            ],
         ),
     )
 

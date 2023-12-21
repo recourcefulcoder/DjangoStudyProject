@@ -20,7 +20,7 @@ class GiveCompanyUserToContext:
 
 
 class BaseCompanyUserRequiredMixin(mixins.UserPassesTestMixin):
-    permission_denied_message = _("You are not a participant in this company")
+    permission_denied_message = _("You dont have permission to this page")
 
     def test_func(self, roles=["employee", "owner", "manager"]):
         company = self.get_company()

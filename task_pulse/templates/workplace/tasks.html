@@ -88,7 +88,7 @@
             </div>
           {% endif %}
             {% for task in tasks %}
-                  {% include "includes/task.html"%}
+                  {% include "includes/task_card.html"%}
                   <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
