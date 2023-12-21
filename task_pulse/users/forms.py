@@ -14,7 +14,7 @@ INVITE_EXPIRE_DATE_CHOISES = (
     (7, _("week")),
     (14, _("two weeks")),
     (30, _("month")),
-    (None, _("never")),
+    (-1, _("never")),
 )
 
 
