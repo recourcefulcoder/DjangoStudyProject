@@ -39,6 +39,13 @@
                         <span class="item">{% trans "Calendar" %}</span>
                         <span class="icon"><i class="fas fa-calendar"></i></span>
                     </a>
+                </li>   
+                <li>
+                    <a href="{% url 'workplace:statistics' request.resolver_match.kwargs.company_id %}" 
+                       class="{% if view_name == 'workplace:statistics' %}active{% endif %}">
+                        <span class="item">{% trans "Statistics" %}</span>
+                        <span class="icon"><i class="fas fa-chart-pie"></i></span>
+                    </a>
                 </li>            
             </ul>
             <ul class="sidebar-down">

@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model, mixins
 from django.urls import reverse_lazy
 from django.views import generic
-from workplace import models as wp_models
 
 from users import forms
+from workplace import models as wp_models
 
 
 class SignupView(generic.FormView):
@@ -22,7 +22,7 @@ class UserCompaniesView(mixins.LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return wp_models.Company.objects.filter(
-            companyuser__user=self.request.user,
+            users__user=self.request.user,
         )
 
 

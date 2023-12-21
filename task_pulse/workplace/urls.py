@@ -1,16 +1,17 @@
 from django.urls import path
 from django.views import generic
 
-from workplace import views
+from stats import views as stats_views
+from workplace import views as wp_views
 
 
 app_name = "workplace"
 
 urlpatterns = [
-    path("tasks/", views.TaskList.as_view(), name="tasks"),
+    path("tasks/", wp_views.TaskList.as_view(), name="tasks"),
     path(
         "home/",
-        views.HomeCompanyView.as_view(),
+        wp_views.HomeCompanyView.as_view(),
         name="home",
     ),
     path(
@@ -20,5 +21,24 @@ urlpatterns = [
         ),
         name="calendar",
     ),
-    path("create_task/", views.TaskCreationForm.as_view(), name="create_task"),
+    path(
+        "statistics/",
+        stats_views.StatisticsListView.as_view(),
+        name="statistics",
+    ),
+    path(
+        "create_task/",
+        wp_views.TaskCreationForm.as_view(),
+        name="create_task",
+    ),
+    path(
+        "create_user_statistics/",
+        stats_views.CreateUserStatistics.as_view(),
+        name="create_user_statistics",
+    ),
+    path(
+        "create_company_statistics/",
+        stats_views.CreateCompanyStatistics.as_view(),
+        name="create_company_statistics",
+    ),
 ]

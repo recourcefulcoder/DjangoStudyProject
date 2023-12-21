@@ -1,5 +1,5 @@
-from django.core.exceptions import ImproperlyConfigured
 from django import forms
+from django.core.exceptions import ImproperlyConfigured
 
 from workplace import models
 

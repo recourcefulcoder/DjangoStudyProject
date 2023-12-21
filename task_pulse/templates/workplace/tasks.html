@@ -40,7 +40,9 @@
 
     {% comment %} Эту красивую заглушку пока оставил, она ещё наверняка пригодится. {% endcomment %}
     <section class="task-section">
-        <h1>{% trans "Tasks" %}</h1>
+        <div class="section-header">
+            <h1>{% trans "Tasks" %}</h1>
+        </div>
         <div class="task-tab-widget">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -69,7 +71,7 @@
                         </div>
                     </div>
                     {% for task in tasks %}
-                        <a href="#">{% include "includes/task.html" %}</a>
+                        <a href="#">{% include "includes/task_card.html" %}</a>
                     {% endfor %}
                 </div>
             </div>

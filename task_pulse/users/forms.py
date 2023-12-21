@@ -2,9 +2,9 @@ from django import forms as pure_forms
 from django.contrib.auth import forms
 from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
-from workplace import models as wp_models
 
 from users import models
+from workplace import models as wp_models
 
 
 class SignupForm(forms.UserCreationForm):
