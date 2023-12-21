@@ -123,6 +123,8 @@ send_mail
 /send_mail
 test_media
 /test_media
+media
+/media
 # mypy
 .mypy_cache/
 .dmypy.json

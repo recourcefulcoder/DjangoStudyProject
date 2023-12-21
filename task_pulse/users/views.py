@@ -22,7 +22,7 @@ class UserCompaniesView(mixins.LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return wp_models.Company.objects.filter(
-            companyuser__user=self.request.user,
+            users__user=self.request.user,
         )
 
 

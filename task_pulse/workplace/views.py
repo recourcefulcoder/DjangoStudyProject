@@ -1,3 +1,4 @@
+from core import mixins
 import http
 import json
 
@@ -11,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.views import generic
 from django.views.decorators.http import require_POST
 
-from workplace import forms, mixins, models
+from workplace import forms, models
 
 
 class HomeCompanyView(
@@ -27,7 +28,7 @@ class HomeCompanyView(
         context = super().get_context_data(**kwargs)
         context["task"] = models.Task.objects.filter(
             responsible=context["company_user"],
-            state="active",
+            status="active",
         ).first()
 
         if context["company_user"].role in ["owner", "manager"]:
@@ -75,6 +76,7 @@ class TaskList(
     template_name = "workplace/tasks.html"
     context_object_name = "tasks"
     form_class = forms.TaskCreationForm
+    form_class = forms.TaskCreationForm
 
     def get_queryset(self):
         return (
@@ -88,7 +90,7 @@ class TaskList(
                 "title",
                 "description",
                 "deadline",
-                "state",
+                "status",
                 "author__user__first_name",
                 "author__user__last_name",
                 "author__user__email",
@@ -112,12 +114,26 @@ class TaskList(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["menu_choices"] = list(
-            set(self.object_list.values_list("state", flat=True)),
+            set(self.object_list.values_list("status", flat=True)),
         )
-        active_tasks = self.object_list.filter(state="active")
+        active_tasks = self.object_list.filter(status="active")
         if active_tasks.exists():
             context["active_task"] = active_tasks.first()
         return context
+
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+
+        company_id = self.request.resolver_match.kwargs["company_id"]
+        company_user = self.get_company_user(company_id)
+        task = models.Task(author=company_user)
+
+        return form_class(
+            **self.get_form_kwargs(),
+            instance=task,
+            author=company_user,
+        )
 
 
 class TaskCreationForm(
@@ -275,7 +291,7 @@ class InviteMember(
 
 @require_POST
 @login_required
-def change_task_state(request, company_id):
+def change_task_status(request, company_id):
     company_user = models.CompanyUser.objects.get(
         user=request.user,
     )
@@ -287,15 +303,15 @@ def change_task_state(request, company_id):
 
     data = json.loads(request.body.decode("utf8"))
 
-    if data["state"] == "active":
-        tasks = models.Task.objects.filter(state="active")
+    if data["status"] == "active":
+        tasks = models.Task.objects.filter(status="active")
         if tasks.exists():
             for task in tasks:
-                task.state = "postponed"
+                task.status = "postponed"
                 task.save()
 
     task = models.Task.objects.get(pk=int(data["pk"]))
-    task.state = data["state"]
+    task.status = data["status"]
     task.save()
 
     return HttpResponse("DONE!")

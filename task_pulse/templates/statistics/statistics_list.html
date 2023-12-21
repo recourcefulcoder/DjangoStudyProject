@@ -1,0 +1,63 @@
+{% extends "workplace/base_workplace.html" %}
+{% load static %}
+{% load i18n %}
+{% block main_section %}
+    <section class="users-statistics statistics-section">
+        <div class="section-header">
+            <h1>{% trans "Users Statistics" %}</h1>
+            <button id="create-statistics-button" data-bs-toggle="modal" data-bs-target="#create-user-statistics-modal"><i class="fas fa-plus"></i></button>
+        </div>
+        <div class="modal fade" id="create-user-statistics-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="create-statistics-modal-label">{% trans "Create Statistics" %}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="statistics-form" method="post" action="{% url 'workplace:create_user_statistics' request.resolver_match.kwargs.company_id %}">
+                        {% csrf_token %}
+                        {{ user_form.as_p }}
+                        <button type="submit" class="btn btn-primary">{% trans "Create Statistics" %}</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="statistics-items">
+            {% for item in users_stats_list %}                  
+                <a download href="{{ item.statistics_file.url }}">{% include "includes/user_statistics_card.html" %}</a>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="company-statistics statistics-section">
+        <div class="section-header">
+            <h1>{% trans "Company Statistics" %}</h1>
+            <button id="create-statistics-button" data-bs-toggle="modal" data-bs-target="#create-company-statistics-modal"><i class="fas fa-plus"></i></button>
+        </div>
+        <div class="modal fade" id="create-company-statistics-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="create-statistics-modal-label">{% trans "Create Statistics" %}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="statistics-form" method="post" action="{% url 'workplace:create_company_statistics' request.resolver_match.kwargs.company_id %}">
+                        {% csrf_token %}
+                        {{ company_form.as_p }}
+                        <button type="submit" class="btn btn-primary">{% trans "Create Statistics" %}</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="statistics-items">
+            {% for item in company_stats_list %}                  
+                <a download href="{{ item.statistics_file.url }}">{% include "includes/company_statistics_card.html" %}</a>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <script src="{% static 'js/statistics.js' %}"></script>
+{% endblock main_section %}

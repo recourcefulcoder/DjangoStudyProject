@@ -13,6 +13,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
+    background-color: rgb(248, 248, 250);
 }
 header {
     background-color: #ffffff;
@@ -23,7 +24,22 @@ header {
     font-size: 18px;
     justify-content: space-between;
     align-items: center;
-}   
+}  
+
+header .btn{
+    position: relative;
+    color: #000000;
+    padding: 10px 20px;
+    background-color: white;
+    margin: 0 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}  
+
+header .btn:hover{
+    background-color: #006DDF;
+    color: #ffffff;  
+}  
     
 footer {
     background-color: #bdbdbd;
@@ -83,15 +99,16 @@ nav a:last-child::after {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    color: #000000;
+    color: #ffffff;
     font-size: 18px;
-    background-color: #ffffff;
+    background-color: #006DDF;
     border-radius: 5px;
+    border: none;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .btn:hover {
-    background-color: #006DDF;
+    background-color: #3C94EF;
     color: #ffffff;
 }
 
@@ -199,18 +216,22 @@ ul {
 .main-frame {
     flex: 1;
     display: flex;
-    margin: 10px;
     margin-left: 50px;
 }
 .main-frame section {
     flex: 1;
     min-width: 250px;
-    padding: 20px;
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+.main-frame section div{
+    padding: 15px 30px;
+}
+
 .main-frame section h1{
-    opacity: 0.6;
+    opacity: 0.6;   
     font-size: 28px;
+    margin-bottom: 0;
 }
 .sidebar.collapsed {
     width: 50px;
@@ -361,7 +382,7 @@ ul {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
 }
 
 .login-form {
@@ -509,7 +530,139 @@ ul {
     cursor: pointer;
   }
   
-/* Add some responsive design */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #close-modal-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+/*------------- Statistics styles -------------*/
+
+.section-header {
+    display: inline-flex;
+    margin-bottom: 10px;
+    width: 100%;
+    border-bottom: 1px solid rgb(225, 225, 225);
+    background-color: white;
+}
+
+.section-header button {
+    margin-left: auto;
+    font-size: 16px;
+    padding: 5px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: #006DDF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.section-header button:hover {
+    background-color: #3C94EF;
+    color: white;
+}
+  
+.statistics-section {
+    justify-content: space-between;
+}
+
+.statistics-items {
+    padding: 15px;
+    height: 90vh;
+    overflow-y: hidden;
+}
+
+.statistics-items.scrollable {
+    overflow-y: scroll;
+}
+
+.statistics-item {
+    margin-bottom: 20px;
+}
+
+.statistics-item p{
+    margin-bottom: 0;
+}
+
+.statistics-card {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.statistics-card:hover {
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+}
+
+#create-statistics-button {
+    background-color: #006DDF;
+}
+
+#create-statistics-button:hover {
+    background-color: #3C94EF;
+}
+
+.statistics-form input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.statistics-form span {
+    display: none;
+}
+
+label[for=id_include_tasks] {
+    padding-bottom: 15px;
+}       
+
+p:has(> input[type=checkbox]) {
+    display: flex;
+}
+
+.statistics-form input[type=checkbox] {
+    margin: 0px 15px;
+    width: 20px;
+    height: 20px;
+}
+.user-statistics-item {
+    display: flex;
+}
+.user-statistics-item p:last-child {
+    margin-left: auto;
+}
+.statistics-item {
+    padding: 15px;
+    background-color: white;    
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease-in-out;
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.15);
+}
+
+/*--------- Add some responsive design ---------*/
 @media (max-width: 768px) {
     .side-menu {
         width: 100%;
