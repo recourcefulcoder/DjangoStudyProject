@@ -38,7 +38,7 @@ class CompanyStatistics(models.Model):
     company = models.ForeignKey(
         wp_models.Company,
         on_delete=models.CASCADE,
-        verbose_name=_("company")
+        verbose_name=_("company"),
     )
     include_users = models.BooleanField(
         _("include users"),
@@ -66,4 +66,3 @@ class CompanyStatistics(models.Model):
         help_text=_("Date of creation company statistics report"),
         auto_now_add=True,
     )
-    

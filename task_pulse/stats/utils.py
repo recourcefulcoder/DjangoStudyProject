@@ -49,7 +49,14 @@ def create_user_statistics(
     return content
 
 
-def create_company_statistics(company, include_users, date_from, date_to, include_tasks=False, **kwargs):
+def create_company_statistics(
+    company,
+    include_users,
+    date_from,
+    date_to,
+    include_tasks=False,
+    **kwargs,
+):
     queryset = company.users.filter(
         role="employee",
     ).prefetch_related(
@@ -57,10 +64,16 @@ def create_company_statistics(company, include_users, date_from, date_to, includ
             "tasks",
             queryset=wp_models.Task.objects.filter(
                 models.Q(created_at__gte=date_from, deadline__lte=date_to)
-            | models.Q(status__in=["in_process", "on_checking", "rejected"])
-            | models.Q(created_at__gte=date_from, completed_at__lte=date_to),
-            )
-        ) 
+                | models.Q(
+                    status__in=["in_process", "on_checking", "rejected"],
+                )
+                | models.Q(
+                    created_at__gte=date_from,
+                    completed_at__lte=date_to,
+                ),
+            ),
+        ),
     )
+    print(queryset)
 
     return {}

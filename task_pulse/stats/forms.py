@@ -20,7 +20,6 @@ class CreateUserStatisticsForm(forms.ModelForm):
 
 
 class CreateCompanyStatisticsForm(forms.ModelForm):
-
     class Meta:
         model = models.CompanyStatistics
         exclude = [

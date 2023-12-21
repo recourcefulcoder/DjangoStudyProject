@@ -1,5 +1,4 @@
 import json
-from typing import Any
 
 from core import mixins
 from django.core.files.base import ContentFile
@@ -40,7 +39,7 @@ class CreateUserStatistics(
                 args=(request.resolver_match.kwargs["company_id"],),
             ),
         )
-    
+
 
 class CreateCompanyStatistics(
     mixins.CompanyManagerRequiredMixin,
@@ -56,7 +55,10 @@ class CreateCompanyStatistics(
                 id=self.request.resolver_match.kwargs["company_id"],
             )
             statistics_report = form.save(commit=False)
-            statistics_data = utils.create_company_statistics(company=company, **form.cleaned_data)
+            statistics_data = utils.create_company_statistics(
+                company=company,
+                **form.cleaned_data,
+            )
             json_data = json.dumps(statistics_data, ensure_ascii=False).encode(
                 "utf-8",
             )
@@ -88,7 +90,9 @@ class StatisticsListView(
         kwargs["user_form"] = forms.CreateUserStatisticsForm
         kwargs["company_form"] = forms.CreateCompanyStatisticsForm
 
-        kwargs["users_stats_list"] = models.CompanyUserStatistics.objects.filter(
+        kwargs[
+            "users_stats_list"
+        ] = models.CompanyUserStatistics.objects.filter(
             user__company__id=self.request.resolver_match.kwargs["company_id"],
             user__role="employee",
         )
@@ -97,4 +101,3 @@ class StatisticsListView(
         )
 
         return super().get_context_data(**kwargs)
-
