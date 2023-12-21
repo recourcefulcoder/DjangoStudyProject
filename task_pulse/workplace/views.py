@@ -12,6 +12,7 @@ from django.views import generic
 from django.views.decorators.http import require_POST
 
 from workplace import forms, mixins, models
+import workplace.utils
 
 
 class HomeCompanyView(
@@ -111,8 +112,16 @@ class TaskList(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["menu_choices"] = list(
-            set(self.object_list.values_list("state", flat=True)),
+        menu_choices = list(
+            set(
+                self.object_list.exclude(state="active").values_list(
+                    "state",
+                    flat=True,
+                ),
+            ),
+        )
+        context["menu_choices"] = workplace.utils.sort_menu_choices(
+            menu_choices,
         )
         active_tasks = self.object_list.filter(state="active")
         if active_tasks.exists():
@@ -298,4 +307,4 @@ def change_task_state(request, company_id):
     task.state = data["state"]
     task.save()
 
-    return HttpResponse("DONE!")
+    return HttpResponse("DONE!", http.HTTPStatus.OK)

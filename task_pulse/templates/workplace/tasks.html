@@ -51,63 +51,70 @@
     {% endif %}
     {% if active_task != none %}
       <h4>{% trans "Your active task:" %}</h4>
-      {% include "includes/task_card.html" with task=active_task%}
+      {% include "includes/task_card.html" with task=active_task manipulation_allowed=True%}
     {% else %}
     {% endif %}
     <h1>{% trans "Tasks" %}</h1>
     <div class="task-tab-widget overflow-auto h-75">
       <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#stage_given" type="button" role="tab" aria-controls="stage_given" aria-selected="true">{% trans "Current" %}</button>
-              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "On checking" %}</button>
+              {% for choice in menu_choices %}
+                <button class="nav-link {% if forloop.first %}active{% endif %}" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#stage_{{choice}}" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans choice %}</button>
+              {% endfor %}
+              
           </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="stage_given" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-          {% if company_user.role == "manager" or company_user.role == "owner" %}
-            <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
-            <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="create-task-modal-label">{% trans "Create Task" %}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
+        {% for state in menu_choices %}
+          <div class="tab-pane fade show {% if forloop.first %}active{% endif %}" id="stage_{{state}}" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            {% if company_user.role == "manager" or company_user.role == "owner" %}
+              <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
+              <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="create-task-modal-label">{% trans "Create Task" %}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                       <form method="post" 
                             action="{% url 'workplace:create_task' request.resolver_match.kwargs.company_id %}">
-                          {% csrf_token %}
-                          {{ form.as_p }}
-                          <button type="submit" class="btn btn-primary">{% trans "Create Task" %}</button>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">{% trans "Create Task" %}</button>
                       </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          {% endif %}
-            {% for task in tasks %}
+            {% endif %}
+            {% for task in tasks %}            
+              {% if task.state == state %}
                   {% include "includes/task.html"%}
-                  <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          {% include "includes/task_card.html" with hidden=true %}
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
-                        </div>
+                <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        {% include "includes/task_card.html" with title_hidden=True %}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
                       </div>
                     </div>
                   </div>
+                </div>
+              {% endif %}
             {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </section>
+
   <script>
   function isString(variable) { 
       return typeof (variable) === 'string'; 
@@ -157,6 +164,7 @@
               if (xhr.status >= 200 && xhr.status < 400) {
                   // Handle the success response (e.g., update UI)
                   console.log(xhr.responseText);
+                  location.reload();
               } else {
                   // Handle the error (e.g., display an error message)
                   console.error(xhr.statusText);
@@ -171,13 +179,11 @@
               pk: taskId,
               state: newState,
           }));
-          location.reload();
+          
         }
       });
      });
     });
   </script>  
-
-
     
 {% endblock main_section %}

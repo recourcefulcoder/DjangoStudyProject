@@ -1,12 +1,49 @@
 {% load i18n %}
 
 <div class="card mb-3">
-  <div class="card-body">
-    {{hidden}}
-    <h5 class="card-title">{% if hidden == None %}{{ task.title }}{% endif %}</h5>
-    <p class="card-text"><strong>{% trans "Description" %}:</strong> {{ task.description }}</p>
-    <p class="card-text"><strong>{% trans "Author" %}:</strong> {{ task.author.user.last_name }} {{ task.author.user.first_name }}</p>
-    <p class="card-text"><strong>{% trans "Author email" %}:</strong> {{ task.author.user.email }}</p>
-    <p class="card-text"><strong>{% trans "Deadline" %}:</strong> {{ task.deadline }}</p>
+  <div class="card-body d-flex align-items-end">
+    <div class="col">
+      <h5 class="card-title">{% if not title_hidden %}{{ task.title }}{% endif %}</h5>  
+      <p class="card-text"><strong>{% trans "Description" %}:</strong> 
+        {% if task.description|length == 0 %}<em>No description provided</em>{% else %}{{ task.description }}{% endif %}
+      </p>
+      <p class="card-text"><strong>{% trans "Author" %}:</strong> {{ task.author.user.last_name }} {{ task.author.user.first_name }}</p>
+      <p class="card-text"><strong>{% trans "Author email" %}:</strong> {{ task.author.user.email }}</p>
+      <p class="card-text"><strong>{% trans "Deadline" %}:</strong> {{ task.deadline }}</p>
+    </div>
+    
+    {% if manipulation_allowed %}
+    <div class="col-2 text-end ">
+      <button class="btn btn-primary" id="manipulateButton" data-bs-toggle="modal" data-bs-target="#manipWindowActive">
+          <i class="fas fa-cogs"></i>
+      </button>
+    </div>
+    {% endif %}
   </div>
 </div>
+
+{% if manipulation_allowed %}
+  <div class="modal fade" id="manipWindowActive" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "What to do with the task?" %}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="btn-group" role="group" aria-label="Task Actions">
+            {% if task.state != "active"%}
+              <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="active">{% trans "Activate Task" %}</button>
+            {% else %}
+              <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="postponed">{% trans "Postpone" %}</button>
+              <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="review">{% trans "Send for Review" %}</button>
+            {% endif %}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
