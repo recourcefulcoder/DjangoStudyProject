@@ -39,7 +39,7 @@
     </section> {% endcomment %}
 
     {% comment %} Эту красивую заглушку пока оставил, она ещё наверняка пригодится. {% endcomment %}
-  <section class="task-section">
+  <section class="task-section h-50">
     {% if messages %}
       {% for message in messages %}
         <div class="alert alert-dismissible fade show alert-info alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}" 
@@ -48,10 +48,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       {% endfor %}
-      
+    {% endif %}
+    {% if active_task != none %}
+      <h4>{% trans "Your active task:" %}</h4>
+      {% include "includes/task_card.html" with task=active_task%}
+    {% else %}
     {% endif %}
     <h1>{% trans "Tasks" %}</h1>
-    <div class="task-tab-widget overflow-auto h-50">
+    <div class="task-tab-widget overflow-auto h-75">
       <nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
               <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#stage_given" type="button" role="tab" aria-controls="stage_given" aria-selected="true">{% trans "Current" %}</button>
@@ -81,29 +85,99 @@
               </div>
             </div>
           {% endif %}
-          {% for task in tasks %}
-              {% include "includes/task.html"%}
-              <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      {% include "includes/task_card.html" with hidden=true %}
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+            {% for task in tasks %}
+                  {% include "includes/task.html"%}
+                  <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          {% include "includes/task_card.html" with hidden=true %}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-          {% endfor %}
+            {% endfor %}
         </div>
       </div>
     </div>
   </section>
-  
+  <script>
+  function isString(variable) { 
+      return typeof (variable) === 'string'; 
+  }
+
+  function replaceLastOccurrenceInString(input, find, replaceWith) {
+      if (!isString(input) || !isString(find) || !isString(replaceWith)) {
+          // returns input on invalid arguments
+          return input;
+      }
+
+      const lastIndex = input.lastIndexOf(find);
+      if (lastIndex < 0) {
+          return input;
+      }
+
+      return input.substr(0, lastIndex) + replaceWith + input.substr(lastIndex + find.length);
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var buttons = document.querySelectorAll('.change-state-btn');
+    {% comment %} var company_id = request.resolver_match.kwargs.company_id; {% endcomment %}
+
+    buttons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        // Extract task ID and new state from the button's data attributes
+        var taskId = button.getAttribute('data-task-id');
+        var newState = button.getAttribute('data-new-state');
+
+        {% comment %} var url = "{% url 'workplace:change_task_state' pk=0 state='active' company_id=5 %}".replace("0", taskId);
+        url = url.replace("active", newState);
+        url = replaceLastOccurrenceInString(url, "5", company_id.toString());
+        console.log(url); {% endcomment %}
+
+        var url = "{% url 'workplace:change_task_state' company_id=request.resolver_match.kwargs.company_id %}"
+
+        // Make an AJAX request to the Django view
+        if (taskId && newState) {
+          console.log(taskId)
+          var xhr = new XMLHttpRequest();
+          
+          xhr.open("POST", url, true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+
+          xhr.onload = function () {
+              if (xhr.status >= 200 && xhr.status < 400) {
+                  // Handle the success response (e.g., update UI)
+                  console.log(xhr.responseText);
+              } else {
+                  // Handle the error (e.g., display an error message)
+                  console.error(xhr.statusText);
+              }
+          };
+
+          xhr.onerror = function () {
+              console.error('Request failed');
+          };
+
+          xhr.send(JSON.stringify({
+              pk: taskId,
+              state: newState,
+          }));
+          location.reload();
+        }
+      });
+     });
+    });
+  </script>  
+
+
     
 {% endblock main_section %}

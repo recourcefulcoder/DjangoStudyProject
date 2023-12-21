@@ -1,10 +1,15 @@
+import http
+import json
+
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.views import generic
+from django.views.decorators.http import require_POST
 
 from workplace import forms, mixins, models
 
@@ -27,8 +32,7 @@ class HomeCompanyView(
 
         if context["company_user"].role in ["owner", "manager"]:
             context["team"] = (
-                models.CompanyUser.objects
-                .select_related("user")
+                models.CompanyUser.objects.select_related("user")
                 .filter(company_id=self.kwargs.get("company_id"))
                 .only(
                     "user__email",
@@ -69,15 +73,26 @@ class TaskList(
     generic.ListView,
 ):
     template_name = "workplace/tasks.html"
-    # model = models.Task
     context_object_name = "tasks"
     form_class = forms.TaskCreationForm
 
     def get_queryset(self):
-        return models.Task.objects.filter(
-            responsible=self.get_company_user(
-                self.request.resolver_match.kwargs["company_id"],
-            ),
+        return (
+            models.Task.objects.select_related("author", "author__user")
+            .filter(
+                responsible=self.get_company_user(
+                    self.request.resolver_match.kwargs["company_id"],
+                ),
+            )
+            .only(
+                "title",
+                "description",
+                "deadline",
+                "state",
+                "author__user__first_name",
+                "author__user__last_name",
+                "author__user__email",
+            )
         )
 
     def get_form(self, form_class=None):
@@ -96,7 +111,12 @@ class TaskList(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["menu_choices"] = list(set(self.object_list.values_list("state", flat=True)))
+        context["menu_choices"] = list(
+            set(self.object_list.values_list("state", flat=True)),
+        )
+        active_tasks = self.object_list.filter(state="active")
+        if active_tasks.exists():
+            context["active_task"] = active_tasks.first()
         return context
 
 
@@ -251,3 +271,31 @@ class InviteMember(
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+
+@require_POST
+@login_required
+def change_task_state(request, company_id):
+    company_user = models.CompanyUser.objects.get(
+        user=request.user,
+    )
+    if company_user.company.id != company_id:
+        return HttpResponse(
+            _("access forbidden: you are not user of this company!"),
+            http.HTTPStatus.FORBIDDEN,
+        )
+
+    data = json.loads(request.body.decode("utf8"))
+
+    if data["state"] == "active":
+        tasks = models.Task.objects.filter(state="active")
+        if tasks.exists():
+            for task in tasks:
+                task.state = "postponed"
+                task.save()
+
+    task = models.Task.objects.get(pk=int(data["pk"]))
+    task.state = data["state"]
+    task.save()
+
+    return HttpResponse("DONE!")

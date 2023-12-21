@@ -5,11 +5,13 @@
 {% block main_section %}
   <div class="container">
     <div class="row">
-      <div class="col">{% if company_user.role == "owner" %}
-      {% trans "Create new task here" %}
-      {% else %}
-      {% trans "Your current task" %}
-      {% endif %}</div>
+      <div class="col">
+        {% if company_user.role == "owner" %}
+          {% trans "Create new task here" %}
+        {% else %}
+          {% trans "Your current task" %}
+        {% endif %}
+      </div>
       {% if company_user.role == "owner" or company_user.role == "manager" %}
         <div class="col">{% trans "Team" %}</div>
       {% endif %}
