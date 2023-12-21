@@ -26,7 +26,7 @@
         {% endif %}
       {% endif %}
       {% if company_user.role == "owner" or company_user.role == "manager" %}
-          <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
+          <button class="btn btn-primary" id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
           <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -35,13 +35,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    {% include "includes/form.html" with submit_name="Create Task" msg_inside=false %}
+                    {% include "includes/form.html" with submit_name="Create Task" msg_inside=False %}
                   </div>
                 </div>
               </div>
           </div>
         {% endif %}
-      
       </div>
       {% if company_user.role == "owner" or company_user.role == "manager" %}
         <div class="col">

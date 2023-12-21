@@ -7,17 +7,28 @@
       <p class="card-text"><strong>{% trans "Description" %}:</strong> 
         {% if task.description|length == 0 %}<em>No description provided</em>{% else %}{{ task.description }}{% endif %}
       </p>
-      <p class="card-text"><strong>{% trans "Author" %}:</strong> {{ task.author.user.last_name }} {{ task.author.user.first_name }}</p>
-      <p class="card-text"><strong>{% trans "Author email" %}:</strong> {{ task.author.user.email }}</p>
+      <h6>{% trans "Author" %}</h6>
+      <p class="card-text"><strong>{% trans "name" %}:</strong> {{ task.author.user.last_name }} {{ task.author.user.first_name }}</p>
+      <p class="card-text"><strong>{% trans "email" %}:</strong> {{ task.author.user.email }}</p>
+      {% if task.review_responsible != None %}
+        {% trans "Reviewer" %}
+        <p class="card-text"><strong>{% trans "name" %}:</strong> 
+          {{ task.review_responsible.user.last_name }} {{ task.review_responsible.user.first_name }}
+        </p>
+        <p class="card-text"><strong>{% trans "email" %}:</strong> {{ task.review_responsible.user.email }}</p>
+      {% endif %}
       <p class="card-text"><strong>{% trans "Deadline" %}:</strong> {{ task.deadline }}</p>
+      {% if task.state == "rejected" %}
+        <p class="card-text"><strong>{% trans "Reject message" %}:</strong> {{ task.review.message }}</p>
+      {% endif %}
     </div>
     
     {% if manipulation_allowed %}
-    <div class="col-2 text-end ">
-      <button class="btn btn-primary" id="manipulateButton" data-bs-toggle="modal" data-bs-target="#manipWindowActive">
-          <i class="fas fa-cogs"></i>
-      </button>
-    </div>
+      <div class="col-2 text-end ">
+        <button class="btn btn-primary" id="manipulateButton" data-bs-toggle="modal" data-bs-target="#manipWindowActive">
+            <i class="fas fa-cogs"></i>
+        </button>
+      </div>
     {% endif %}
   </div>
 </div>
@@ -36,7 +47,12 @@
               <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="active">{% trans "Activate Task" %}</button>
             {% else %}
               <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="postponed">{% trans "Postpone" %}</button>
-              <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="review">{% trans "Send for Review" %}</button>
+              {% if task.review_responsible == None %}
+                <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="completed">{% trans "Mark as completed" %}</button>
+              {% else %}
+                <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="review">{% trans "Send for Review" %}</button>
+              {% endif %}
+              
             {% endif %}
           </div>
         </div>

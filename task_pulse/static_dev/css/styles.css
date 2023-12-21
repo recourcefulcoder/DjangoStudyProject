@@ -90,11 +90,6 @@ nav a:last-child::after {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.btn:hover {
-    background-color: #006DDF;
-    color: #ffffff;
-}
-
 .hero-section {
     background-color: #f4f4f4;
     padding: 50px;

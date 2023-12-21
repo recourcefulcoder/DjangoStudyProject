@@ -7,6 +7,7 @@ app_name = "workplace"
 
 urlpatterns = [
     path("tasks/", views.TaskList.as_view(), name="tasks"),
+    path("reviews/", views.ReviewList.as_view(), name="review"),
     path(
         "home/",
         views.HomeCompanyView.as_view(),
@@ -20,7 +21,6 @@ urlpatterns = [
         name="calendar",
     ),
     path("invite_member/", views.InviteMember.as_view(), name="send_invite"),
-    path("create_task/", views.TaskCreationForm.as_view(), name="create_task"),
     path("change_task/", views.change_task_state, name="change_task_state"),
     path(
         "settings/company/",

@@ -32,6 +32,15 @@ class TaskCreationForm(django.forms.ModelForm):
         }
 
 
+class ReviewRejectForm(django.forms.ModelForm):
+    class Meta:
+        model = models.Review
+        fields = "__all__"
+        widgets = {
+            models.Review.task.field.name: django.forms.HiddenInput(),
+        }
+
+
 class CompanyUpdateForm(django.forms.ModelForm):
     class Meta:
         model = models.Company
@@ -77,10 +86,6 @@ class CompanyScheduleForm(django.forms.Form):
 
     start_time = django.forms.TimeField(widget=django.forms.TimeInput)
     end_time = django.forms.TimeField(widget=django.forms.TimeInput)
-
-
-class TaskStageForm(django.forms.Form):
-    pass
 
 
 class InviteMemberForm(django.forms.Form):

@@ -2,43 +2,6 @@
 {% load static %}
 {% load i18n %}
 {% block main_section %}
-    {% comment %} <section class="task-section">
-        <h1>{% trans "Tasks" %}</h1>
-        <div class="task-tab-widget">
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">{% trans "Current" %}</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "On checking" %}</button>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-                    <div class="task-item">
-                        <h4>Название задачи 1</h4>
-                    </div>
-                    <div class="task-item">
-                        <h4>Название задачи 2</h4>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                    <div class="task-item">
-                        <h4>Название задачи 3</h4>
-                    </div>
-                    <div class="task-item">
-                        <h4>Название задачи 4</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="task-section">
-        <h1>{% trans "Ended tasks" %}</h1>
-        <div class="completed-task-item">
-            <h4>Название задачи</h4>
-        </div>
-    </section> {% endcomment %}
-
-    {% comment %} Эту красивую заглушку пока оставил, она ещё наверняка пригодится. {% endcomment %}
   <section class="task-section h-50">
     {% if messages %}
       {% for message in messages %}
@@ -90,7 +53,7 @@
             {% endif %}
             {% for task in tasks %}            
               {% if task.state == state %}
-                  {% include "includes/task.html"%}
+                {% include "includes/task.html"%}
                 <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -136,18 +99,12 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var buttons = document.querySelectorAll('.change-state-btn');
-    {% comment %} var company_id = request.resolver_match.kwargs.company_id; {% endcomment %}
 
     buttons.forEach(function (button) {
       button.addEventListener('click', function () {
         // Extract task ID and new state from the button's data attributes
         var taskId = button.getAttribute('data-task-id');
         var newState = button.getAttribute('data-new-state');
-
-        {% comment %} var url = "{% url 'workplace:change_task_state' pk=0 state='active' company_id=5 %}".replace("0", taskId);
-        url = url.replace("active", newState);
-        url = replaceLastOccurrenceInString(url, "5", company_id.toString());
-        console.log(url); {% endcomment %}
 
         var url = "{% url 'workplace:change_task_state' company_id=request.resolver_match.kwargs.company_id %}"
 

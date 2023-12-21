@@ -10,7 +10,7 @@
             <span class="icon"><i class="fas fa-info"></i></span>
         </button>
 
-        {% if task.state != "review" %}
+        {% if task.state != "review" and task.state != "completed" %}
           <button type="button" class="btn btn-outline-secondary p-2" data-bs-toggle="modal" data-bs-target="#manipWindow_{{ task.id }}">
             <span class="icon"><i class="fas fa-cog"></i></span>
           </button>
@@ -29,12 +29,7 @@
         </div>
         <div class="modal-body">
           <div class="btn-group" role="group" aria-label="Task Actions">
-            {% if task.state != "active"%}
-              <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="active">{% trans "Activate Task" %}</button>
-            {% else %}
-              <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="postponed">{% trans "Postpone" %}</button>
-              <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="review">{% trans "Send for Review" %}</button>
-            {% endif %}
+            <button type="button" class="btn btn-primary change-state-btn" data-task-id="{{ task.id }}" data-new-state="active">{% trans "Activate Task" %}</button>
           </div>
         </div>
         <div class="modal-footer">
