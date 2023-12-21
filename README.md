@@ -16,7 +16,7 @@ pip install -r requirements/dev.txt
 ```sh
 pip install -r requirements/prod.txt
 ```
-## Установка зависимостей для тестирования проекта
+ для тестирования проекта
 ```sh
 pip install -r requirements/test.txt
 ```
