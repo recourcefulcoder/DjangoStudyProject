@@ -1,0 +1,23 @@
+{% extends "users/profile_base.html" %}
+{% load static %}
+{% load i18n %}
+{% block main_section %}
+    <section class="companies-section">
+        <h2>My invites</h1>
+            {% if invites %}
+            {% for invite in invites %}
+              <div class="col-12 mb-3">
+                    <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ invite.company.name | safe }}</h5>
+                        <p class="card-text">This invite is expited: {{ invite.expire_date }}</p>
+                        <a class="btn" href="{% url "workplace:accept_company_invation" company_id=invite.company.id %}">Accept invtion</a>
+                    </div>
+                    </div>
+              </div>
+            {% endfor %}
+            {% else %}
+              You are not invited to any company.
+            {% endif %}
+    </section>
+{% endblock main_section %}

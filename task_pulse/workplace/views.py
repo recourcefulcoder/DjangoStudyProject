@@ -1,8 +1,10 @@
 from django.contrib import messages
+from django.contrib.auth import mixins as auth_mixins
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
 from django.views import generic
 
+from users import models as us_models
 from workplace import forms, mixins, models
 
 
@@ -66,3 +68,21 @@ class TaskCreationForm(
             instance=task,
             author=company_user,
         )
+
+
+class AcceptCompanyInvite(
+    auth_mixins.LoginRequiredMixin,
+    generic.TemplateView,
+):
+    def get(self, request, *args, **kwargs):
+        invite = us_models.Invite.objects.get(
+            invited_user_email=request.user.email,
+            company=models.Company.objects.get(id=kwargs["company_id"]),
+        )
+        models.CompanyUser.objects.get_or_create(
+            user=request.user,
+            company=models.Company.objects.get(id=kwargs["company_id"]),
+            role=invite.assigned_role,
+        )
+        invite.delete()
+        return redirect("workplace:home", company_id=kwargs["company_id"])
