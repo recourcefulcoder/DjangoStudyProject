@@ -6,9 +6,17 @@ from django.utils import html, timezone
 from django.utils.translation import gettext_lazy as _
 from sorl import thumbnail
 
+from workplace import models as wp_models
+
 
 def get_user_media_path(instance, filename):
     return f"""users/{instance.id}/profile_image.{filename.split(".")[-1]}"""
+
+
+INVITE_ROLE_CHOISES = (
+    ("manager", "Manager"),
+    ("employee", "Employee"),
+)
 
 
 class UserManager(auth_models.BaseUserManager):
@@ -123,3 +131,30 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
+
+
+class Invite(models.Model):
+    invited_user_email = models.EmailField(
+        verbose_name=_("invited_user_email"),
+    )
+    company = models.ForeignKey(
+        wp_models.Company,
+        on_delete=models.CASCADE,
+        verbose_name=_("company"),
+    )
+    expire_date = models.DateField(
+        null=True,
+        verbose_name=_("expire_date"),
+        default=None,
+    )
+    assigned_role = models.CharField(
+        _("role"),
+        choices=INVITE_ROLE_CHOISES,
+        max_length=20,
+        help_text=_("Role for company user"),
+        default=INVITE_ROLE_CHOISES[0],
+    )
+
+    class Meta:
+        verbose_name = _("invite")
+        verbose_name_plural = _("invites")

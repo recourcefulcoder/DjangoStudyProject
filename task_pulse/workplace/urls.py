@@ -20,7 +20,11 @@ urlpatterns = [
         ),
         name="calendar",
     ),
-    path("invite_member/", wp_views.InviteMember.as_view(), name="send_invite"),
+    path(
+        "invite_member/",
+        wp_views.InviteMember.as_view(),
+        name="send_invite",
+    ),
     path(
         "statistics/",
         stats_views.StatisticsListView.as_view(),
@@ -41,7 +45,11 @@ urlpatterns = [
         stats_views.CreateCompanyStatistics.as_view(),
         name="create_company_statistics",
     ),
-    path("change_task/", wp_views.change_task_status, name="change_task_status"),
+    path(
+        "change_task/",
+        wp_views.change_task_status,
+        name="change_task_status",
+    ),
     path(
         "settings/company/",
         wp_views.CompanyProfile.as_view(),
@@ -52,5 +60,10 @@ urlpatterns = [
         "settings/schedule/",
         wp_views.ScheduleView.as_view(),
         name="settings_schedule",
+    ),
+    path(
+        "company_invite/",
+        wp_views.AcceptCompanyInvite.as_view(),
+        name="accept_company_invation",
     ),
 ]

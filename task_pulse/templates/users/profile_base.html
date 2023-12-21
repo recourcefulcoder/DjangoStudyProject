@@ -12,13 +12,16 @@
                 <li>
                     <a href="{% url "users:profile" %}" class="{% if view_name == 'users:profile' %}active{% endif %}">
                         <span class="item">{% trans "Profile" %}</span>
-                        {% comment %} <span class="icon"><i class="fas fa-tasks"></i></span> {% endcomment %}
                     </a>
                 </li>
                 <li>
                     <a href="{% url "users:companies" %}" class="{% if view_name == 'users:companies' %}active{% endif %}">
                         <span class="item">{% trans "My Companies" %}</span>
-                        {% comment %} TODO <span class="icon"><i class="fas fa-home"></i></span> {% endcomment %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "users:invites" %}" class="{% if view_name == 'users:invites' %}active{% endif %}">
+                        <span class="item">{% trans "My Invites" %}</span>
                     </a>
                 </li>
             </ul>

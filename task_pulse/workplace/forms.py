@@ -1,4 +1,3 @@
-from django import forms
 from django.core.exceptions import ImproperlyConfigured
 import django.forms
 from django.utils.translation import gettext as _

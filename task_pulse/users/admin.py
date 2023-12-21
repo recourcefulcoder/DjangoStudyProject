@@ -11,3 +11,6 @@ class UserAdmin(admin.ModelAdmin):
         models.User.email.field.name,
         models.User.password.field.name,
     ]
+
+
+admin.site.register(models.Invite)

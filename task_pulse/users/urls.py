@@ -25,4 +25,10 @@ urlpatterns = [
         views.CreateCompanyView.as_view(),
         name="create_company",
     ),
+    path(
+        "company_invite/<int:company_id>",
+        views.InviteToCompanyView.as_view(),
+        name="company_invite",
+    ),
+    path("invites/", views.UserInvitesListView.as_view(), name="invites"),
 ]

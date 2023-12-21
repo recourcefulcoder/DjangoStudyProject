@@ -130,3 +130,30 @@ class TestUsersProfileView(TestCase):
     def test_create_company_form_in_context(self):
         response = self.client.get(reverse_lazy("users:create_company"))
         self.assertIn("form", response.context)
+
+
+class TestUserInvitesView(TestCase):
+    fixtures = ["fixtures/users.json"]
+
+    def setUp(self):
+        self.client = Client()
+        logged = self.client.login(email="test@test.com", password="admin")
+        self.assertTrue(
+            logged,
+            "user is not logged in, check password and email",
+        )
+
+    def tearDown(self):
+        self.client.logout()
+
+    def test_user_invites_context(self):
+        response = self.client.get(
+            reverse_lazy(
+                "users:invites",
+            ),
+        )
+        self.assertIn("invites", response.context)
+
+    def test_user_invites_status_code(self):
+        response = self.client.get(reverse_lazy("users:create_company"))
+        self.assertEqual(response.status_code, HTTPStatus.OK)

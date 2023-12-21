@@ -1,8 +1,9 @@
-from core import mixins
 import http
 import json
 
+from core import mixins
 from django.contrib import messages
+from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse, HttpResponseRedirect
@@ -12,6 +13,7 @@ from django.utils.translation import gettext as _
 from django.views import generic
 from django.views.decorators.http import require_POST
 
+from users import models as us_models
 from workplace import forms, models
 
 
@@ -120,20 +122,6 @@ class TaskList(
         if active_tasks.exists():
             context["active_task"] = active_tasks.first()
         return context
-
-    def get_form(self, form_class=None):
-        if form_class is None:
-            form_class = self.get_form_class()
-
-        company_id = self.request.resolver_match.kwargs["company_id"]
-        company_user = self.get_company_user(company_id)
-        task = models.Task(author=company_user)
-
-        return form_class(
-            **self.get_form_kwargs(),
-            instance=task,
-            author=company_user,
-        )
 
 
 class TaskCreationForm(
@@ -315,3 +303,21 @@ def change_task_status(request, company_id):
     task.save()
 
     return HttpResponse("DONE!")
+
+
+class AcceptCompanyInvite(
+    auth_mixins.LoginRequiredMixin,
+    generic.TemplateView,
+):
+    def get(self, request, *args, **kwargs):
+        invite = us_models.Invite.objects.get(
+            invited_user_email=request.user.email,
+            company=models.Company.objects.get(id=kwargs["company_id"]),
+        )
+        models.CompanyUser.objects.get_or_create(
+            user=request.user,
+            company=models.Company.objects.get(id=kwargs["company_id"]),
+            role=invite.assigned_role,
+        )
+        invite.delete()
+        return redirect("workplace:home", company_id=kwargs["company_id"])
