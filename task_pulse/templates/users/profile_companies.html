@@ -7,16 +7,16 @@
         <h2>{% trans "My Companies" %}</h1>
         <div class="row">
           {% for message in messages %}
-            <div class="alert alert-success">
+            <div class="alert alert-{% if message.tag == 'success' %}success{% else %}danger{% endif %}">
               {{ message }}
             </div>
           {% endfor %}
             {% for company in companies %}
-            {% ifchanged company.role.1 %}
-                <h3>
-                  Companies where i am {{ company.role | safe }} {# need to fix role storing #}
-                </h3>
-            {% endifchanged %}
+              {% ifchanged company.role.1 %}
+                  <h3>
+                    Companies where i am {{ company.role | safe }} {# need to fix role storing #}
+                  </h3>
+              {% endifchanged %}
               <div class="col-12 mb-3">
                 <a href="{% url 'workplace:home' company_id=company.id %}">
                   <div class="card">

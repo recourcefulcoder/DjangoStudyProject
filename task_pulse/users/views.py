@@ -66,13 +66,27 @@ class InviteToCompanyInterface(mixins.LoginRequiredMixin, generic.FormView):
     form_class = forms.InviteToCompanyForm
 
     def form_valid(self, form):
-        messages.add_message(
-            self.request,
-            messages.SUCCESS,
-            _("Пользователь успешно приглашен в компанию!"),
+        invited_email = form.cleaned_data["invited_user_email"]
+
+        if self.request.user.email == invited_email:
+            messages.error(
+                self.request,
+                _("Forbidden to add yourself!"),
+            )
+            return super().form_valid(form)
+
+        if models.Invite.objects.filter(
+            invited_user_email=invited_email,
+        ).exists():
+            messages.error(
+                self.request,
+                _("Already invited user provided!"),
+            )
+            return super().form_valid(form)
+
+        company = wp_models.Company.objects.get(
+            pk=self.kwargs.get("company_id"),
         )
-        # TODO проверка на приглашение себе
-        company = wp_models.Company.objects.get(pk=self.kwargs["company_id"])
         pure_expire_date = int(form.cleaned_data["expire_date"])
         if pure_expire_date > 0:
             expire_date = datetime.date.today() + datetime.timedelta(
@@ -80,13 +94,22 @@ class InviteToCompanyInterface(mixins.LoginRequiredMixin, generic.FormView):
             )
         else:
             expire_date = None
+
         invite = models.Invite.objects.create(
             invited_user_email=form.cleaned_data["invited_user_email"],
             expire_date=expire_date,
+            assigned_role=form.cleaned_data["assigned_role"],
             company=company,
         )
         invite.clean()
         invite.save()
+
+        messages.success(
+            self.request,
+            _("User successfully invited to team!"),
+        )
+
+        invite.send_email()
         return super().form_valid(form)
 
 
