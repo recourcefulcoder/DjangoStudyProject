@@ -104,6 +104,15 @@ class Task(models.Model):
         related_name="tasks",
     )
 
+    review_responsible = models.ForeignKey(
+        CompanyUser,
+        verbose_name=_("responsible for review"),
+        null=True,
+        on_delete=models.DO_NOTHING,
+        related_name="review_tasks",
+        help_text=_("leave blank if no review specified"),
+    )
+
     author = models.ForeignKey(
         CompanyUser,
         verbose_name=_("created by manager"),
@@ -144,35 +153,28 @@ class Task(models.Model):
 
         return super().save(force_insert, force_update, using, update_fields)
 
+    class Meta:
+        ordering = ["deadline"]
+
     def clean(self):
         # checks whether "manager" field points on a manager or not
         if self.author.role != "manager" and self.author.role != "owner":
             raise ValidationError(
-                "Invalid 'manager' choice - user must be manager!",
+                _("Invalid 'manager' choice - user must be manager!"),
+            )
+        if self.responsible == self.review_responsible:
+            raise ValidationError(
+                _("Reviewer and responsible can't be the same person!"),
             )
 
 
-class TaskStatusChangeLog(models.Model):
-    task = models.ForeignKey(
+class Review(models.Model):
+    task = models.OneToOneField(
         Task,
+        verbose_name=_("task"),
         on_delete=models.CASCADE,
-        verbose_name=_("task object"),
-        related_name="status_changes",
+        related_name="review",
     )
-    from_status = models.CharField(
-        _("from status"),
-        help_text=_("changed from: (task status)"),
-        choices=TASK_STATUS_CHOICES,
-        max_length=20,
-    )
-    to_status = models.CharField(
-        _("to status"),
-        help_text=_("changed to: (task status)"),
-        choices=TASK_STATUS_CHOICES,
-        max_length=20,
-    )
-    changed_at = models.DateTimeField(
-        "change date",
-        help_text=_("status change date"),
-        auto_now_add=True,
+    message = models.TextField(
+        verbose_name=_("review_message"),
     )

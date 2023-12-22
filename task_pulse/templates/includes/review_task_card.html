@@ -1,0 +1,62 @@
+{% load i18n %}
+
+<div class="card mb-3">
+  <div class="card-body d-flex align-items-end">
+    <div class="col">
+      <h5 class="card-title">{% if not title_hidden %}{{ task.title }}{% endif %}</h5>  
+      <p class="card-text"><strong>{% trans "Description" %}:</strong> 
+        {% if task.description|length == 0 %}<em>No description provided</em>{% else %}{{ task.description }}{% endif %}
+      </p>
+      <p class="card-text"><strong>{% trans "Author" %}:</strong> {{ task.author.user.last_name }} {{ task.author.user.first_name }}</p>
+      <p class="card-text"><strong>{% trans "Author email" %}:</strong> {{ task.author.user.email }}</p>
+      <p class="card-text"><strong>{% trans "Deadline" %}:</strong> {{ task.deadline }}</p>
+    </div>
+    
+    <div class="col-2 text-end ">
+      <button class="btn btn-outline-success" id="manipulateButton" data-bs-toggle="modal" data-bs-target="#confirmAccept{{task.id}}">
+          <i class="fas fa-check"></i>
+      </button>
+      <button class="btn btn-outline-danger" id="manipulateButton" data-bs-toggle="modal" data-bs-target="#rejectWindow{{task.id}}">
+          <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmAccept{{task.id}}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Are you sure, that you want to accept the task?" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-success approve-task" data-task-id="{{ task.id }}">{% trans "Confirm" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="rejectWindow{{task.id}}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "What to do with the task?" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-container">
+          <form class="review-form" method="post" action="{% url 'workplace:review' request.resolver_match.kwargs.company_id %}">
+            <input type="hidden" name="task_id" value="{{ task.id }}"> 
+
+            <label for="reviewMessage">{% trans "Provide review message" %}</label>
+            <textarea id="reviewMessage" name="message" rows="10" cols="40"></textarea>
+
+            <button class="btn btn-primary" type="submit">{% trans "Reject task" %}</button>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

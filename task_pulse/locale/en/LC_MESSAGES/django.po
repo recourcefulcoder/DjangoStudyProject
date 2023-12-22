@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-22 23:21+0300\n"
+"POT-Creation-Date: 2023-12-22 22:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,437 +16,424 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
-
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: .\core\mixins.py:23
 msgid "You dont have permission to this page"
-msgstr "У вас нет доступа к этой странице"
+msgstr ""
 
-#: .\stats\models.py:11 .\users\models.py:132 .\workplace\models.py:59
+#: .\stats\models.py:11 .\users\models.py:132 .\workplace\models.py:58
 msgid "user"
-msgstr "пользователь"
+msgstr ""
 
 #: .\stats\models.py:14 .\stats\models.py:48
 msgid "include tasks"
-msgstr "включая задания"
+msgstr ""
 
 #: .\stats\models.py:15
 msgid "Does report include tasks?"
-msgstr "Включает ли отчёт задачи?"
+msgstr ""
 
 #: .\stats\models.py:18
 msgid "user statistics file"
-msgstr "файл статистики пользователя"
+msgstr ""
 
 #: .\stats\models.py:19
 msgid "Path to file with user statistics"
-msgstr "Файл со статистикой пользователя"
+msgstr ""
 
 #: .\stats\models.py:23 .\stats\models.py:57
 msgid "statistics from: (date)"
-msgstr "статистика от: (дата)"
+msgstr ""
 
 #: .\stats\models.py:24
 msgid "Start date user statistics"
-msgstr "Статистика от"
+msgstr ""
 
 #: .\stats\models.py:27 .\stats\models.py:61
 msgid "statistics to: (date)"
-msgstr "статистика до: (дата)"
+msgstr ""
 
 #: .\stats\models.py:28
 msgid "End date user statistics"
-msgstr "Статистика до"
+msgstr ""
 
 #: .\stats\models.py:31 .\stats\models.py:65
 msgid "date of creation"
-msgstr "дата создания"
+msgstr ""
 
 #: .\stats\models.py:32
 msgid "Date of creation user statistics report"
-msgstr "Дата создания отчёта о пользователе"
+msgstr ""
 
-#: .\stats\models.py:41 .\users\models.py:143 .\workplace\models.py:65
+#: .\stats\models.py:41 .\users\models.py:143 .\workplace\models.py:64
 msgid "company"
-msgstr "компания"
+msgstr ""
 
 #: .\stats\models.py:44
 msgid "include users"
-msgstr "включая пользователей"
+msgstr ""
 
 #: .\stats\models.py:45
 msgid "Does report include user statistics in this company?"
-msgstr "Включает ли отчёт статистику пользователей"
+msgstr ""
 
 #: .\stats\models.py:49
 msgid "Does report include user tasks?"
-msgstr "Включает ли отчёт задачи пользователей"
+msgstr ""
 
 #: .\stats\models.py:52
 msgid "company statistics file"
-msgstr "файл статистики компании"
+msgstr ""
 
 #: .\stats\models.py:53
 msgid "Path to file with company statistics"
-msgstr "Файл статистики компании"
+msgstr ""
 
 #: .\stats\models.py:58
 msgid "Start date company statistics"
-msgstr "Дата от"
+msgstr ""
 
 #: .\stats\models.py:62
 msgid "End date company statistics"
-msgstr "Дата до"
+msgstr ""
 
 #: .\stats\models.py:66
 msgid "Date of creation company statistics report"
-msgstr "Дата создания отчёта о компании"
+msgstr ""
 
 #: .\task_pulse\settings.py:108
 msgid "English"
-msgstr "Английский"
+msgstr ""
 
 #: .\task_pulse\settings.py:109
 msgid "Russian"
-msgstr "Русский"
+msgstr ""
 
 #: .\templates\includes\company_statistics_card.html:3
 msgid "Company report from"
-msgstr "Отчёт компании от"
+msgstr ""
 
 #: .\templates\includes\header.html:7
 msgid "Homepage"
-msgstr "Главная"
+msgstr ""
 
 #: .\templates\includes\header.html:8
 msgid "Service"
-msgstr "Сервисы"
+msgstr ""
 
 #: .\templates\includes\header.html:9
 msgid "About"
-msgstr "О нас"
+msgstr ""
 
 #: .\templates\includes\header.html:10
 msgid "Contact"
-msgstr "Контакты"
+msgstr ""
 
 #: .\templates\includes\header.html:14
 msgid "Log Out"
-msgstr "Выйти"
+msgstr ""
 
 #: .\templates\includes\header.html:17 .\templates\users\signup.html:5
 msgid "Sign Up"
-msgstr "Регистрация"
+msgstr ""
 
 #: .\templates\includes\header.html:18 .\templates\users\login.html:9
 msgid "Log In"
-msgstr "Вход"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:7
 #: .\templates\includes\task_card.html:7
 msgid "Description"
-msgstr "Описание"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:10
 #: .\templates\includes\task_card.html:10
 msgid "Author"
-msgstr "Автор"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:11
 msgid "Author email"
-msgstr "Почта автора"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:12
 #: .\templates\includes\task_card.html:20
 msgid "Deadline"
-msgstr "Дедлайн"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:30
 msgid "Are you sure, that you want to accept the task?"
-msgstr "Вы уверены, что хотите принять задание?"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:34
 msgid "Confirm"
-msgstr "Подтвердить"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:44
 #: .\templates\includes\task.html:27 .\templates\includes\task_card.html:41
 msgid "What to do with the task?"
-msgstr "Что сделать с задачей"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:52
 msgid "Provide review message"
-msgstr "Сообщение для пользователя"
+msgstr ""
 
 #: .\templates\includes\review_task_card.html:55
 msgid "Reject task"
-msgstr "Отправить на доработку"
+msgstr ""
 
 #: .\templates\includes\task.html:32 .\templates\includes\task_card.html:47
 msgid "Activate Task"
-msgstr "Создать Задачу"
+msgstr ""
 
 #: .\templates\includes\task_card.html:11
-#: .\templates\includes\task_card.html:15 .\workplace\models.py:30
-#: .\workplace\models.py:86
+#: .\templates\includes\task_card.html:15 .\workplace\models.py:29
+#: .\workplace\models.py:85
 msgid "name"
-msgstr "имя"
+msgstr ""
 
 #: .\templates\includes\task_card.html:12
 #: .\templates\includes\task_card.html:18
 #: .\templates\workplace\settings\team.html:21
 msgid "email"
-msgstr "Почта"
+msgstr ""
 
 #: .\templates\includes\task_card.html:14
 msgid "Reviewer"
-msgstr "Ревьюер"
+msgstr ""
 
 #: .\templates\includes\task_card.html:22
 msgid "Reject message"
-msgstr "Сообщение пользователю"
+msgstr ""
 
 #: .\templates\includes\task_card.html:49
 msgid "Postpone"
-msgstr "Отложить"
+msgstr ""
 
 #: .\templates\includes\task_card.html:51
-#, fuzzy
-#| msgid "complete date"
 msgid "Mark as completed"
-msgstr "дата завершения задачи"
+msgstr ""
 
 #: .\templates\includes\task_card.html:53
 msgid "Send for Review"
-msgstr "На доработку"
+msgstr ""
 
 #: .\templates\includes\user_statistics_card.html:3
 msgid "User report"
-msgstr "Отчёт о пользователе"
+msgstr ""
 
 #: .\templates\statistics\statistics_list.html:7
 msgid "Users Statistics"
-msgstr "Статистика Пользователей"
+msgstr ""
 
 #: .\templates\statistics\statistics_list.html:14
 #: .\templates\statistics\statistics_list.html:21
 #: .\templates\statistics\statistics_list.html:42
 #: .\templates\statistics\statistics_list.html:49
 msgid "Create Statistics"
-msgstr "Создать Отчёт"
+msgstr ""
 
 #: .\templates\statistics\statistics_list.html:35
 msgid "Company Statistics"
-msgstr "Статистика Компании"
+msgstr ""
 
 #: .\templates\statistics\statistics_report_create.html:20
 #: .\templates\workplace\tasks.html:37 .\templates\workplace\tasks.html:44
 msgid "Create Task"
-msgstr "Создать Задачу"
+msgstr ""
 
 #: .\templates\users\login.html:5
 msgid "Login"
-msgstr "Войти"
+msgstr ""
 
 #: .\templates\users\profile_base.html:10
 msgid "Account"
-msgstr "Аккаунт"
+msgstr ""
 
 #: .\templates\users\profile_base.html:14
 #: .\templates\users\profile_settings.html:6
 #: .\templates\workplace\settings\base_settings.html:19
 msgid "Profile"
-msgstr "Профиль"
+msgstr ""
 
 #: .\templates\users\profile_base.html:19
 #: .\templates\users\profile_companies.html:7
 msgid "My Companies"
-msgstr "Мои компании"
+msgstr ""
 
 #: .\templates\users\profile_base.html:24
 msgid "My Invites"
-msgstr "Приглашения"
+msgstr ""
 
 #: .\templates\users\profile_companies.html:33
 msgid "Add Company"
-msgstr "Создать компанию"
+msgstr ""
 
 #: .\templates\users\signup.html:9
 msgid "SignUp"
-msgstr "Зарегистрироваться"
+msgstr ""
 
 #: .\templates\workplace\base_workplace.html:30
 #: .\templates\workplace\base_workplace.html:87
 msgid "Company home"
-msgstr "Главная компании"
+msgstr ""
 
 #: .\templates\workplace\base_workplace.html:38
 #: .\templates\workplace\base_workplace.html:94
 #: .\templates\workplace\tasks.html:16
 msgid "Tasks"
-msgstr "Задачи"
+msgstr ""
 
 #: .\templates\workplace\base_workplace.html:46
 msgid "Calendar"
-msgstr "Календарь"
+msgstr ""
 
 #: .\templates\workplace\base_workplace.html:53
 #: .\templates\workplace\base_workplace.html:101
 msgid "Review"
-msgstr "Проверка"
+msgstr ""
 
 #: .\templates\workplace\base_workplace.html:62
 #: .\templates\workplace\base_workplace.html:119
 msgid "Settings"
-msgstr "Настройки"
+msgstr ""
 
 #: .\templates\workplace\base_workplace.html:69
 #: .\templates\workplace\base_workplace.html:126
 msgid "Exit"
-msgstr "Выйти"
+msgstr ""
 
 #: .\templates\workplace\base_workplace.html:109
 msgid "Statistics"
-msgstr "Статистика"
+msgstr ""
 
 #: .\templates\workplace\calendar.html:6
 msgid "No content here yet:("
-msgstr "Контент отсутствует :("
+msgstr ""
 
 #: .\templates\workplace\home.html:8
-#, fuzzy
-#| msgid "Company home"
 msgid "Company Homepage"
-msgstr "Главная компании"
+msgstr ""
 
 #: .\templates\workplace\home.html:14
 msgid "Your current task"
-msgstr "Текущая задача"
+msgstr ""
 
 #: .\templates\workplace\home.html:18
 msgid "You don't have tracking task now! Track new one on 'tasks' page"
 msgstr ""
-"Вы не выполняете какую-либо задачу. Выберите хотя бы одну на странице задач"
 
 #: .\templates\workplace\review.html:8
 msgid "Reviewed tasks"
-msgstr "Задачи для проверки"
+msgstr ""
 
 #: .\templates\workplace\review.html:12
 msgid "No tasks for review"
-msgstr "Нету задач для проверки"
+msgstr ""
 
 #: .\templates\workplace\settings\base_settings.html:11
 msgid "Company"
-msgstr "Компания"
+msgstr ""
 
 #: .\templates\workplace\settings\base_settings.html:25
 msgid "Project"
-msgstr "Проект"
+msgstr ""
 
 #: .\templates\workplace\settings\base_settings.html:32
 msgid "Schedule"
-msgstr "График"
+msgstr ""
 
 #: .\templates\workplace\settings\base_settings.html:39
 msgid "Team"
-msgstr "Участники"
+msgstr ""
 
 #: .\templates\workplace\settings\company.html:10
 msgid "Edit Company Info"
-msgstr "Обновить данные о компании"
+msgstr ""
 
 #: .\templates\workplace\settings\schedule.html:19
 msgid "Save"
-msgstr "Сохранить"
+msgstr ""
 
 #: .\templates\workplace\settings\team.html:8
 msgid "Company Team"
-msgstr "Участники"
+msgstr ""
 
 #: .\templates\workplace\settings\team.html:13
 msgid "+ Invite new member"
-msgstr "Добавить нового пользователя"
+msgstr ""
 
 #: .\templates\workplace\settings\team.html:20
 msgid "coworker"
-msgstr "Пользователь"
+msgstr ""
 
 #: .\templates\workplace\settings\team.html:22 .\users\models.py:151
-#: .\workplace\models.py:69
+#: .\workplace\models.py:68
 msgid "role"
-msgstr "Роль"
+msgstr ""
 
 #: .\templates\workplace\settings\team.html:50
 msgid "Send invite"
-msgstr "Отправить приглашение"
+msgstr ""
 
 #: .\templates\workplace\tasks.html:18 .\templates\workplace\tasks.html:21
 msgid "Active Task"
-msgstr "Текущая задача"
+msgstr ""
 
 #: .\templates\workplace\tasks.html:59
-#, fuzzy
-#| msgid "You don't have tracking task now! Track new one on 'tasks' page"
 msgid "You don't have tracking task now!"
 msgstr ""
-"Вы не выполняете какую-либо задачу. Выберите хотя бы одну на странице задач"
 
 #: .\templates\workplace\tasks.html:71 .\templates\workplace\tasks.html:110
 msgid "Additional Task Info"
-msgstr "Дополнительная информация о задании"
+msgstr ""
 
 #: .\templates\workplace\tasks.html:99
-#, fuzzy
-#| msgid "include tasks"
 msgid "Ended Tasks"
-msgstr "Завершённые задачи"
+msgstr ""
 
 #: .\users\forms.py:12
 msgid "day"
-msgstr "1 день"
+msgstr ""
 
 #: .\users\forms.py:13
 msgid "tree days"
-msgstr "3 дня"
+msgstr ""
 
 #: .\users\forms.py:14
 msgid "week"
-msgstr "1 неделя"
+msgstr ""
 
 #: .\users\forms.py:15
 msgid "two weeks"
-msgstr "2 недели"
+msgstr ""
 
 #: .\users\forms.py:16
 msgid "month"
-msgstr "1 месяц"
+msgstr ""
 
 #: .\users\forms.py:17
 msgid "never"
-msgstr "Никогда"
+msgstr ""
 
 #: .\users\forms.py:26
 msgid "User with this email is already exists"
-msgstr "Пользователь с такой почтой уже существует"
+msgstr ""
 
 #: .\users\forms.py:75
 msgid "email of invited emploee"
-msgstr "Почта пользователя"
+msgstr ""
 
 #: .\users\forms.py:81
 msgid "invite expire date"
-msgstr "Срок действия ссылки"
+msgstr ""
 
 #: .\users\forms.py:87
 msgid "the role to be assigned"
-msgstr "Роль пользователя"
+msgstr ""
 
 #: .\users\models.py:34
 msgid "The email must be set"
-msgstr "Почта должна быть введена"
+msgstr ""
 
 #: .\users\models.py:58
 msgid "Superuser must have is_staff=True."
@@ -476,268 +463,200 @@ msgstr ""
 
 #: .\users\models.py:82
 msgid "email address"
-msgstr "E-mail"
+msgstr ""
 
 #: .\users\models.py:85
 msgid "first name"
-msgstr "имя"
+msgstr ""
 
 #: .\users\models.py:86
 msgid "last name"
-msgstr "фамилия"
+msgstr ""
 
 #: .\users\models.py:88
 msgid "profile image"
-msgstr "изображение профиля"
+msgstr ""
 
 #: .\users\models.py:92
 msgid "date joined"
-msgstr "дата регистрации"
+msgstr ""
 
 #: .\users\models.py:133
 msgid "users"
-msgstr "пользователи"
+msgstr ""
 
 #: .\users\models.py:138
 msgid "invited_user_email"
-msgstr "почта приглашенного пользователя"
+msgstr ""
 
 #: .\users\models.py:147
 msgid "expire_date"
-msgstr "Срок действия"
+msgstr ""
 
-#: .\users\models.py:154 .\workplace\models.py:72
+#: .\users\models.py:154 .\workplace\models.py:71
 msgid "Role for company user"
-msgstr "Роль пользователя"
+msgstr ""
 
 #: .\users\models.py:159
 msgid "invite"
-msgstr "приглашение"
+msgstr ""
 
 #: .\users\models.py:160
 msgid "invites"
-msgstr "Приглашения"
+msgstr ""
 
 #: .\users\views.py:72
 msgid "Пользователь успешно приглашен в компанию!"
-msgstr "Пользователь успешно приглашен в компанию!"
+msgstr ""
 
 #: .\workplace\forms.py:71
 msgid "mon"
-msgstr "пн"
+msgstr ""
 
 #: .\workplace\forms.py:72
 msgid "tues"
-msgstr "вт"
+msgstr ""
 
 #: .\workplace\forms.py:73
 msgid "wed"
-msgstr "ср"
+msgstr ""
 
 #: .\workplace\forms.py:74
 msgid "thur"
-msgstr "чт"
+msgstr ""
 
 #: .\workplace\forms.py:75
 msgid "fri"
-msgstr "пт"
+msgstr ""
 
 #: .\workplace\forms.py:76
 msgid "sat"
-msgstr "сб"
+msgstr ""
 
 #: .\workplace\forms.py:77
 msgid "sun"
-msgstr "вс"
+msgstr ""
+
+#: .\workplace\models.py:12
+msgid "Owner"
+msgstr ""
 
 #: .\workplace\models.py:13
-msgid "Owner"
-msgstr "Владелец"
+msgid "Manager"
+msgstr ""
 
 #: .\workplace\models.py:14
-msgid "Manager"
-msgstr "Менеджер"
-
-#: .\workplace\models.py:15
 msgid "Employee"
-msgstr "Работник"
+msgstr ""
 
-#: .\workplace\models.py:19
-msgid "Given"
-msgstr "Выданные"
-
-#: .\workplace\models.py:20
-#, fuzzy
-#| msgid "Your active task:"
-msgid "Active"
-msgstr "Текущая"
-
-#: .\workplace\models.py:21
-msgid "Postponed"
-msgstr "Отложенные"
-
-#: .\workplace\models.py:22
-msgid "On review"
-msgstr "На проверке"
-
-#: .\workplace\models.py:23
-msgid "Rejected"
-msgstr "На доработке"
-
-#: .\workplace\models.py:24
-#, fuzzy
-#| msgid "complete date"
-msgid "Completed"
-msgstr "Выполненные"
-
-#: .\workplace\models.py:32
+#: .\workplace\models.py:31
 msgid "Name for company"
-msgstr "Название компании"
+msgstr ""
+
+#: .\workplace\models.py:34
+msgid "description"
+msgstr ""
 
 #: .\workplace\models.py:35
-msgid "description"
-msgstr "описание"
-
-#: .\workplace\models.py:36
 msgid "Description for company"
-msgstr "Описание компании"
+msgstr ""
 
-#: .\workplace\models.py:40
+#: .\workplace\models.py:39
 msgid "time of beginning of working day"
-msgstr "Время начала рабочего дня"
+msgstr ""
 
-#: .\workplace\models.py:44
+#: .\workplace\models.py:43
 msgid "time of ending of working day"
-msgstr "Время окончания рабочего дня"
+msgstr ""
 
-#: .\workplace\models.py:75
+#: .\workplace\models.py:74
 msgid "score"
 msgstr ""
 
-#: .\workplace\models.py:76
+#: .\workplace\models.py:75
 msgid "User score count"
 msgstr ""
 
-#: .\workplace\models.py:88
+#: .\workplace\models.py:87
 msgid "Task name"
-msgstr "Название задачи"
+msgstr ""
 
-#: .\workplace\models.py:92
+#: .\workplace\models.py:91
 msgid "task description"
-msgstr "описание задания"
+msgstr ""
 
-#: .\workplace\models.py:94
+#: .\workplace\models.py:93
 msgid "Concrete task description"
-msgstr "Описание задания"
+msgstr ""
 
-#: .\workplace\models.py:98
+#: .\workplace\models.py:97
 msgid "Task deadline"
-msgstr "Дедлайн задания"
+msgstr ""
 
-#: .\workplace\models.py:103
+#: .\workplace\models.py:102
 msgid "responsible"
-msgstr "исполнитель"
+msgstr ""
 
-#: .\workplace\models.py:110
-#, fuzzy
-#| msgid "responsible"
+#: .\workplace\models.py:109
 msgid "responsible for review"
-msgstr "исполнитель"
+msgstr ""
 
-#: .\workplace\models.py:114
+#: .\workplace\models.py:113
 msgid "leave blank if no review specified"
-msgstr "Выберите пользователя для проверки"
+msgstr ""
 
-#: .\workplace\models.py:119
+#: .\workplace\models.py:118
 msgid "created by manager"
-msgstr "создано менеджером"
+msgstr ""
 
-#: .\workplace\models.py:125
+#: .\workplace\models.py:124
 msgid "status"
-msgstr "статус"
+msgstr ""
 
-#: .\workplace\models.py:128
+#: .\workplace\models.py:127
 msgid "Task current status"
-msgstr "Текущий статус задачи"
+msgstr ""
+
+#: .\workplace\models.py:132
+msgid "create date"
+msgstr ""
 
 #: .\workplace\models.py:133
-msgid "create date"
-msgstr "дата создания"
-
-#: .\workplace\models.py:134
 msgid "Date of creation task"
-msgstr "Дата создания задачи"
+msgstr ""
+
+#: .\workplace\models.py:138
+msgid "complete date"
+msgstr ""
 
 #: .\workplace\models.py:139
-msgid "complete date"
-msgstr "дата завершения задачи"
-
-#: .\workplace\models.py:140
 msgid "Date of task complition"
-msgstr "Дата завершения задачи"
+msgstr ""
 
-#: .\workplace\models.py:164
+#: .\workplace\models.py:163
 msgid "Invalid 'manager' choice - user must be manager!"
 msgstr ""
 
-#: .\workplace\models.py:168
+#: .\workplace\models.py:167
 msgid "Reviewer and responsible can't be the same person!"
-msgstr "Ревьюер и исполнитель не могут быть одним человеком!"
+msgstr ""
 
-#: .\workplace\models.py:175
+#: .\workplace\models.py:174
 msgid "task"
-msgstr "задача"
+msgstr ""
 
-#: .\workplace\models.py:180
+#: .\workplace\models.py:179
 msgid "review_message"
-msgstr "сообщение пользователю"
+msgstr ""
 
 #: .\workplace\views.py:305
 msgid "Invite did not send"
-msgstr "Приглашение не отправлено"
+msgstr ""
 
 #: .\workplace\views.py:318
 msgid "access forbidden: you are not user of this company!"
-msgstr "отказано в доступе: у вас нет доступа к этой компании!"
+msgstr ""
 
 #: .\workplace\views.py:336
-#, fuzzy
-#| msgid "access forbidden: you are not user of this company!"
 msgid "access forbidden: you are not reviewer of thid task!"
-msgstr "отказано в доступе: у вас нет доступа к этой компании!"
-
-#~ msgid "Create new task here"
-#~ msgstr "Создать задачу"
-
-#~ msgid "Close"
-#~ msgstr "Закрыть"
-
-#~ msgid "Current"
-#~ msgstr "Текущие"
-
-#~ msgid "On checking"
-#~ msgstr "На проверке"
-
-#~ msgid "task object"
-#~ msgstr "объект задания"
-
-#~ msgid "from status"
-#~ msgstr "от статуса"
-
-#~ msgid "changed from: (task status)"
-#~ msgstr "изменено с: (статус)"
-
-#~ msgid "to status"
-#~ msgstr "до статуса"
-
-#~ msgid "changed to: (task status)"
-#~ msgstr "изменено на: (статус)"
-
-#~ msgid "status change date"
-#~ msgstr "дата изменения статуса"
-
-#~ msgid "Task created successfully!"
-#~ msgstr "Задача успешно создана!"
-
-#~ msgid "Invalid data"
-#~ msgstr "Неверные данные"
+msgstr ""

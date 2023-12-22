@@ -2,44 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% block main_section %}
-    {% comment %} <section class="task-section">
-        <h1>{% trans "Tasks" %}</h1>
-        <div class="task-tab-widget">
-            <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">{% trans "Current" %}</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "On checking" %}</button>
-                </div>
-            </nav>
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-                    <div class="task-item">
-                        <h4>Название задачи 1</h4>
-                    </div>
-                    <div class="task-item">
-                        <h4>Название задачи 2</h4>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
-                    <div class="task-item">
-                        <h4>Название задачи 3</h4>
-                    </div>
-                    <div class="task-item">
-                        <h4>Название задачи 4</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="task-section">
-        <h1>{% trans "Ended tasks" %}</h1>
-        <div class="completed-task-item">
-            <h4>Название задачи</h4>
-        </div>
-    </section> {% endcomment %}
-
-    {% comment %} Эту красивую заглушку пока оставил, она ещё наверняка пригодится. {% endcomment %}
-  <section class="task-section h-50">
+  <section class="task-section">
     <div class="section-header">
       {% if messages %}
         {% for message in messages %}
@@ -50,67 +13,125 @@
           </div>
         {% endfor %}
       {% endif %}
-      {% if active_task != none %}
-        <h4>{% trans "Your active task:" %}</h4>
-        {% include "includes/task_card.html" with task=active_task%}
-      {% else %}
-      {% endif %}
       <h1>{% trans "Tasks" %}</h1>
+      <div class="dropdown tasks-dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Active Task" %}</button>
+        <ul class="task-pills nav nav-pills mb-3 dropdown-menu" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="tab-widget-button nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#stage_active" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "Active Task" %}</button>
+          </li>
+          {% for choice_id, choice in menu_choices %}
+            <li class="nav-item" role="presentation">
+              <button class="tab-widget-button nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#stage_{{ choice_id }}" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans choice %}</button>
+            </li>
+          {% endfor %}
+        </ul> 
+      </div>
+      {% if company_user.role == "manager" or company_user.role == "owner" %}
+        <div style="margin-left: auto;">
+          <button id="create-statistics-button" data-bs-toggle="modal" data-bs-target="#create-task-modal"><i class="fas fa-plus"></i></button>
+          <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="create-task-modal-label">{% trans "Create Task" %}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form method="post" action="{% url 'workplace:home' request.resolver_match.kwargs.company_id %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">{% trans "Create Task" %}</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="task-tab-widget overflow-auto">
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="stage_active" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+          {% if active_task %}
+            {% include "includes/task_card.html" with task=active_task manipulation_allowed=True%}
+          {% else %}
+            <p>{% trans "You don't have tracking task now!" %}</p>
+          {% endif %}
+        </div>
+        {% for status, _ in menu_choices %}
+          <div class="tab-pane fade show" id="stage_{{status}}" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+            {% for task in tasks %}            
+              {% if task.status == status %}
+                {% include "includes/task.html"%}
+                <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        {% include "includes/task_card.html" with title_hidden=True %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+              {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="task-section">
+    <div class="section-header">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-dismissible fade show alert-info alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}" 
+              role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+      <h1>{% trans "Ended Tasks" %}</h1>
     </div>
     <div class="task-tab-widget overflow-auto h-75">
-      <nav>
-          <div class="nav nav-tabs" id="nav-tab" role="tablist">
-              <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#stage_given" type="button" role="tab" aria-controls="stage_given" aria-selected="true">{% trans "Current" %}</button>
-              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">{% trans "On checking" %}</button>
-          </div>
-      </nav>
       <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="stage_given" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-          {% if company_user.role == "manager" or company_user.role == "owner" %}
-            <button id="create-task-button" data-bs-toggle="modal" data-bs-target="#create-task-modal">{% trans "Create Task" %}</button>
-            <div class="modal fade" id="create-task-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        {% for task in tasks %}            
+          {% if task.status == "completed" %}
+            {% include "includes/task.html"%}
+            <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="create-task-modal-label">{% trans "Create Task" %}</h5>
+                    <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                      <form method="post" 
-                            action="{% url 'workplace:create_task' request.resolver_match.kwargs.company_id %}">
-                          {% csrf_token %}
-                          {{ form.as_p }}
-                          <button type="submit" class="btn btn-primary">{% trans "Create Task" %}</button>
-                      </form>
+                    {% include "includes/task_card.html" with title_hidden=True %}
                   </div>
                 </div>
               </div>
             </div>
           {% endif %}
-            {% for task in tasks %}
-                  {% include "includes/task_card.html"%}
-                  <div class="modal fade" id="taskInfoModal_{{ task.id }}" tabindex="-1" aria-labelledby="taskInfoModalLabel{{ task.id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="taskInfoModalLabel{{ task.id }}">{% trans "Additional Task Info" %}</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          {% include "includes/task_card.html" with hidden=true %}
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Close" %}</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
       </div>
     </div>
   </section>
   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var dropdownButton = document.querySelector('.dropdown-toggle');
+      var tabButtons = document.querySelectorAll('.tab-widget-button');
+  
+      tabButtons.forEach(function(tabButton) {
+        tabButton.addEventListener('click', function() {
+          dropdownButton.textContent = tabButton.textContent;
+        });
+      });
+    });
   function isString(variable) { 
       return typeof (variable) === 'string'; 
   }
@@ -130,24 +151,18 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var buttons = document.querySelectorAll('.change-state-btn');
-    {% comment %} var company_id = request.resolver_match.kwargs.company_id; {% endcomment %}
+    var buttons = document.querySelectorAll('.change-status-btn');
 
     buttons.forEach(function (button) {
       button.addEventListener('click', function () {
-        // Extract task ID and new state from the button's data attributes
+        // Extract task ID and new status from the button's data attributes
         var taskId = button.getAttribute('data-task-id');
-        var newState = button.getAttribute('data-new-state');
-
-        {% comment %} var url = "{% url 'workplace:change_task_status' pk=0 state='active' company_id=5 %}".replace("0", taskId);
-        url = url.replace("active", newState);
-        url = replaceLastOccurrenceInString(url, "5", company_id.toString());
-        console.log(url); {% endcomment %}
+        var newstatus = button.getAttribute('data-new-status');
 
         var url = "{% url 'workplace:change_task_status' company_id=request.resolver_match.kwargs.company_id %}"
 
         // Make an AJAX request to the Django view
-        if (taskId && newState) {
+        if (taskId && newstatus) {
           console.log(taskId)
           var xhr = new XMLHttpRequest();
           
@@ -159,6 +174,7 @@
               if (xhr.status >= 200 && xhr.status < 400) {
                   // Handle the success response (e.g., update UI)
                   console.log(xhr.responseText);
+                  location.reload();
               } else {
                   // Handle the error (e.g., display an error message)
                   console.error(xhr.statusText);
@@ -171,15 +187,13 @@
 
           xhr.send(JSON.stringify({
               pk: taskId,
-              state: newState,
+              status: newstatus,
           }));
-          location.reload();
+          
         }
       });
      });
     });
   </script>  
-
-
     
 {% endblock main_section %}

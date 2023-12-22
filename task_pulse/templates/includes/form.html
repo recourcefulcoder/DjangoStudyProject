@@ -20,7 +20,7 @@
       {% endfor %}
     {% endif %}
   </form>
-  {% if msg_inside == true or msg_inside == none %}
+  {% if msg_inside == True or msg_inside == None %}
     {% for message in messages %}
       <div class="mt-3 alert alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}">{{ message}}</div>
     {% endfor %}

@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     if (hamburger) {
         hamburger.addEventListener("click", function() {
+            console.log(1);
             body.classList.toggle("active");
             sidebar.classList.toggle("collapsed");
         });

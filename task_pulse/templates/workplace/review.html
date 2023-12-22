@@ -1,0 +1,102 @@
+{% extends "workplace/base_workplace.html" %}
+
+{% load i18n %}
+
+{% block main_section %}
+<section class="review-section">
+  <div class="section-header">
+    <h1>{% trans "Reviewed tasks" %}</h1>
+  </div>
+  <div class="review-body">
+    {% if tasks|length == 0 %}
+      {% trans "No tasks for review" %}
+    {% else %}
+      {% for task in tasks %}
+        {% include "includes/review_task_card.html" with task=task %}
+      {% endfor %}
+    {% endif %}
+  </div>
+  
+  {% for message in messages %}
+    <div class="row">
+      <div class="alert alert-success">{{message}}</div>
+    </div>
+  {% endfor %}
+</section>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all forms with class 'review-form'
+        var reviewForms = document.querySelectorAll('.review-form');
+        var buttons = document.querySelectorAll('.approve-task');
+
+        reviewForms.forEach(function (reviewForm) {
+            reviewForm.addEventListener('submit', function (event) {
+                event.preventDefault();  // Prevent the default form submission
+                console.log("submitted")
+                // Collect form data
+                var formData = new FormData(reviewForm);
+                formData.set("approved", false)
+
+                // Fetch API to send form data to the server
+                fetch(reviewForm.getAttribute('action'), {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',  
+                    },
+                })
+                .then(function (response) {
+                    if (response.ok) {
+                        console.log('Review submitted successfully!');
+                        location.reload();
+                    } else {
+                        console.error('Review submission failed.');
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error during fetch:', error);
+                });
+            });
+        });
+
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          // Extract task ID and new status from the button's data attributes
+          var taskId = button.getAttribute('data-task-id');
+
+          var url = "{% url 'workplace:review' company_id=request.resolver_match.kwargs.company_id %}"
+
+          // Make an AJAX request to the Django view
+          if (taskId) {
+            console.log(taskId)
+            var xhr = new XMLHttpRequest();
+            
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    // Handle the success response (e.g., update UI)
+                    console.log(xhr.responseText);
+                    location.reload();
+                } else {
+                    // Handle the error (e.g., display an error message)
+                    console.error(xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error('Request failed');
+            };
+
+            xhr.send(JSON.stringify({
+                task_id: taskId,
+                approved: true,
+            }));
+          }
+        });
+      });
+    });
+  </script>
+{% endblock main_section %}

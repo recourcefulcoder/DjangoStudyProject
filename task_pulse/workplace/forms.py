@@ -27,11 +27,20 @@ class TaskCreationForm(django.forms.ModelForm):
 
     class Meta:
         model = models.Task
-        exclude = ["author", "state"]
+        exclude = ["author", "status"]
         widgets = {
             models.Task.deadline.field.name: django.forms.DateInput(
                 attrs={"type": "datetime-local"},
             ),
+        }
+
+
+class ReviewRejectForm(django.forms.ModelForm):
+    class Meta:
+        model = models.Review
+        fields = "__all__"
+        widgets = {
+            models.Review.task.field.name: django.forms.HiddenInput(),
         }
 
 
@@ -94,3 +103,7 @@ class CompanyScheduleForm(django.forms.Form):
 
     start_time = django.forms.TimeField(widget=django.forms.TimeInput)
     end_time = django.forms.TimeField(widget=django.forms.TimeInput)
+
+
+class InviteMemberForm(django.forms.Form):
+    email = django.forms.EmailField()
