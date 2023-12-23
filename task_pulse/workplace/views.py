@@ -82,7 +82,7 @@ class TaskList(
     form_class = forms.TaskCreationForm
 
     def get_queryset(self):
-        return (
+        queryset = (
             models.Task.objects.select_related(
                 "author",
                 "author__user",
@@ -91,7 +91,7 @@ class TaskList(
             )
             .filter(
                 responsible=self.get_company_user(
-                    self.request.resolver_match.kwargs["company_id"],
+                    self.request.resolver_match.kwargs.get("company_id"),
                 ),
             )
             .only(
@@ -105,9 +105,18 @@ class TaskList(
                 "review_responsible__user__first_name",
                 "review_responsible__user__last_name",
                 "review_responsible__user__email",
-                "review__message",
+                "review",
             )
         )
+        # for each in queryset:
+        #     print(each.title)
+        #     if each.title == "review":
+        #         print("HErE")
+        #         print(each.review)
+        #         print(each.review.message)
+        #     if hasattr(each, "review"):
+        #         print(each.review, each.review.message)
+        return queryset
 
     def get_form(self, form_class=None):
         if form_class is None:
@@ -134,7 +143,6 @@ class TaskList(
         active_tasks = self.object_list.filter(status="active")
         if active_tasks.exists():
             context["active_task"] = active_tasks.first()
-        print(context)
         return context
 
 
@@ -174,11 +182,12 @@ class ReviewList(
             data = json.loads(self.request.body.decode("utf8"))
 
         task = models.Task.objects.get(pk=int(data["task_id"]))
-        print(data)
         if data["approved"][0] == "false":
             task.status = "completed"
         else:
             task.status = "rejected"
+            # hardcode - depends on manual form in template
+            models.Review.objects.create(task=task, message=data["message"])
         task.save()
 
         messages.success(self.request, "Review successfully sent")
@@ -299,10 +308,9 @@ class InviteMember(
         )
 
     def form_invalid(self, form):
-        messages.add_message(
+        messages.error(
             self.request,
-            messages.ERROR,
-            _("Invite did not send"),
+            _("Invite was not sent"),
         )
         return redirect(self.get_success_url())
 
@@ -312,6 +320,7 @@ class InviteMember(
 def change_task_status(request, company_id):
     company_user = models.CompanyUser.objects.get(
         user=request.user,
+        company_id=request.resolver_match.kwargs.get("company_id"),
     )
     if company_user.company.id != company_id:
         return HttpResponse(

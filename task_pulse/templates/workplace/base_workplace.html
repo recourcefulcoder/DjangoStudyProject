@@ -17,7 +17,7 @@
   </style>
 </head>
 <body>
-  <div class="sidebar collapsed">
+  {% comment %} <div class="sidebar collapsed">
     <div class="btn-section">
       <a class="collapse-btn">
         <i class="fas fa-bars"></i>
@@ -72,62 +72,62 @@
         </li>
       </ul>
     {% endwith %}
-  </div>
+  </div> {% endcomment %}
     <div class="sidebar collapsed">
-        {% comment %} <div class="btn-section">
-            <a class="collapse-btn">
-                <i class="fas fa-bars"></i>
+      <div class="btn-section">
+        <a class="collapse-btn">
+          <i class="fas fa-bars"></i>
+        </a>
+      </div>
+      {% with view_name=request.resolver_match.view_name company_id=request.resolver_match.kwargs.company_id %}
+        <ul>  
+          <li>
+            <a href="{% url 'workplace:home' company_id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
+              <span class="item">{% trans "Company home" %}</span>
+              <span class="icon"><i class="fas fa-home"></i></span>
             </a>
-        </div> {% endcomment %}
-        {% with view_name=request.resolver_match.view_name company_id=request.resolver_match.kwargs.company_id %}
-            <ul>    
-                <li>
-                    <a href="{% url 'workplace:home' company_id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
-                        <span class="item">{% trans "Company home" %}</span>
-                        <span class="icon"><i class="fas fa-home"></i></span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'workplace:tasks' company_id %}" 
-                       class="{% if view_name == 'workplace:tasks' %}active{% endif %}">
-                        <span class="item">{% trans "Tasks" %}</span>
-                        <span class="icon"><i class="fas fa-tasks"></i></span>
-                    </a>
-                </li>  
-                <li>
-                  <a href="{% url 'workplace:review' company_id %}" 
-                     class="{% if view_name == 'workplace:review' %}active{% endif %}">
-                    <span class="item">{% trans "Review" %}</span>
-                    <span class="icon"><i class="fas fa-check-circle"></i></span>
-                  </a>
-                </li>  
-                {% if company_user.role == "owner" or ompany_user.role == "manager"%}      
-                <li>
-                    <a href="{% url 'workplace:statistics' request.resolver_match.kwargs.company_id %}" 
-                       class="{% if view_name == 'workplace:statistics' %}active{% endif %}">
-                        <span class="item">{% trans "Statistics" %}</span>
-                        <span class="icon"><i class="fas fa-chart-pie"></i></span>
-                    </a>
-                </li>  
-                {% endif %}          
-            </ul>
-            <ul class="sidebar-down">
-                {% if company_user.role == "owner"%}
-                <li>
-                    <a href="{% url 'workplace:settings_company' company_id %}">
-                        <span class="item">{% trans "Settings" %}</span>
-                        <span class="icon"><i class="fa fa-cog"></i></span>
-                    </a>
-                </li>
-                {% endif %}
-                <li>
-                    <a href="{% url 'users:companies' %}">
-                        <span class="item">{% trans "Exit" %}</span>
-                        <span class="icon"><i class="fas fa-door-open"></i></span>
-                    </a>
-                </li>
-            </ul>
-        {% endwith %}
+          </li>
+          <li>
+            <a href="{% url 'workplace:tasks' company_id %}" 
+              class="{% if view_name == 'workplace:tasks' %}active{% endif %}">
+              <span class="item">{% trans "Tasks" %}</span>
+              <span class="icon"><i class="fas fa-tasks"></i></span>
+            </a>
+          </li>  
+          <li>
+            <a href="{% url 'workplace:review' company_id %}" 
+            class="{% if view_name == 'workplace:review' %}active{% endif %}">
+            <span class="item">{% trans "Review" %}</span>
+            <span class="icon"><i class="fas fa-check-circle"></i></span>
+            </a>
+          </li>  
+          {% if company_user.role == "owner" or company_user.role == "manager"%}    
+          <li>
+            <a href="{% url 'workplace:statistics' request.resolver_match.kwargs.company_id %}" 
+              class="{% if view_name == 'workplace:statistics' %}active{% endif %}">
+              <span class="item">{% trans "Statistics" %}</span>
+              <span class="icon"><i class="fas fa-chart-pie"></i></span>
+            </a>
+          </li>  
+          {% endif %}      
+        </ul>
+        <ul class="sidebar-down">
+          {% if company_user.role == "owner"%}
+          <li>
+            <a href="{% url 'workplace:settings_company' company_id %}">
+              <span class="item">{% trans "Settings" %}</span>
+              <span class="icon"><i class="fa fa-cog"></i></span>
+            </a>
+          </li>
+          {% endif %}
+          <li>
+            <a href="{% url 'users:companies' %}">
+              <span class="item">{% trans "Exit" %}</span>
+              <span class="icon"><i class="fas fa-door-open"></i></span>
+            </a>
+          </li>
+        </ul>
+      {% endwith %}
     </div>
     <div class="main-frame">
         {% block main_section %}{% endblock main_section %}

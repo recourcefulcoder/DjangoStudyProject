@@ -111,6 +111,7 @@ class Task(models.Model):
         CompanyUser,
         verbose_name=_("responsible for review"),
         null=True,
+        blank=True,
         on_delete=models.DO_NOTHING,
         related_name="review_tasks",
         help_text=_("leave blank if no review specified"),
@@ -176,7 +177,7 @@ class Review(models.Model):
         Task,
         verbose_name=_("task"),
         on_delete=models.CASCADE,
-        related_name="review",
+        related_query_name="review",
     )
     message = models.TextField(
         verbose_name=_("review_message"),
