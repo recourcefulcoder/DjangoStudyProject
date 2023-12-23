@@ -7,7 +7,8 @@
         <h2>{% trans "My Companies" %}</h1>
         <div class="row">
           {% for message in messages %}
-            <div class="alert alert-{% if message.tag == 'success' %}success{% else %}danger{% endif %}">
+            {{message.level_tag}}
+            <div class="alert alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}">
               {{ message }}
             </div>
           {% endfor %}
