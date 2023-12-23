@@ -178,11 +178,15 @@ class ReviewList(
     def post(self, *args, **kwargs):
         if self.request.POST:
             data = self.request.POST
+            data["approved"] = data["approved"][0]
+            if data["approved"] == "false":
+                data["approved"] = False
         else:
             data = json.loads(self.request.body.decode("utf8"))
 
         task = models.Task.objects.get(pk=int(data["task_id"]))
-        if data["approved"][0] == "false":
+        print(data["approved"], type(data["approved"]))
+        if data["approved"]:
             task.status = "completed"
         else:
             task.status = "rejected"
