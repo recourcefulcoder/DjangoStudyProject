@@ -23,11 +23,19 @@ class TaskCreationForm(django.forms.ModelForm):
             user=author.user,
         )
 
+        self.fields[
+            models.Task.review_responsible.field.name
+        ].queryset = self.fields[models.Task.responsible.field.name].queryset
+
         self.fields[models.Task.responsible.field.name].empty_label = None
 
     class Meta:
         model = models.Task
-        exclude = ["author", "status"]
+        exclude = [
+            models.Task.author.field.name,
+            models.Task.status.field.name,
+            models.Task.completed_at.field.name,
+        ]
         widgets = {
             models.Task.deadline.field.name: django.forms.DateInput(
                 attrs={"type": "datetime-local"},

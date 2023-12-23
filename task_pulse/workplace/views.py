@@ -134,7 +134,6 @@ class TaskList(
         active_tasks = self.object_list.filter(status="active")
         if active_tasks.exists():
             context["active_task"] = active_tasks.first()
-        print(context)
         return context
 
 
@@ -174,7 +173,6 @@ class ReviewList(
             data = json.loads(self.request.body.decode("utf8"))
 
         task = models.Task.objects.get(pk=int(data["task_id"]))
-        print(data)
         if data["approved"][0] == "false":
             task.status = "completed"
         else:
@@ -299,10 +297,9 @@ class InviteMember(
         )
 
     def form_invalid(self, form):
-        messages.add_message(
+        messages.error(
             self.request,
-            messages.ERROR,
-            _("Invite did not send"),
+            _("Invite was not sent"),
         )
         return redirect(self.get_success_url())
 
@@ -312,6 +309,7 @@ class InviteMember(
 def change_task_status(request, company_id):
     company_user = models.CompanyUser.objects.get(
         user=request.user,
+        company_id=request.resolver_match.kwargs.get("company_id"),
     )
     if company_user.company.id != company_id:
         return HttpResponse(

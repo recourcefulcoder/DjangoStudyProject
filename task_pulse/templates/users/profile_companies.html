@@ -13,9 +13,10 @@
           {% endfor %}
             {% for company in companies %}
               {% ifchanged company.role.1 %}
-                  <h3>
-                    Companies where i am {{ company.role | safe }} {# need to fix role storing #}
-                  </h3>
+                {% trans company.role as trans_role %}
+                <h3>
+                  {% trans "Companies where i am" %} {{ trans_role | safe }} {# need to fix role storing #}
+                </h3>
               {% endifchanged %}
               <div class="col-12 mb-3">
                 <a href="{% url 'workplace:home' company_id=company.id %}">
@@ -23,7 +24,9 @@
                     <div class="card-body">
                       <h5 class="card-title">{{ company.name | safe }}</h5>
                       <p class="card-text">{{ company.description | truncatewords_html:20 | safe }}</p>
-                      <a class="btn btn-secondary" href="{% url 'users:company_invite' company_id=company.id %}">Invite to company by mail</a>
+                      {% if company.role != "employee" %}
+                        <a class="btn btn-secondary" href="{% url 'users:company_invite' company_id=company.id %}">{% trans "Invite to company by mail" %}</a>
+                      {% endif %}
                     </div>
                   </div>
                 </a>
