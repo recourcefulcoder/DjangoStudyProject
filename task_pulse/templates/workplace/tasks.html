@@ -2,17 +2,18 @@
 {% load static %}
 {% load i18n %}
 {% block main_section %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-dismissible fade show alert-info alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}" 
+          role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
   <section class="task-section">
     <div class="section-header">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-dismissible fade show alert-info alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}" 
-              role="alert">
-            {{message}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
+      
       <h1>{% trans "Tasks" %}</h1>
       <div class="dropdown tasks-dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Active Task" %}</button>
@@ -38,7 +39,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form method="post" action="{% url 'workplace:home' request.resolver_match.kwargs.company_id %}">
+                  <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary">{% trans "Create Task" %}</button>
@@ -87,7 +88,7 @@
 
   <section class="task-section">
     <div class="section-header">
-      {% if messages %}
+      {% comment %} {% if messages %}
         {% for message in messages %}
           <div class="alert alert-dismissible fade show alert-info alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}" 
               role="alert">
@@ -95,7 +96,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         {% endfor %}
-      {% endif %}
+      {% endif %} {% endcomment %}
       <h1>{% trans "Ended Tasks" %}</h1>
     </div>
     <div class="task-tab-widget overflow-auto h-75">

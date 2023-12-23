@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-23 14:40+0200\n"
+"POT-Creation-Date: 2023-12-23 16:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,6 +111,34 @@ msgstr "Английский"
 #: task_pulse/settings.py:109
 msgid "Russian"
 msgstr "Русский"
+
+#: templates/homepage/homepage.html:6
+msgid "Welcome to the world of buisness-management!"
+msgstr "Добро пожаловать в мир бизнес-менеджмента!"
+
+#: templates/homepage/homepage.html:7
+msgid "Here you will find everything neede for succesfull buisness management"
+msgstr "У нас вы найдёте всё необходимое для успешного управления бизнесм"
+
+#: templates/homepage/homepage.html:11
+msgid "About us"
+msgstr "О нас"
+
+#: templates/homepage/homepage.html:13
+msgid ""
+"\n"
+"    Our company specializes in providing\n"
+"    services in the field of business management. We help enterprises "
+"optimize their business processes,\n"
+"    increase efficiency and reach new heights.\n"
+"    "
+msgstr ""
+"\n"
+"    Наша компания специализируется на предоставлении\n"
+"    сервисов в поле бизнес-менеджмента. Мы помогаем предприятиям "
+"оптимизировать свои бизнес-процессы,\n"
+"    повысить своб эффективность и достичь новых высот.\n"
+"    "
 
 #: templates/includes/company_statistics_card.html:3
 msgid "Company report from"
@@ -227,14 +255,16 @@ msgid "Create Task"
 msgstr "Создать Задачу"
 
 #: templates/users/invite_to_company.html:6
-#, fuzzy
-#| msgid "Invite to company by mail"
 msgid "Invite to company"
-msgstr "Пригласить в компанию по электронной почте"
+msgstr "Пригласить в компанию"
 
 #: templates/users/invite_to_company.html:15
 msgid "Invite user!"
 msgstr "Пригласить пользователя!"
+
+#: templates/users/invites_list.html:6 templates/users/profile_base.html:24
+msgid "My Invites"
+msgstr "Приглашения"
 
 #: templates/users/invites_list.html:13
 msgid "This invite is expired:"
@@ -266,19 +296,15 @@ msgstr "Профиль"
 msgid "My Companies"
 msgstr "Мои компании"
 
-#: templates/users/profile_base.html:24
-msgid "My Invites"
-msgstr "Приглашения"
-
-#: templates/users/profile_companies.html:18
+#: templates/users/profile_companies.html:19
 msgid "Companies where i am"
 msgstr "Компании где я"
 
-#: templates/users/profile_companies.html:28
+#: templates/users/profile_companies.html:29
 msgid "Invite to company by mail"
 msgstr "Пригласить в компанию по электронной почте"
 
-#: templates/users/profile_companies.html:36
+#: templates/users/profile_companies.html:37
 msgid "Add Company"
 msgstr "Создать компанию"
 
@@ -360,7 +386,7 @@ msgstr "Участники"
 
 #: templates/workplace/settings/team.html:13
 msgid "+ Invite new member"
-msgstr "Добавить нового пользователя"
+msgstr "+ Добавить нового пользователя"
 
 #: templates/workplace/settings/team.html:20
 msgid "coworker"
@@ -371,7 +397,7 @@ msgstr "Пользователь"
 msgid "role"
 msgstr "Роль"
 
-#: templates/workplace/settings/team.html:50
+#: templates/workplace/settings/team.html:52
 msgid "Send invite"
 msgstr "Отправить приглашение"
 
@@ -459,8 +485,8 @@ msgstr "активен"
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
-msgstr "Определяет, должен ли этот пользоваль считаться активным. Отмените этот "
-"выбор вместо удаления аккаунта"
+msgstr "Определяет, должен ли этот пользоваль считаться активным. Отмените этот выбор вместо удаления аккаунта"
+
 
 #: users/models.py:83
 msgid "email address"
@@ -518,31 +544,31 @@ msgstr "Приведённый пользователь уже приглашё�
 msgid "User successfully invited to team!"
 msgstr "Пользователь успешно приглашён в команду!"
 
-#: workplace/forms.py:85
+#: workplace/forms.py:79
 msgid "mon"
 msgstr "пн"
 
-#: workplace/forms.py:86
+#: workplace/forms.py:80
 msgid "tues"
 msgstr "вт"
 
-#: workplace/forms.py:87
+#: workplace/forms.py:81
 msgid "wed"
 msgstr "ср"
 
-#: workplace/forms.py:88
+#: workplace/forms.py:82
 msgid "thur"
 msgstr "чт"
 
-#: workplace/forms.py:89
+#: workplace/forms.py:83
 msgid "fri"
 msgstr "пт"
 
-#: workplace/forms.py:90
+#: workplace/forms.py:84
 msgid "sat"
 msgstr "сб"
 
-#: workplace/forms.py:91
+#: workplace/forms.py:85
 msgid "sun"
 msgstr "вс"
 
@@ -646,6 +672,7 @@ msgstr "Дата завершения задачи"
 msgid "Invalid 'manager' choice - user must be manager!"
 msgstr "Некорректный выбор поля 'менеджер' - пользователь должен быть менеджером!"
 
+
 #: workplace/models.py:171
 msgid "Reviewer and responsible can't be the same person!"
 msgstr "Ревьюер и исполнитель не могут быть одним человеком!"
@@ -658,15 +685,15 @@ msgstr "задача"
 msgid "review_message"
 msgstr "сообщение пользователю"
 
-#: workplace/views.py:311
+#: workplace/views.py:302
 msgid "Invite was not sent"
 msgstr "Приглашение не отправлено"
 
-#: workplace/views.py:325
+#: workplace/views.py:316
 msgid "access forbidden: you are not user of this company!"
 msgstr "отказано в доступе: у вас нет доступа к этой компании!"
 
-#: workplace/views.py:343
+#: workplace/views.py:334
 msgid "access forbidden: you are not reviewer of thid task!"
 msgstr "отказано в доступе: вы не являетесь ревьюером этой задачи!"
 
@@ -675,9 +702,6 @@ msgstr "отказано в доступе: вы не являетесь рев�
 
 #~ msgid "Service"
 #~ msgstr "Сервисы"
-
-#~ msgid "About"
-#~ msgstr "О нас"
 
 #~ msgid "Contact"
 #~ msgstr "Контакты"

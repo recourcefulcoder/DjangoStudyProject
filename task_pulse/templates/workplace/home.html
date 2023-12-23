@@ -24,7 +24,7 @@
       {% if company_user.role == "owner" or company_user.role == "manager" %}
         {% for message in messages %}
           <div class="row">
-            <div class="alert alert-success">{{message}}</div>
+            <div class="alert alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}">{{message}}</div>
           </div>
         {% endfor %}
       {% endif %}

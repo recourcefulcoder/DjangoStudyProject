@@ -32,9 +32,11 @@
                   </div>
                 </a>
               </div>
+            {% empty %}
+              {% trans "You are not a member of any company" %}
             {% endfor %}
             <div>
-              <a class="btn" href="{% url "users:create_company" %}">{% trans "Add Company" %}</a>
+              <a class="btn" href="{% url 'users:create_company' %}">{% trans "Add Company" %}</a>
             </div>
           </div>
     </section>

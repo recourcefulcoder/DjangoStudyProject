@@ -170,6 +170,10 @@ class Task(models.Model):
             raise ValidationError(
                 _("Reviewer and responsible can't be the same person!"),
             )
+        if self.deadline < timezone.now():
+            raise ValidationError(
+                _("Invalid deadline value!"),
+            )
 
 
 class Review(models.Model):

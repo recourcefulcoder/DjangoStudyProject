@@ -7,7 +7,7 @@ from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.views import generic
@@ -135,6 +135,25 @@ class TaskList(
         if active_tasks.exists():
             context["active_task"] = active_tasks.first()
         return context
+
+    def post(self, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            form.save()
+            messages.success(self.request, "Task successfully added!")
+            return redirect(
+                "workplace:home",
+                **kwargs,
+            )
+        messages.error(
+            self.request,
+            "Invalid data! Did you point"
+            " valid deadline? Are reviewer and responsible same person?",
+        )
+        return redirect(
+            "workplace:home",
+            **kwargs,
+        )
 
 
 class ReviewList(
