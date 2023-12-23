@@ -174,7 +174,7 @@ class Review(models.Model):
         Task,
         verbose_name=_("task"),
         on_delete=models.CASCADE,
-        related_name="review",
+        related_query_name="review",
     )
     message = models.TextField(
         verbose_name=_("review_message"),

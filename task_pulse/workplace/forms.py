@@ -15,17 +15,23 @@ class TaskCreationForm(django.forms.ModelForm):
         if author is None:
             raise ImproperlyConfigured("no task author specified")
 
+        users = (
+            models.CompanyUser.objects
+            .select_related("user")
+            .filter(
+                company_id=author.company.id,
+            )
+        )
+
         self.fields[
             models.Task.responsible.field.name
-        ].queryset = models.CompanyUser.objects.filter(
-            company_id=author.company.id,
-        ).exclude(
+        ].queryset = users.exclude(
             user=author.user,
         )
 
         self.fields[
             models.Task.review_responsible.field.name
-        ].queryset = self.fields[models.Task.responsible.field.name].queryset
+        ].queryset = users
 
         self.fields[models.Task.responsible.field.name].empty_label = None
 

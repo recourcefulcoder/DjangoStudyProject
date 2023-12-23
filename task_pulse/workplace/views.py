@@ -82,7 +82,7 @@ class TaskList(
     form_class = forms.TaskCreationForm
 
     def get_queryset(self):
-        return (
+        queryset = (
             models.Task.objects.select_related(
                 "author",
                 "author__user",
@@ -91,7 +91,7 @@ class TaskList(
             )
             .filter(
                 responsible=self.get_company_user(
-                    self.request.resolver_match.kwargs["company_id"],
+                    self.request.resolver_match.kwargs.get("company_id"),
                 ),
             )
             .only(
@@ -105,9 +105,18 @@ class TaskList(
                 "review_responsible__user__first_name",
                 "review_responsible__user__last_name",
                 "review_responsible__user__email",
-                "review__message",
+                "review",
             )
         )
+        # for each in queryset:
+        #     print(each.title)
+        #     if each.title == "review":
+        #         print("HErE")
+        #         print(each.review)
+        #         print(each.review.message)
+        #     if hasattr(each, "review"):
+        #         print(each.review, each.review.message)
+        return queryset
 
     def get_form(self, form_class=None):
         if form_class is None:
@@ -177,6 +186,8 @@ class ReviewList(
             task.status = "completed"
         else:
             task.status = "rejected"
+            # hardcode - depends on manual form in template
+            models.Review.objects.create(task=task, message=data["message"])
         task.save()
 
         messages.success(self.request, "Review successfully sent")
