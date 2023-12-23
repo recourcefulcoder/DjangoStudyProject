@@ -57,13 +57,13 @@ class Company(models.Model):
 class CompanyUser(models.Model):
     user = models.ForeignKey(
         get_user_model(),
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         verbose_name=_("user"),
         related_name="company_users",
     )
     company = models.ForeignKey(
         Company,
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         verbose_name=_("company"),
         related_name="users",
     )

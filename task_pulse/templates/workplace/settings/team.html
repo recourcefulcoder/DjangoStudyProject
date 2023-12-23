@@ -23,11 +23,13 @@
         </tr>
         {% for employee in employees %}
           <tr>
-            <td>{{employee}}</td>
-            <td>{{employee.user.email}}</td>
-            <td>{{employee.role}}</td>
+            <td>{{ employee }}</td>
+            <td>{{ employee.user.email }}</td>
+            <td>{{ employee.role }}</td>
           </tr>
+
         {% endfor %}
+      </table>
     </div>
   </div>
 </div>

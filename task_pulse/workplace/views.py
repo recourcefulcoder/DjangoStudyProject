@@ -7,7 +7,7 @@ from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.views import generic
@@ -356,4 +356,4 @@ class AcceptCompanyInvite(
             role=invite.assigned_role,
         )
         invite.delete()
-        return redirect("workplace:home", company_id=kwargs["company_id"])
+        return redirect("workplace:tasks", company_id=kwargs["company_id"])
