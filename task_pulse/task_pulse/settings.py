@@ -102,7 +102,7 @@ if DEBUG:
         "django.template.context_processors.debug",
     )
 
-LANGUAGE_CODE = "ru"
+LANGUAGE_CODE = "en"
 
 LANGUAGES = [
     ("en", _("English")),

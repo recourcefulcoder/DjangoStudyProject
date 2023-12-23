@@ -1,4 +1,5 @@
 import datetime
+
 from django.db import models
 
 
@@ -46,7 +47,11 @@ def create_user_statistics(
                 }
 
             content["tasks"].append(task_data)
-    content["average_time_completion"] = str(datetime.timedelta(seconds=sum(times) / (len(times) if len(times) else 1)))
+    content["average_time_completion"] = str(
+        datetime.timedelta(
+            seconds=sum(times) / (len(times) if len(times) else 1),
+        ),
+    )
 
     return {user.__str__(): content}
 
