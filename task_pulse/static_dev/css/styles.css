@@ -693,7 +693,7 @@ p:has(> input[type=checkbox]) {
 .statistics-items {
     padding: 15px 30px;
     height: 90vh;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 .team-list {
     margin-top: 20px;

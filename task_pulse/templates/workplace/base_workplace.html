@@ -81,12 +81,12 @@
       </div>
       {% with view_name=request.resolver_match.view_name company_id=request.resolver_match.kwargs.company_id %}
         <ul>  
-          <li>
+          {% comment %} <li>
             <a href="{% url 'workplace:home' company_id %}" class="{% if view_name == 'workplace:home' %}active{% endif %}">
               <span class="item">{% trans "Company home" %}</span>
               <span class="icon"><i class="fas fa-home"></i></span>
             </a>
-          </li>
+          </li> {% endcomment %}
           <li>
             <a href="{% url 'workplace:tasks' company_id %}" 
               class="{% if view_name == 'workplace:tasks' %}active{% endif %}">
