@@ -588,15 +588,11 @@ ul {
 .statistics-items {
     padding: 15px 30px;
     height: 90vh;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 .statistics-items div{
     padding: 15px 30px;
-}
-
-.statistics-items.scrollable {
-    overflow-y: scroll;
 }
 
 .statistics-item {

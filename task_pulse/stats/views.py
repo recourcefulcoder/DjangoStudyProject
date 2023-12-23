@@ -40,6 +40,12 @@ class CreateUserStatistics(
             ),
         )
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["company_id"] = self.kwargs.get("company_id")
+
+        return kwargs
+
 
 class CreateCompanyStatistics(
     mixins.CompanyManagerRequiredMixin,
@@ -87,8 +93,12 @@ class StatisticsListView(
     form_class = forms.CreateUserStatisticsForm
 
     def get_context_data(self, **kwargs):
-        kwargs["user_form"] = forms.CreateUserStatisticsForm
-        kwargs["company_form"] = forms.CreateCompanyStatisticsForm
+        kwargs["user_form"] = forms.CreateUserStatisticsForm(
+            initial={"company_id": self.kwargs.get("company_id")},
+        )
+        kwargs["company_form"] = forms.CreateCompanyStatisticsForm(
+            initial={"company_id": self.kwargs.get("company_id")},
+        )
 
         kwargs[
             "users_stats_list"

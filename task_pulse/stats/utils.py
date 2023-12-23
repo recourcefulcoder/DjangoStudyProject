@@ -1,7 +1,5 @@
 from django.db import models
 
-from workplace import models as wp_models
-
 
 def create_user_statistics(
     user,
@@ -45,7 +43,7 @@ def create_user_statistics(
 
             content["tasks"].append(task_data)
 
-    return content
+    return {user.__str__(): content}
 
 
 def create_company_statistics(
@@ -58,21 +56,41 @@ def create_company_statistics(
 ):
     queryset = company.users.filter(
         role="employee",
-    ).prefetch_related(
-        models.Prefetch(
-            "tasks",
-            queryset=wp_models.Task.objects.filter(
-                models.Q(created_at__gte=date_from, deadline__lte=date_to)
-                | models.Q(
-                    status__in=["in_process", "on_checking", "rejected"],
-                )
-                | models.Q(
-                    created_at__gte=date_from,
-                    completed_at__lte=date_to,
-                ),
-            ),
-        ),
     )
-    print(queryset)
 
-    return {}
+    content = {
+        "company": company.__str__(),
+    }
+
+    values = {
+        "tasks_count": [],
+        "active": [],
+        "completed": [],
+        "given": [],
+        "review": [],
+    }
+
+    users_content = {}
+
+    for coworker in queryset:
+        statistics = create_user_statistics(
+            coworker,
+            include_tasks,
+            date_from,
+            date_to,
+        )
+        users_content.update(statistics)
+        for key, value in statistics[coworker.__str__()].items():
+            if key in values:
+                values[key].append(value)
+
+    content["total_tasks"] = {key: sum(value) for key, value in values.items()}
+
+    content["average_tasks_values"] = {
+        key: round(sum(value) / len(value), 2) for key, value in values.items()
+    }
+
+    if include_users:
+        content["users"] = users_content
+
+    return content

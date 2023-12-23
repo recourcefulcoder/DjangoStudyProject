@@ -50,6 +50,9 @@ class Company(models.Model):
         default="1111100",
     )
 
+    def __str__(self):
+        return self.name
+
 
 class CompanyUser(models.Model):
     user = models.ForeignKey(
