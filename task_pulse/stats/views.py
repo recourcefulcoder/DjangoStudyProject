@@ -42,7 +42,7 @@ class CreateUserStatistics(
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["company_id"] = self.kwargs.get("company_id")
+        kwargs["initial"] = {"company_id": self.kwargs.get("company_id")}
 
         return kwargs
 

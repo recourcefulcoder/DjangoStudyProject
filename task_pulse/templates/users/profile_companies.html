@@ -19,7 +19,7 @@
                 </h3>
               {% endifchanged %}
               <div class="col-12 mb-3">
-                <a href="{% url 'workplace:home' company_id=company.id %}">
+                <a href="{% url 'workplace:tasks' company_id=company.id %}">
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">{{ company.name | safe }}</h5>

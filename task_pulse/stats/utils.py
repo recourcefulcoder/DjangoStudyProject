@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 
@@ -18,6 +19,8 @@ def create_user_statistics(
         count=models.Count("status"),
     )
 
+    times = []
+
     content = {
         "tasks_count": queryset.count(),
     } | {elem["status"]: elem["count"] for elem in tasks_status_count}
@@ -32,6 +35,7 @@ def create_user_statistics(
                 "creation_date": task.created_at.strftime("%d-%m-%Y %H:%M:%S"),
             }
             if task_data["status"] == "completed":
+                times.append((task.completed_at - task.created_at).seconds)
                 task_data |= {
                     "completion_date": task.completed_at.strftime(
                         "%d-%m-%Y %H:%M:%S",
@@ -42,6 +46,7 @@ def create_user_statistics(
                 }
 
             content["tasks"].append(task_data)
+    content["average_time_completion"] = str(datetime.timedelta(seconds=sum(times) / (len(times) if len(times) else 1)))
 
     return {user.__str__(): content}
 
@@ -87,7 +92,8 @@ def create_company_statistics(
     content["total_tasks"] = {key: sum(value) for key, value in values.items()}
 
     content["average_tasks_values"] = {
-        key: round(sum(value) / len(value), 2) for key, value in values.items()
+        key: round(sum(value) / (len(value) if len(value) != 0 else 1), 2)
+        for key, value in values.items()
     }
 
     if include_users:

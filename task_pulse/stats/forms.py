@@ -6,6 +6,7 @@ from workplace import models as wp_models
 
 class CreateUserStatisticsForm(forms.ModelForm):
     def __init__(self, initial, *args, **kwargs):
+        print(initial)
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             if field.name != "include_tasks":
@@ -14,7 +15,7 @@ class CreateUserStatisticsForm(forms.ModelForm):
                 field.field.widget.attrs["class"] = "form-check-input"
 
         self.fields["user"].queryset = wp_models.CompanyUser.objects.filter(
-            role="employee",
+            role__in=["employee", "manager"],
             company__id=initial["company_id"],
         )
 

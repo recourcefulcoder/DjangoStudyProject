@@ -727,6 +727,10 @@ p:has(> input[type=checkbox]) {
  .review-body {
     margin: 20px;
  }
+ .review-form textarea button{
+    width: 100%;
+ }
+ 
 /*--------- Add some responsive design ---------*/
 @media (max-width: 768px) {
     .side-menu {

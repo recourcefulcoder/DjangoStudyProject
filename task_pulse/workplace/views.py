@@ -82,7 +82,7 @@ class TaskList(
     form_class = forms.TaskCreationForm
 
     def get_queryset(self):
-        queryset = (
+        return (
             models.Task.objects.select_related(
                 "author",
                 "author__user",
@@ -108,15 +108,6 @@ class TaskList(
                 "review",
             )
         )
-        # for each in queryset:
-        #     print(each.title)
-        #     if each.title == "review":
-        #         print("HErE")
-        #         print(each.review)
-        #         print(each.review.message)
-        #     if hasattr(each, "review"):
-        #         print(each.review, each.review.message)
-        return queryset
 
     def get_form(self, form_class=None):
         if form_class is None:
