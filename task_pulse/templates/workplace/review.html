@@ -30,34 +30,62 @@
         var buttons = document.querySelectorAll('.approve-task');
 
         reviewForms.forEach(function (reviewForm) {
-            reviewForm.addEventListener('submit', function (event) {
-                event.preventDefault();  // Prevent the default form submission
-                console.log("submitted")
-                // Collect form data
-                var formData = new FormData(reviewForm);
-                formData.set("approved", false)
+          reviewForm.addEventListener('submit', function (event) {
+            event.preventDefault();  // Prevent the default form submission
+            console.log("submitted")
 
-                // Fetch API to send form data to the server
-                fetch(reviewForm.getAttribute('action'), {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',  
-                    },
-                })
-                .then(function (response) {
-                    if (response.ok) {
-                        console.log('Review submitted successfully!');
-                        location.reload();
-                    } else {
-                        console.error('Review submission failed.');
+            // Extract form data manually
+            var formDataObject = {};
+            var formElements = reviewForm.elements;
+
+            for (var i = 0; i < formElements.length; i++) {
+                var element = formElements[i];
+
+                // Skip elements without a name attribute
+                if (!element.name) continue;
+
+                // Handle different types of form elements
+                if (element.type === 'checkbox') {
+                    formDataObject[element.name] = element.checked;
+                } else if (element.type === 'radio') {
+                    if (element.checked) {
+                        formDataObject[element.name] = element.value;
                     }
-                })
-                .catch(function (error) {
-                    console.error('Error during fetch:', error);
-                });
-            });
+                } else {
+                    formDataObject[element.name] = element.value;
+                }
+            }
+
+            formDataObject['approved'] = false;
+
+            // Convert object to JSON string
+            var jsonData = JSON.stringify(formDataObject);
+
+            // Create XMLHttpRequest for form submission
+            var xhr = new XMLHttpRequest();
+            
+            xhr.open("POST", reviewForm.getAttribute('action'), true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    // Handle the success response (e.g., update UI)
+                    console.log('Review submitted successfully!');
+                    location.reload();
+                } else {
+                    // Handle the error (e.g., display an error message)
+                    console.error('Review submission failed.');
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error('Request failed');
+            };
+
+            xhr.send(jsonData);
         });
+      });
 
       buttons.forEach(function (button) {
         button.addEventListener('click', function () {
