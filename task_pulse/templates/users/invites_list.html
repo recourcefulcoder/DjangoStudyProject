@@ -10,14 +10,14 @@
                     <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ invite.company.name | safe }}</h5>
-                        <p class="card-text">This invite is expited: {{ invite.expire_date }}</p>
-                        <a class="btn" href="{% url "workplace:accept_company_invation" company_id=invite.company.id %}">Accept invtion</a>
+                        <p class="card-text">{% trans "This invite is expired:" %} {{ invite.expire_date }}</p>
+                        <a class="btn" href="{% url "workplace:accept_company_invation" company_id=invite.company.id %}">{% trans "Accept invition" %}</a>
                     </div>
                     </div>
               </div>
             {% endfor %}
             {% else %}
-              You are not invited to any company.
+              {% trans "You are not invited to any company." %}
             {% endif %}
     </section>
 {% endblock main_section %}
