@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
@@ -80,14 +80,18 @@ class TaskList(
     template_name = "workplace/tasks.html"
     context_object_name = "tasks"
     form_class = forms.TaskCreationForm
-    form_class = forms.TaskCreationForm
 
     def get_queryset(self):
         return (
-            models.Task.objects.select_related("author", "author__user")
+            models.Task.objects.select_related(
+                "author",
+                "author__user",
+                "review_responsible__user",
+                "review",
+            )
             .filter(
                 responsible=self.get_company_user(
-                    self.request.resolver_match.kwargs["company_id"],
+                    self.request.resolver_match.kwargs.get("company_id"),
                 ),
             )
             .only(
@@ -98,6 +102,10 @@ class TaskList(
                 "author__user__first_name",
                 "author__user__last_name",
                 "author__user__email",
+                "review_responsible__user__first_name",
+                "review_responsible__user__last_name",
+                "review_responsible__user__email",
+                "review",
             )
         )
 
@@ -117,48 +125,81 @@ class TaskList(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["menu_choices"] = list(
-            set(self.object_list.values_list("status", flat=True)),
-        )
+        context["menu_choices"] = [
+            ("given", "Given"),
+            ("postponed", "Postponed"),
+            ("review", "On review"),
+            ("rejected", "Rejected"),
+        ]
         active_tasks = self.object_list.filter(status="active")
         if active_tasks.exists():
             context["active_task"] = active_tasks.first()
         return context
 
-
-class TaskCreationForm(
-    mixins.CompanyManagerRequiredMixin,
-    generic.FormView,
-):
-    form_class = forms.TaskCreationForm
-
-    def post(self, request, *args, **kwargs):
+    def post(self, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
             form.save()
-            messages.success(request, _("Task created successfully!"))
-            return HttpResponseRedirect(
-                reverse_lazy(
-                    "workplace:tasks",
-                    args=(request.resolver_match.kwargs["company_id"],),
-                ),
+            messages.success(self.request, "Task successfully added!")
+            return redirect(
+                "workplace:home",
+                **kwargs,
             )
-        messages.error(request, _("Invalid data"))
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get_form(self, form_class=None):
-        if form_class is None:
-            form_class = self.get_form_class()
-
-        company_id = self.request.resolver_match.kwargs["company_id"]
-        company_user = self.get_company_user(company_id)
-        task = models.Task(author=company_user)
-
-        return form_class(
-            **self.get_form_kwargs(),
-            instance=task,
-            author=company_user,
+        messages.error(
+            self.request,
+            "Invalid data! Did you point"
+            " valid deadline? Are reviewer and responsible same person?",
         )
+        return redirect(
+            "workplace:home",
+            **kwargs,
+        )
+
+
+class ReviewList(
+    mixins.CompanyUserRequiredMixin,
+    generic.edit.FormMixin,
+    generic.ListView,
+):
+    template_name = "workplace/review.html"
+    context_object_name = "tasks"
+    form_class = forms.ReviewRejectForm
+
+    def get_queryset(self):
+        return (
+            models.Task.objects.select_related("author", "author__user")
+            .filter(
+                review_responsible=self.get_company_user(
+                    self.request.resolver_match.kwargs["company_id"],
+                ),
+                status="review",
+            )
+            .only(
+                "title",
+                "description",
+                "deadline",
+                "status",
+                "author__user__first_name",
+                "author__user__last_name",
+                "author__user__email",
+            )
+        )
+
+    def post(self, *args, **kwargs):
+        data = json.loads(self.request.body.decode("utf8"))
+        task = models.Task.objects.get(pk=int(data["task_id"]))
+        if data["approved"]:
+            task.status = "completed"
+        else:
+            task.status = "rejected"
+            prev_review = models.Review.objects.filter(task=task)
+            if prev_review.exists():
+                prev_review.delete()
+            models.Review.objects.create(task=task, message=data["message"])
+        task.save()
+
+        messages.success(self.request, "Review successfully sent")
+        return HttpResponse("completed", http.HTTPStatus.OK)
 
 
 class CompanyProfile(
@@ -214,7 +255,7 @@ class ScheduleView(
 ):
     form_class = forms.CompanyScheduleForm
     template_name = "workplace/settings/schedule.html"
-    success_message = "Schedule info successfully! changed"
+    success_message = "Schedule info successfully changed!"
 
     def form_valid(self, form):
         company_id = self.kwargs.get("company_id")
@@ -275,10 +316,9 @@ class InviteMember(
         )
 
     def form_invalid(self, form):
-        messages.add_message(
+        messages.error(
             self.request,
-            messages.ERROR,
-            _("Invite did not send"),
+            _("Invite was not sent"),
         )
         return redirect(self.get_success_url())
 
@@ -288,6 +328,7 @@ class InviteMember(
 def change_task_status(request, company_id):
     company_user = models.CompanyUser.objects.get(
         user=request.user,
+        company_id=request.resolver_match.kwargs.get("company_id"),
     )
     if company_user.company.id != company_id:
         return HttpResponse(
@@ -305,6 +346,14 @@ def change_task_status(request, company_id):
                 task.save()
 
     task = models.Task.objects.get(pk=int(data["pk"]))
+
+    if task.status == "review":
+        if company_user != task.review_responsible:
+            return HttpResponse(
+                _("access forbidden: you are not reviewer of thid task!"),
+                http.HTTPStatus.FORBIDDEN,
+            )
+
     task.status = data["status"]
     task.save()
 
@@ -326,4 +375,4 @@ class AcceptCompanyInvite(
             role=invite.assigned_role,
         )
         invite.delete()
-        return redirect("workplace:home", company_id=kwargs["company_id"])
+        return redirect("workplace:tasks", company_id=kwargs["company_id"])

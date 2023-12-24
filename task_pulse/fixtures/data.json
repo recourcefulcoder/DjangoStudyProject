@@ -1,0 +1,935 @@
+[
+{
+    "model": "workplace.company",
+    "pk": 1,
+    "fields": {
+        "name": "TaskPulse",
+        "description": "TaskPulse team is using it's own product in it's particular targets - we trust ourselves, aren't we?)",
+        "start_time": "09:00:00",
+        "end_time": "18:00:00",
+        "working_days": "1111100"
+    }
+},
+{
+    "model": "workplace.company",
+    "pk": 2,
+    "fields": {
+        "name": "NewTeam",
+        "description": "Extremely new!",
+        "start_time": "09:00:00",
+        "end_time": "18:00:00",
+        "working_days": "1111100"
+    }
+},
+{
+    "model": "workplace.company",
+    "pk": 3,
+    "fields": {
+        "name": "NewTeam2",
+        "description": "very new team!!!",
+        "start_time": "09:00:00",
+        "end_time": "18:00:00",
+        "working_days": "1111100"
+    }
+},
+{
+    "model": "workplace.companyuser",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "company": 1,
+        "role": "owner",
+        "score": 0
+    }
+},
+{
+    "model": "workplace.companyuser",
+    "pk": 5,
+    "fields": {
+        "user": 1,
+        "company": 2,
+        "role": "owner",
+        "score": 0
+    }
+},
+{
+    "model": "workplace.companyuser",
+    "pk": 6,
+    "fields": {
+        "user": 1,
+        "company": 3,
+        "role": "owner",
+        "score": 0
+    }
+},
+{
+    "model": "workplace.companyuser",
+    "pk": 8,
+    "fields": {
+        "user": 2,
+        "company": 1,
+        "role": "manager",
+        "score": 0
+    }
+},
+{
+    "model": "workplace.companyuser",
+    "pk": 9,
+    "fields": {
+        "user": 2,
+        "company": 2,
+        "role": "employee",
+        "score": 0
+    }
+},
+{
+    "model": "workplace.task",
+    "pk": 1,
+    "fields": {
+        "title": "1",
+        "description": "",
+        "deadline": "2023-12-24T03:02:00Z",
+        "responsible": 8,
+        "review_responsible": null,
+        "author": 1,
+        "status": "completed",
+        "created_at": "2023-12-23T01:02:28.419Z",
+        "completed_at": "2023-12-23T01:03:35.866Z"
+    }
+},
+{
+    "model": "workplace.task",
+    "pk": 2,
+    "fields": {
+        "title": "2",
+        "description": "",
+        "deadline": "2023-12-24T03:02:00Z",
+        "responsible": 8,
+        "review_responsible": null,
+        "author": 1,
+        "status": "completed",
+        "created_at": "2023-12-23T01:02:42.761Z",
+        "completed_at": "2023-12-23T01:03:48.755Z"
+    }
+},
+{
+    "model": "workplace.task",
+    "pk": 3,
+    "fields": {
+        "title": "3",
+        "description": "",
+        "deadline": "2023-12-24T03:02:00Z",
+        "responsible": 8,
+        "review_responsible": null,
+        "author": 1,
+        "status": "completed",
+        "created_at": "2023-12-23T01:02:54.512Z",
+        "completed_at": "2023-12-23T01:03:58.784Z"
+    }
+},
+{
+    "model": "workplace.task",
+    "pk": 4,
+    "fields": {
+        "title": "1",
+        "description": "",
+        "deadline": "2023-12-24T03:11:00Z",
+        "responsible": 9,
+        "review_responsible": null,
+        "author": 5,
+        "status": "completed",
+        "created_at": "2023-12-23T01:11:52.595Z",
+        "completed_at": "2023-12-23T01:14:54.166Z"
+    }
+},
+{
+    "model": "workplace.task",
+    "pk": 5,
+    "fields": {
+        "title": "2",
+        "description": "",
+        "deadline": "2023-12-24T03:12:00Z",
+        "responsible": 9,
+        "review_responsible": null,
+        "author": 5,
+        "status": "completed",
+        "created_at": "2023-12-23T01:12:04.716Z",
+        "completed_at": "2023-12-23T01:15:02.115Z"
+    }
+},
+{
+    "model": "workplace.task",
+    "pk": 6,
+    "fields": {
+        "title": "3",
+        "description": "",
+        "deadline": "2023-12-24T03:12:00Z",
+        "responsible": 9,
+        "review_responsible": null,
+        "author": 5,
+        "status": "completed",
+        "created_at": "2023-12-23T01:12:19.671Z",
+        "completed_at": "2023-12-23T01:15:12.180Z"
+    }
+},
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$SmNzWu7Llih6l38hdUoUfq$c9kQeNC7ifQ1KPhl+45a57oeHF7Q8FQsGXEaFHwq/MU=",
+        "last_login": "2023-12-23T01:15:30.024Z",
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "email": "mail@mail.ru",
+        "first_name": "Евгений",
+        "last_name": "Шолохов",
+        "image": "users/default_profile_image.png",
+        "date_joined": "2023-12-22T21:56:08.960Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$JGGT08baFR0hNbr5Tp4udU$im3kpN9W4+ihdVoMb8tZWiz30fUWZgerQegRGO53tfo=",
+        "last_login": "2023-12-23T01:12:39.692Z",
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "email": "mail1@mail.ru",
+        "first_name": "Евгений",
+        "last_name": "Работников",
+        "image": "users/default_profile_image.png",
+        "date_joined": "2023-12-22T22:07:39.088Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.invite",
+    "pk": 16,
+    "fields": {
+        "invited_user_email": "mail1@mail.ru",
+        "company": 3,
+        "expire_date": "2023-12-23",
+        "assigned_role": "manager"
+    }
+},
+{
+    "model": "stats.companyuserstatistics",
+    "pk": 1,
+    "fields": {
+        "user": 9,
+        "include_tasks": false,
+        "statistics_file": "statistics/users/9_20231223011608.json",
+        "date_from": "2023-12-12",
+        "date_to": "2023-12-27",
+        "created_at": "2023-12-23T01:16:08.242Z"
+    }
+},
+{
+    "model": "stats.companystatistics",
+    "pk": 1,
+    "fields": {
+        "company": 2,
+        "include_users": true,
+        "include_tasks": true,
+        "statistics_file": "statistics/company/2_20231223012226.json",
+        "date_from": "2023-12-12",
+        "date_to": "2023-12-27",
+        "created_at": "2023-12-23T01:22:26.043Z"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add company",
+        "content_type": 1,
+        "codename": "add_company"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change company",
+        "content_type": 1,
+        "codename": "change_company"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete company",
+        "content_type": 1,
+        "codename": "delete_company"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can view company",
+        "content_type": 1,
+        "codename": "view_company"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can add company user",
+        "content_type": 2,
+        "codename": "add_companyuser"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can change company user",
+        "content_type": 2,
+        "codename": "change_companyuser"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can delete company user",
+        "content_type": 2,
+        "codename": "delete_companyuser"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can view company user",
+        "content_type": 2,
+        "codename": "view_companyuser"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can add task",
+        "content_type": 3,
+        "codename": "add_task"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can change task",
+        "content_type": 3,
+        "codename": "change_task"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can delete task",
+        "content_type": 3,
+        "codename": "delete_task"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can view task",
+        "content_type": 3,
+        "codename": "view_task"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add task status change log",
+        "content_type": 4,
+        "codename": "add_taskstatuschangelog"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change task status change log",
+        "content_type": 4,
+        "codename": "change_taskstatuschangelog"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete task status change log",
+        "content_type": 4,
+        "codename": "delete_taskstatuschangelog"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can view task status change log",
+        "content_type": 4,
+        "codename": "view_taskstatuschangelog"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 5,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 5,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 5,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can view user",
+        "content_type": 5,
+        "codename": "view_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can add invite",
+        "content_type": 6,
+        "codename": "add_invite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can change invite",
+        "content_type": 6,
+        "codename": "change_invite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can delete invite",
+        "content_type": 6,
+        "codename": "delete_invite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can view invite",
+        "content_type": 6,
+        "codename": "view_invite"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add company statistics",
+        "content_type": 7,
+        "codename": "add_companystatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change company statistics",
+        "content_type": 7,
+        "codename": "change_companystatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete company statistics",
+        "content_type": 7,
+        "codename": "delete_companystatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+        "name": "Can view company statistics",
+        "content_type": 7,
+        "codename": "view_companystatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+        "name": "Can add company user statistics",
+        "content_type": 8,
+        "codename": "add_companyuserstatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+        "name": "Can change company user statistics",
+        "content_type": 8,
+        "codename": "change_companyuserstatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+        "name": "Can delete company user statistics",
+        "content_type": 8,
+        "codename": "delete_companyuserstatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+        "name": "Can view company user statistics",
+        "content_type": 8,
+        "codename": "view_companyuserstatistics"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 9,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 9,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 9,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+        "name": "Can view log entry",
+        "content_type": 9,
+        "codename": "view_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 10,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 10,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 10,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+        "name": "Can view permission",
+        "content_type": 10,
+        "codename": "view_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 11,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 11,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 11,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+        "name": "Can view group",
+        "content_type": 11,
+        "codename": "view_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 12,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 12,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 12,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+        "name": "Can view content type",
+        "content_type": 12,
+        "codename": "view_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 13,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 13,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 13,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+        "name": "Can view session",
+        "content_type": 13,
+        "codename": "view_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+        "name": "Can add kv store",
+        "content_type": 14,
+        "codename": "add_kvstore"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+        "name": "Can change kv store",
+        "content_type": 14,
+        "codename": "change_kvstore"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+        "name": "Can delete kv store",
+        "content_type": 14,
+        "codename": "delete_kvstore"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+        "name": "Can view kv store",
+        "content_type": 14,
+        "codename": "view_kvstore"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+        "name": "Can add review",
+        "content_type": 15,
+        "codename": "add_review"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+        "name": "Can change review",
+        "content_type": 15,
+        "codename": "change_review"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+        "name": "Can delete review",
+        "content_type": 15,
+        "codename": "delete_review"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+        "name": "Can view review",
+        "content_type": 15,
+        "codename": "view_review"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "workplace",
+        "model": "company"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "workplace",
+        "model": "companyuser"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "workplace",
+        "model": "task"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "workplace",
+        "model": "taskstatuschangelog"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "users",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "users",
+        "model": "invite"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "stats",
+        "model": "companystatistics"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+        "app_label": "stats",
+        "model": "companyuserstatistics"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": {
+        "app_label": "thumbnail",
+        "model": "kvstore"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": {
+        "app_label": "workplace",
+        "model": "review"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "msrh818h5fxo5c6z1e18sep871lqnura",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2pCBFjq4dO8ZCMOAVA0kpV0Z765NutDtf-_9l_BhW4vfelr8zOIslDj9bhTiI9Ud8D3UW5Ox1XWZSe6KPGiX18bpeTncv4MSevnWGINmDZQHzEY5jcboNIJCgjxyJqvQMShNDiZLGqNFwwYgDpQm55J4fwDO0zdG:1rGqby:nZBwLMq9Wf6Vck13ni1Cu5t2puwkUMGYcSfcyR2vVSY",
+        "expire_date": "2024-01-06T01:15:30.097Z"
+    }
+},
+{
+    "model": "thumbnail.kvstore",
+    "pk": "sorl-thumbnail||image||ac3ebb50bc625176f3dbe7ef0b85cd50",
+    "fields": {
+        "value": "{\"name\": \"cache/d8/18/d818ab71d6a1c69e319a6d0f78988a51.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [250, 250]}"
+    }
+},
+{
+    "model": "thumbnail.kvstore",
+    "pk": "sorl-thumbnail||image||af54c3d7d55a9a2bbc4321c79be46eac",
+    "fields": {
+        "value": "{\"name\": \"users/default_profile_image.png\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [512, 512]}"
+    }
+},
+{
+    "model": "thumbnail.kvstore",
+    "pk": "sorl-thumbnail||thumbnails||af54c3d7d55a9a2bbc4321c79be46eac",
+    "fields": {
+        "value": "[\"ac3ebb50bc625176f3dbe7ef0b85cd50\"]"
+    }
+}
+]

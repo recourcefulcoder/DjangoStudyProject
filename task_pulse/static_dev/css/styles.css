@@ -321,12 +321,6 @@ ul {
     font-size: 18px;
     color: #333;
 }
-.task-tab-widget {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
 .nav-tabs {
     border-bottom: 1px solid #dee2e6;
@@ -349,8 +343,6 @@ ul {
 
 .tab-content {
     padding: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-top: none;
 }
 
 .task-tab-widget h1 {
@@ -361,6 +353,7 @@ ul {
 
 .task-tab-widget .task-item {
     background-color: #fff;
+    margin: 0px 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding: 15px;
@@ -587,24 +580,6 @@ ul {
     border-bottom: 1px solid rgb(225, 225, 225);
     background-color: white;
 }
-
-.section-header button {
-    margin-left: auto;
-    font-size: 16px;
-    padding: 5px;
-    width: 32px;
-    height: 32px;
-    border: none;
-    background-color: #006DDF;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.section-header button:hover {
-    background-color: #3C94EF;
-    color: white;
-}
   
 .statistics-section {
     justify-content: space-between;
@@ -613,15 +588,11 @@ ul {
 .statistics-items {
     padding: 15px 30px;
     height: 90vh;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
 .statistics-items div{
     padding: 15px 30px;
-}
-
-.statistics-items.scrollable {
-    overflow-y: scroll;
 }
 
 .statistics-item {
@@ -643,13 +614,22 @@ ul {
 .statistics-card:hover {
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
 }
-
 #create-statistics-button {
+    margin-left: auto;
+    font-size: 16px;
+    padding: 5px;
+    width: 32px;
+    height: 32px;
+    border: none;
     background-color: #006DDF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 #create-statistics-button:hover {
     background-color: #3C94EF;
+    color: white;
 }
 
 .statistics-form input, select {
@@ -698,7 +678,59 @@ p:has(> input[type=checkbox]) {
     margin-bottom: 16px;
     box-sizing: border-box;
 }
-
+.task-pills {
+    margin-bottom: 0 !important;
+    margin-left: 30px;
+    display: none;
+}
+.task-pills li{
+    margin: 0px 4px;
+}
+.task-pills button{
+    text-transform: capitalize;
+    padding: 5px 16px;
+}
+.statistics-items {
+    padding: 15px 30px;
+    height: 90vh;
+    overflow-y: auto;
+}
+.team-list {
+    margin-top: 20px;
+    margin-right: 30px;
+}
+.team-listtable {
+    border-collapse: collapse;
+    border: 1px solid rgb(190, 190, 190);
+ }
+ .team-list th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 8px;
+ }
+ .team-list td {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 8px;
+ }
+ .tasks-dropdown {
+    margin-left: 10px;
+}
+.tasks-dropdown button {
+    font-size: 14px;
+    width: 160px;
+    padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+}
+.tasks-dropdown li button {
+    font-size: 15px;
+    padding: 8px 16px;
+    width: 100%;
+}
+ .review-body {
+    margin: 20px;
+ }
+ .review-form textarea button{
+    width: 100%;
+ }
+ 
 /*--------- Add some responsive design ---------*/
 @media (max-width: 768px) {
     .side-menu {

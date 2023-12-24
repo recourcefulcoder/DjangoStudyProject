@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import hashers
 from django.contrib.auth import models as auth_models
 from django.core import mail
@@ -154,6 +155,22 @@ class Invite(models.Model):
         help_text=_("Role for company user"),
         default=INVITE_ROLE_CHOISES[0],
     )
+
+    def send_email(self, text=None):
+        if text is None:
+            text = f"""
+            We are pleased to inform you, that you were invited to join
+            {self.company.name} in TaskPulse BPM system! Please, if you don't
+            have an account, register for free on our website:
+                        (WEBSITE_URl HERE).
+            This invite expires {self.expire_date}
+            """
+        mail.send_mail(
+            "You are invited to company!",
+            text,
+            settings.MAIL,
+            [self.invited_user_email],
+        )
 
     class Meta:
         verbose_name = _("invite")

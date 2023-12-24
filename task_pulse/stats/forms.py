@@ -5,13 +5,18 @@ from workplace import models as wp_models
 
 
 class CreateUserStatisticsForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, initial, *args, **kwargs):
+        print(initial)
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
+            if field.name != "include_tasks":
+                field.field.widget.attrs["class"] = "form-control"
+            else:
+                field.field.widget.attrs["class"] = "form-check-input"
 
         self.fields["user"].queryset = wp_models.CompanyUser.objects.filter(
-            role="employee",
+            role__in=["employee", "manager"],
+            company__id=initial["company_id"],
         )
 
     class Meta:
@@ -26,7 +31,10 @@ class CreateCompanyStatisticsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
+            if field.name != "include_tasks" and field.name != "include_users":
+                field.field.widget.attrs["class"] = "form-control"
+            else:
+                field.field.widget.attrs["class"] = "form-check-input"
 
     class Meta:
         model = models.CompanyStatistics

@@ -8,6 +8,7 @@ app_name = "workplace"
 
 urlpatterns = [
     path("tasks/", wp_views.TaskList.as_view(), name="tasks"),
+    path("reviews/", wp_views.ReviewList.as_view(), name="review"),
     path(
         "home/",
         wp_views.HomeCompanyView.as_view(),
@@ -29,11 +30,6 @@ urlpatterns = [
         "statistics/",
         stats_views.StatisticsListView.as_view(),
         name="statistics",
-    ),
-    path(
-        "create_task/",
-        wp_views.TaskCreationForm.as_view(),
-        name="create_task",
     ),
     path(
         "create_user_statistics/",

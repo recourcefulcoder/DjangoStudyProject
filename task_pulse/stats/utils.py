@@ -1,6 +1,6 @@
-from django.db import models
+import datetime
 
-from workplace import models as wp_models
+from django.db import models
 
 
 def create_user_statistics(
@@ -20,6 +20,8 @@ def create_user_statistics(
         count=models.Count("status"),
     )
 
+    times = []
+
     content = {
         "tasks_count": queryset.count(),
     } | {elem["status"]: elem["count"] for elem in tasks_status_count}
@@ -34,6 +36,7 @@ def create_user_statistics(
                 "creation_date": task.created_at.strftime("%d-%m-%Y %H:%M:%S"),
             }
             if task_data["status"] == "completed":
+                times.append((task.completed_at - task.created_at).seconds)
                 task_data |= {
                     "completion_date": task.completed_at.strftime(
                         "%d-%m-%Y %H:%M:%S",
@@ -44,8 +47,13 @@ def create_user_statistics(
                 }
 
             content["tasks"].append(task_data)
+    content["average_time_completion"] = str(
+        datetime.timedelta(
+            seconds=sum(times) / (len(times) if len(times) else 1),
+        ),
+    )
 
-    return content
+    return {user.__str__(): content}
 
 
 def create_company_statistics(
@@ -58,21 +66,42 @@ def create_company_statistics(
 ):
     queryset = company.users.filter(
         role="employee",
-    ).prefetch_related(
-        models.Prefetch(
-            "tasks",
-            queryset=wp_models.Task.objects.filter(
-                models.Q(created_at__gte=date_from, deadline__lte=date_to)
-                | models.Q(
-                    status__in=["in_process", "on_checking", "rejected"],
-                )
-                | models.Q(
-                    created_at__gte=date_from,
-                    completed_at__lte=date_to,
-                ),
-            ),
-        ),
     )
-    print(queryset)
 
-    return {}
+    content = {
+        "company": company.__str__(),
+    }
+
+    values = {
+        "tasks_count": [],
+        "active": [],
+        "completed": [],
+        "given": [],
+        "review": [],
+    }
+
+    users_content = {}
+
+    for coworker in queryset:
+        statistics = create_user_statistics(
+            coworker,
+            include_tasks,
+            date_from,
+            date_to,
+        )
+        users_content.update(statistics)
+        for key, value in statistics[coworker.__str__()].items():
+            if key in values:
+                values[key].append(value)
+
+    content["total_tasks"] = {key: sum(value) for key, value in values.items()}
+
+    content["average_tasks_values"] = {
+        key: round(sum(value) / (len(value) if len(value) != 0 else 1), 2)
+        for key, value in values.items()
+    }
+
+    if include_users:
+        content["users"] = users_content
+
+    return content

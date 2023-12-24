@@ -7,30 +7,36 @@
         <h2>{% trans "My Companies" %}</h1>
         <div class="row">
           {% for message in messages %}
-            <div class="alert alert-success">
+            {{message.level_tag}}
+            <div class="alert alert-{% if message.level_tag == 'success' %}success{% else %}danger{% endif %}">
               {{ message }}
             </div>
           {% endfor %}
             {% for company in companies %}
-            {% ifchanged company.role.1 %}
+              {% ifchanged company.role.1 %}
+                {% trans company.role as trans_role %}
                 <h3>
-                  Companies where i am {{ company.role | safe }} {# need to fix role storing #}
+                  {% trans "Companies where i am" %} {{ trans_role | safe }} {# need to fix role storing #}
                 </h3>
-            {% endifchanged %}
+              {% endifchanged %}
               <div class="col-12 mb-3">
-                <a href="{% url 'workplace:home' company_id=company.id %}">
+                <a href="{% url 'workplace:tasks' company_id=company.id %}">
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">{{ company.name | safe }}</h5>
                       <p class="card-text">{{ company.description | truncatewords_html:20 | safe }}</p>
-                      <a class="btn btn-secondary" href="{% url 'users:company_invite' company_id=company.id %}">Invite to company by mail</a>
+                      {% if company.role != "employee" %}
+                        <a class="btn btn-secondary" href="{% url 'users:company_invite' company_id=company.id %}">{% trans "Invite to company by mail" %}</a>
+                      {% endif %}
                     </div>
                   </div>
                 </a>
               </div>
+            {% empty %}
+              {% trans "You are not a member of any company" %}
             {% endfor %}
             <div>
-              <a class="btn" href="{% url "users:create_company" %}">{% trans "Add Company" %}</a>
+              <a class="btn" href="{% url 'users:create_company' %}">{% trans "Add Company" %}</a>
             </div>
           </div>
     </section>

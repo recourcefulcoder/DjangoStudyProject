@@ -15,23 +15,40 @@ class TaskCreationForm(django.forms.ModelForm):
         if author is None:
             raise ImproperlyConfigured("no task author specified")
 
+        users = models.CompanyUser.objects.select_related("user").filter(
+            company_id=author.company.id,
+        )
+
         self.fields[
             models.Task.responsible.field.name
-        ].queryset = models.CompanyUser.objects.filter(
-            company_id=author.company.id,
-        ).exclude(
+        ].queryset = users.exclude(
             user=author.user,
         )
+
+        self.fields[models.Task.review_responsible.field.name].queryset = users
 
         self.fields[models.Task.responsible.field.name].empty_label = None
 
     class Meta:
         model = models.Task
-        exclude = ["author", "state"]
+        exclude = [
+            models.Task.author.field.name,
+            models.Task.status.field.name,
+            models.Task.completed_at.field.name,
+        ]
         widgets = {
             models.Task.deadline.field.name: django.forms.DateInput(
                 attrs={"type": "datetime-local"},
             ),
+        }
+
+
+class ReviewRejectForm(django.forms.ModelForm):
+    class Meta:
+        model = models.Review
+        fields = "__all__"
+        widgets = {
+            models.Review.task.field.name: django.forms.HiddenInput(),
         }
 
 
@@ -94,3 +111,7 @@ class CompanyScheduleForm(django.forms.Form):
 
     start_time = django.forms.TimeField(widget=django.forms.TimeInput)
     end_time = django.forms.TimeField(widget=django.forms.TimeInput)
+
+
+class InviteMemberForm(django.forms.Form):
+    email = django.forms.EmailField()

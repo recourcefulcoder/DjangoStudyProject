@@ -1,7 +1,6 @@
 from django import forms as pure_forms
-from django.conf import settings
 from django.contrib.auth import forms
-from django.core import exceptions, mail
+from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
 
 from users import models
@@ -91,11 +90,3 @@ class InviteToCompanyForm(pure_forms.Form):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control"
-
-    def send_email(self, text):
-        mail.send_mail(
-            "You are invited to company!",
-            text,
-            settings.MAIL,
-            [self.cleaned_data["invited_user_email"]],
-        )

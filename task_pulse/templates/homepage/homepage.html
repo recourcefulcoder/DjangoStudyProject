@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 <div class="hero-section">
-    <h1>Приветствуем вас в мире бизнес-менеджмента</h1>
-    <p>У нас вы найдете все необходимое для успешного управления бизнесом</p>
+    <h1>{% trans "Welcome to the world of buisness-management!" %}</h1>
+    <p>{% trans "Here you will find everything neede for succesfull buisness management" %}</p>
 </div>
 
 <div class="info-section">
-    <h2>О нас</h2>
-    <p>Наша компания специализируется на предоставлении услуг в области бизнес-менеджмента. Мы помогаем предприятиям оптимизировать свои бизнес-процессы, повышать эффективность и достигать новых высот.</p>
+    <h2>{% trans "About us" %}</h2>
+    <p>
+    {% blocktranslate %}
+    Our company specializes in providing
+    services in the field of business management. We help enterprises optimize their business processes,
+    increase efficiency and reach new heights.
+    {% endblocktranslate %}
+    {% comment %} Наша компания специализируется на предоставлении 
+    услуг в области бизнес-менеджмента. Мы помогаем предприятиям оптимизировать свои бизнес-процессы, 
+    повышать эффективность и достигать новых высот. {% endcomment %}
+    </p>
 </div>
 {% endblock %}
